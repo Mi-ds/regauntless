@@ -22,14 +22,20 @@ Packages/          manifest.json — 2D tilemap, Input System, uGUI
 ## The intent contract (the whole ballgame)
 
 A `Controller` produces a per-frame (or per-tick) `HeroIntent`:
-- `Vector2 Move` — desired movement direction, magnitude 0..1
-- `bool Attack` — fire / swing this frame
-- (later) `bool UseItem`, `Vector2 Aim`, etc.
+- `Vector2 Move` — desired movement direction (analog 360°, magnitude 0..1)
+- `Vector2 Aim` — desired aim/shoot direction (analog 360°), **decoupled from Move**
+- `bool Attack` — fire this frame
+- (later) `bool UseItem`, etc.
+
+**Dual-stick, decoupled (the Smash TV core verb):** `Move` and `Aim` are independent —
+strafe one way, shoot another. Input is analog 360°; the **presentation snap** (sprite
+facing) is applied downstream at different resolutions: **6-way for movement** (hex edges),
+**12-way for shooting** (hex edges + vertices). See `vision.md`.
 
 The `Hero` consumes `HeroIntent` and does movement + combat. The Hero NEVER asks who
 produced the intent. `AIController` computes intent from world state (nearest enemy,
-pathing to exit). `PlayerController` computes intent from Input System. Swapping them is
-how auto-idle becomes full-control.
+pathing). `PlayerController` computes intent from the Input System (two sticks). Swapping
+them is how auto-idle becomes full-control.
 
 ## Code conventions
 
