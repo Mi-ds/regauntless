@@ -13,8 +13,8 @@ The leaderboard *completes the taunt*. 🦊
 ## The scope warning (read before building)
 
 Everything else in Regauntless is **local, self-contained, offline** — pure client-side game
-logic, zero runtime network dependency (we deliberately killed the idea of hitting any D&D
-API at runtime). A *hosted* leaderboard breaks that in half. It is effectively a second
+logic, zero runtime network dependency (we deliberately killed the idea of hitting any
+tabletop-ruleset API at runtime). A *hosted* leaderboard breaks that in half. It is effectively a second
 project wearing a leaderboard costume:
 
 - **Needs a backend** — server + database + API endpoint + hosting that costs money and has

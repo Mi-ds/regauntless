@@ -1,10 +1,11 @@
 # Regauntless
 
-A **D&D-themed game show** — a televised dungeon crawl. Four heroes run the gauntlet for
-*big money, big prizes*; a host hypes the crowd; hordes pour from the generators; the
-Dragon waits at the finale. **Read `vision.md` first — it's the north star.** In one line:
-*D&D 3.5 rules + Smash TV dual-stick arena combat + a game-show frame.* Gauntlet (1985) is
-the tonal great-grandparent, not the blueprint.
+A **tabletop-fantasy game show** — a televised dungeon crawl, built on the **open d20 SRD
+3.5 (OGL)** ruleset. Four heroes run the gauntlet for *big money, big prizes*; a host hypes
+the crowd; hordes pour from the generators; the Dragon waits at the finale. **Read
+`vision.md` first — it's the north star** (and the legal posture: open mechanics, NEVER the
+"D&D" trademark). In one line: *open d20 SRD 3.5 rules + Smash TV dual-stick arena combat +
+a game-show frame.* Gauntlet (1985) is the tonal great-grandparent, not the blueprint.
 
 The name is a pun — **re-gauntlet** + **relentless** (and the name of the show). Whimsy is
 signal. Keep it.
@@ -59,8 +60,9 @@ contract drives all of them.
 
 ## Combat & presentation philosophy (settled — see dedicated docs)
 
-- **The Vision** — Regauntless is a D&D game show (3.5 rules + Smash TV dual-stick arena
-  combat + game-show frame). The north-star doc. See `vision.md`.
+- **The Vision** — Regauntless is a tabletop-fantasy game show (open d20 SRD 3.5 rules +
+  Smash TV dual-stick arena combat + game-show frame; never branded "D&D"). The north-star
+  doc, including legal/monetization/live-service posture. See `vision.md`.
 - **Combat uses real SRD 3.5 (OGL) numbers but doesn't roll them** (except Gremlin Mode).
   Turn-based → real-time: initiative dropped, the round survives only as fire-rate; to-hit
   is geometry + player aim, not a d20; damage is deterministic with legible breakpoints.
@@ -72,13 +74,14 @@ contract drives all of them.
   discrete sprite states, one per hit-breakpoint. See `presentation.md`.
 - **Gremlin Mode leaderboard** is a flagged, backend-dependent stretch goal — local score
   first, hosted later. See `../design-notes/leaderboard.md`.
-- **The Announcer / Host** — a D&D game show needs a host; built voice-agnostic, with Matt
-  Mercer as flagged aspirational casting (not a dependency). See `../design-notes/announcer.md`.
+- **The Announcer / Host** — a game show needs a host; built voice-agnostic + hot-loadable
+  (hosts are live-service content packs), with a marquee TTRPG voice as flagged aspirational
+  casting (not a dependency). See `../design-notes/announcer.md`.
 
 ## Status
 
-Fresh scaffold. No scenes, no scripts yet. **Vision reframed** to a D&D game show
-(`vision.md`); combat + presentation philosophy settled. Open design threads: run/round
+Fresh scaffold. No scenes, no scripts yet. **Vision reframed** to a tabletop-fantasy game
+show (`vision.md`); combat + presentation philosophy settled. Open design threads: run/round
 structure, prize rounds, hex orientation, movement glide-vs-hop. Next build milestone:
 Controller abstraction + one AI hero moving (6-way) and shooting (12-way) at a dummy in one
 room.

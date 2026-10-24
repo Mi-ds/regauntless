@@ -5,9 +5,11 @@ system; specific VO casting is a flagged aspiration, NOT a build dependency.**
 
 ## What it is
 
-Regauntless is a D&D game show, and a game show needs a **host** — a Dungeon-Master-as-
-game-show-announcer. Charming, theatrical, a little sadistic. Hypes the crowd, calls the
-action, taunts you on death, sells the prize rounds, introduces the Dragon.
+Regauntless is a tabletop-fantasy game show (built on the open d20 SRD — never branded
+"D&D", see `../steering/vision.md` legal posture), and a game show needs a **host** — a
+dungeon-master-as-game-show-announcer (the TTRPG-referee archetype, generically). Charming,
+theatrical, a little sadistic. Hypes the crowd, calls the action, taunts you on death, sells
+the prize rounds, introduces the Dragon.
 
 > *"You might solve the dungeon... but can you solve the DRAGON?!"*
 
@@ -28,17 +30,40 @@ at trigger moments; the audio is a swappable asset bank.
 - The **triggers and timing are the design**; the audio is a late-stage asset swap. The
   game is fully playable and demoable with zero real VO.
 
-## Aspirational casting — Matt Mercer
+## Hosts are live-service CONTENT (not one baked-in voice)
 
-The dream host voice is **Matt Mercer** (the modern voice of D&D) — and it's not pure
-fantasy: the dev is *personally acquainted* with him (played D&D together back in high
-school). That makes it a **genuine-but-long-shot** thread, not a cold celebrity ask —
-emphasis on long shot (he's enormously busy; this would be a real professional ask).
+The host is not a single hardcoded announcer — it's a **swappable content pack** and the
+core unit of the live-service vision (see `../steering/vision.md`). A host pack =
+VO bank + name/avatar/likeness assets + host-specific lines. Different personalities headline
+different crawls/seasons. Architecturally this just *is* the voice-agnostic system above,
+loaded at runtime (data-driven, hot-loadable). Build the system; packs are content.
 
-**This is a motivating north star, explicitly NOT a dependency.** Same bucket as the hosted
-leaderboard: cool, aspirational, never blocks shipping.
+## Talent: two DISTINCT tiers (different contracts, prices, likelihoods)
 
-The lever that makes the thread even *pullable*: a **demoable game-show loop with the
-announcer system in place** (scratch VO, obvious announcer-shaped hole). "Here's my D&D game
-show, here's exactly where your voice lives, here it is running" is a pitch. "I have an
-idea" is not. So — build the system; the VO ask becomes possible *because* the game exists.
+Do not blur these — budgeting and expectations depend on which one:
+
+1. **Voice acting — "Featuring the voice of [Name]"** *(realistic target).* Hiring a VA to
+   record announcer lines is bread-and-butter work; pros do it even for projects they're not
+   passionate about. A "featuring the voice of" credit is a standard VO deal (or small add-on)
+   and delivers ~90% of the legitimacy signal. **This is the attainable tier.**
+2. **Likeness + name as marketing endorsement** *(aspirational stretch).* Using a person's
+   name/face/likeness *as "the host" in marketing* is a right-of-publicity / endorsement
+   deal — pricier, bigger contract, and a *harder yes* even with money (performers guard
+   their endorsement more than their voice: a stamp-of-approval implies "I stand behind
+   this"). **This is the moonshot tier.**
+
+The TTRPG-fan association is delivered legitimately by **paid talent** on either tier —
+never by borrowing trademarks.
+
+## Aspirational casting — the "Mercer-like" dream host
+
+The dream is a marquee TTRPG voice (e.g. the modern voice-of-the-hobby archetype) — and
+there's a real thread: the dev is *personally acquainted* with one such performer (played the
+tabletop game together back in high school). That makes it **genuine-but-long-shot**, not a
+cold celebrity ask — emphasis on long shot (enormously busy; a real professional ask).
+
+**Motivating north star, explicitly NOT a dependency** (same bucket as the hosted
+leaderboard). The lever that makes the thread *pullable*: a **demoable game-show loop with
+the announcer system in place** (scratch VO, obvious announcer-shaped hole). "Here's my
+fantasy game show, here's exactly where your voice lives, here it is running" is a pitch;
+"I have an idea" is not. Build the system; the ask becomes possible *because* the game exists.
