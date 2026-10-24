@@ -90,6 +90,10 @@ count (AI fills unmanned slots). See `vision.md`.
   Difficulty = a global die-resolution policy — Easy (Maximize) / Normal (Take 10) /
   Hard (Minimize) / **Gremlin Mode** (roll everything, misses + crits return). One
   `RollPolicy` seam, downstream of the Controller pipeline. See `combat.md`.
+- **Combat space (lanes/projectiles/collision)** — positions are hex-discrete (centers +
+  lines); projectiles occupy the middle N% of a lane (per-class width + shape = spatial
+  identity, Gauntlet-grounded); bodies ~50-60% of a hex; **everything collidable** via one
+  footprint-overlap rule → blocking is legible coordination, not chaos. See `combat-space.md`.
 - **Modern tech, 1985 design concepts.** High-res, but graphics are an information channel:
   legible through *feel*, explicit readouts reserved for the rare/surprising. Enemy health =
   discrete sprite states, one per hit-breakpoint. See `presentation.md`.
