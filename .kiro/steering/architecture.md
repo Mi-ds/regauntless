@@ -50,10 +50,54 @@ Per `principles.md`, movement is **not** invented — it's SRD transcription:
 - **Hexes fix 3.5's diagonal kludge.** The square grid's "every other diagonal = 2 squares"
   (5-10-5) hack exists to fake Euclidean distance on squares; on hexes all 6 neighbors are
   equidistant, so the kludge *vanishes*. Hexes are *more* faithful to the rules' intent, not less.
-- **Glide, not hop** (resolves the open "glide-vs-hop" thread): the SRD gives a *rate*
-  (hexes/round); real-time makes it a continuous glide at that rate through the time-scale dial.
+- **Hex-discrete steps, presentation-smoothed** (refines the old "glide-vs-hop" thread —
+  see the detailed model below). Position of record is always a hex; the visible travel
+  between hexes is walk-animation + tween ("glide" is *presentation only*, not a separate
+  continuous-position system). Step travel time = animation duration, derived from SRD speed.
 - Turn-structure-dependent movement (5-ft step, full-round move, charge/run action economy)
   hits the real-time carve-out — translate what maps (run = sprint, difficult terrain = slow
+  zone), flag what doesn't.
+
+## Movement + Fire: hex-step with fire-hold brake-and-pivot (CORE FEEL)
+
+This is the signature control mechanic. Not Gauntlet (coupled single-stick), not pure Smash
+TV (free strafe-fire) — a **third thing**, and it is historically grounded (see lineage note).
+
+**The step and its line:**
+- Movement is **hex-discrete**. A step traverses origin-center → (crosses *the line*, the
+  edge-midpoint) → destination-center over one step's travel time.
+- **The line (midpoint) is NOT a settle position.** You can never *rest* or *live* on the
+  line, and you cannot command "move to the line." Position of record is always a hex.
+
+**Fire-hold = brake + pivot (the skill verb):**
+- **Holding fire mid-step freezes the hero on the line** — a *transient held state*, trading
+  forward progress for the shot. It is held, not settled; it exists only while fire is held.
+- **Releasing fire resumes movement to a destination hex chosen by the CURRENT move input at
+  release time** — NOT locked to the step's original direction:
+  - **New direction held at release** → he peels off toward *that* hex. Fire-hold thus
+    doubles as a **re-aim / juke** of the next step.
+  - **Neutral move input at release** → momentum carries him forward to the **original
+    target hex** (the in-progress step just completes).
+- **Not holding fire** → steps complete normally, no freeze.
+
+**Firing rate:** governed purely by **attacks-per-round (SRD)** on the shared round clock
+(see `combat.md`) — shots come out at cadence wherever the hero is in his step; which third
+of the step (start / line / end) a given shot leaves from is immaterial, the rate limiter is
+the attack economy, not position. Aim is independent (12-way). Mobility feats do whatever the
+SRD says (we do not hand-invent a movement/fire interaction for them).
+
+**Emergent skill:** managing step timing × fire-hold braking × re-aim-on-release lets a
+skilled player place shots, control tempo, and juke their path — all off the **exact** round
+clock. Same family as EQ bard-twisting: mastery emerges from exact clocks interacting, and
+**only an exact, desync-free tick makes the muscle memory reliable** (see the tick section).
+
+**Lineage note (why this mechanic is good — don't "simplify" it away):** it is the
+deliberate, hex-native evolution of a real Gauntlet-player technique — tapping the stick to
+move and tapping fire *in between* to align shots. In Gauntlet the interleave of move/fire
+inputs produced precise *aim* (coupled single-stick). Here, aim is already decoupled (12-way),
+so the same interleave-of-inputs skill is repurposed to **position, time, and redirect**. The
+thumb-knowledge players built on the 1985 cabinet is the ancestor of this; preserve the
+interleave-as-skill, it's the soul of the feel.
   zone), flag what doesn't.
 
 ## Camera snap-rotation & camera-relative input (world stays absolute)

@@ -59,6 +59,11 @@ another. This is the heart of the feel and it is non-negotiable.
 - Both feed the **same `HeroIntent`** whether from `PlayerController` or `AIController`.
   Prime Directive (see `product.md`) stays pristine — the decoupling is in the intent, not
   in who produces it.
+- **Signature mechanic — fire-hold brake-and-pivot:** movement is hex-discrete steps;
+  *holding fire* can freeze the hero mid-step on "the line" (trading progress for the shot),
+  and *releasing* resumes toward whatever direction is held at release (neutral = original
+  target). Fire-hold doubles as a juke/re-aim. It's the hex-native evolution of the Gauntlet
+  tap-move/tap-fire interleave technique. Full model in `architecture.md`.
 
 ## World — true top-down, hex
 
