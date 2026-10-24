@@ -51,7 +51,22 @@ contract drives all of them.
 - Modules installed: WebGL (share a playable link with no install), Windows, Linux, Mac,
   Android, iOS. WebGL is the "show Tyler/John" path.
 
+## Combat & presentation philosophy (settled — see dedicated docs)
+
+- **Combat uses real SRD 3.5 (OGL) numbers but doesn't roll them** (except Gremlin Mode).
+  Turn-based → real-time: initiative dropped, the round survives only as fire-rate; to-hit
+  is geometry + player aim, not a d20; damage is deterministic with legible breakpoints.
+  Difficulty = a global die-resolution policy — Easy (Maximize) / Normal (Take 10) /
+  Hard (Minimize) / **Gremlin Mode** (roll everything, misses + crits return). One
+  `RollPolicy` seam, downstream of the Controller pipeline. See `combat.md`.
+- **Modern tech, 1985 design concepts.** High-res, but graphics are an information channel:
+  legible through *feel*, explicit readouts reserved for the rare/surprising. Enemy health =
+  discrete sprite states, one per hit-breakpoint. See `presentation.md`.
+- **Gremlin Mode leaderboard** is a flagged, backend-dependent stretch goal — local score
+  first, hosted later. See `../design-notes/leaderboard.md`.
+
 ## Status
 
-Fresh scaffold. No scenes, no scripts yet. Next: Controller abstraction + one AI Warrior
-walking to and whacking a dummy enemy in one room.
+Fresh scaffold. No scenes, no scripts yet. Combat + presentation philosophy settled (above).
+Next: Controller abstraction + one AI Warrior walking to and whacking a dummy enemy in one
+room.
