@@ -1,7 +1,7 @@
 # Regauntless
 
 A **tabletop-fantasy game show** — a televised dungeon crawl, built on the **open d20 SRD
-3.5 (OGL)** ruleset. Four heroes run the gauntlet for *big money, big prizes*; a host hypes
+3.5 (OGL)** ruleset. Six heroes run the gauntlet for *big money, big prizes*; a host hypes
 the crowd; hordes pour from the generators; the Dragon waits at the finale. **Read
 `vision.md` first — it's the north star** (and the legal posture: open mechanics, NEVER the
 "D&D" trademark). In one line: *open d20 SRD 3.5 rules + Smash TV dual-stick arena combat +
@@ -13,36 +13,46 @@ signal. Keep it.
 ## The Prime Directive (read this before writing a single system)
 
 The game ships in phases:
-1. **Auto-idle** — heroes are driven by AI. You watch your little guys stab goblins.
+1. **Auto-idle** — heroes are driven by AI. You watch your little guys stab goblins. (This
+   phase is also the shippable **auto-crawler / demo** — the human's game is the
+   character-sheet metagame; see `vision.md`.)
 2. **Full control** (final form) — a human can take over any hero.
 
 **These are NOT two codebases. They are one action pipeline with swappable input.**
 
-In the original Gauntlet cabinet, all four player slots are identical input sources — the
-game does not care whether a human, nobody, or a demo-mode AI is holding the joystick.
-We copy that exactly:
+Classic arcade cabinets (Gauntlet, Smash TV) treat every player slot as an identical input
+source — the game does not care whether a human, nobody, or a demo-mode AI holds the stick.
+We copy that exactly, and extend it to the network:
 
 - Every hero is driven by a `Controller` (abstraction).
-- `AIController` (auto-idle) and `PlayerController` (human) both emit the SAME hero
-  intent — a movement vector + action flags. They are interchangeable.
+- `AIController` (auto-idle), `PlayerController` (local human), and `NetworkController`
+  (remote device) all emit the SAME `HeroIntent` (Move + Aim vectors + action flags). They
+  are fully interchangeable.
 - "Full control conversion" is therefore NOT a rewrite. It is swapping a hero's
-  `Controller` at runtime. Press Start on an idle hero → its `AIController` is replaced
-  with a `PlayerController` mid-run. Drop-in-coin feel, for free.
+  `Controller` at runtime. Take over an idle hero → its `AIController` is replaced with a
+  `PlayerController` mid-run. Drop-in-coin feel, for free. A LAN/remote player joining is the
+  same swap over the wire.
 
 If any gameplay system ever branches on "is this the player or the AI?", that is a design
-smell. The hero doesn't know and doesn't care. It consumes intent.
+smell. The hero doesn't know and doesn't care. It consumes intent. (This seam is also the
+multiplayer seam — see `architecture.md`.)
 
-## The Four (Gauntlet roster → starting archetypes)
+## The Six (roster — PC-first; 6 rhymes with the hexagon)
 
-| Class    | Role        | Flavor                          |
-|----------|-------------|---------------------------------|
-| Warrior  | melee       | strongest hits, slow            |
-| Valkyrie | tank/melee  | best armor, balanced            |
-| Wizard   | ranged magic| strong magic, weak shot/armor   |
-| Elf      | fast ranged | fastest move + fire rate, weak  |
+| Class    | Role         | Flavor                          |
+|----------|--------------|---------------------------------|
+| Warrior  | melee        | strongest hits, slow            |
+| Valkyrie | tank/melee   | best armor, balanced            |
+| Wizard   | ranged magic | strong magic, weak shot/armor   |
+| Elf      | fast ranged  | fastest move + fire rate, weak  |
+| *(TBD)*  | *(e.g. Cleric — support/heal)* | SRD class, candidate |
+| *(TBD)*  | *(e.g. Rogue — skirmish/traps)* | SRD class, candidate |
 
-Distinguished by stats: move speed, attack range, fire rate, armor. Same Controller
-contract drives all of them.
+Six, not four (four was a Gauntlet/couch-hardware holdover; PC-first retires it). The two
+new slots are SRD classes — candidates Cleric & Rogue, TBD. Distinguished by a **derived**
+`HeroStats` (computed from class + level + abilities + feats + gear per the SRD), not
+subclasses. Same `Controller` contract drives all of them, so the roster works at any player
+count (AI fills unmanned slots). See `vision.md`.
 
 ## Platform
 
@@ -52,9 +62,11 @@ contract drives all of them.
   is a **hex grid** (floor built of tessellating hex tiles). Controls are **dual-stick,
   decoupled**: 6-way movement / 12-way shooting, both from analog 360° input. See
   `vision.md` for the full control + world model.
-- New **Input System** package (not legacy Input Manager) — because the Controller
-  abstraction maps cleanly onto InputActions, it supports N local players (couch co-op), and
-  dual-stick decoupled aim is native to it.
+- New **Input System** package (not legacy Input Manager) — the Controller abstraction maps
+  cleanly onto InputActions, dual-stick decoupled aim is native to it, and it supports N
+  players. **PC-first**: multiplayer is host-authoritative with remote devices joining as
+  networked Controllers (LAN → internet, phased); couch same-screen co-op is demoted. See
+  `architecture.md`.
 - Modules installed: WebGL (share a playable link with no install), Windows, Linux, Mac,
   Android, iOS. WebGL is the "show Tyler/John" path.
 
@@ -62,7 +74,16 @@ contract drives all of them.
 
 - **The Vision** — Regauntless is a tabletop-fantasy game show (open d20 SRD 3.5 rules +
   Smash TV dual-stick arena combat + game-show frame; never branded "D&D"). The north-star
-  doc, including legal/monetization/live-service posture. See `vision.md`.
+  doc, including the **metagame reframe** (character-sheet is the human's game; AI runs
+  combat; demo = auto-crawler), the **six-hero roster**, multiplayer, and
+  legal/monetization/live-service posture. See `vision.md`.
+- **Follow the SRD, don't reinvent** — the governing design principle (SRD = mechanics
+  authority; our job = presentation; carve-outs: real-time translation + Mids' house-rule
+  override). See `principles.md`.
+- **Core architecture** — two-clock model (continuous twitch + exact authoritative 6-second
+  round-tick = EQ-style net-sync heartbeat), SRD ratios sacred with one tunable time-scale
+  dial, movement transcribed to hexes, the Controller seam as the multiplayer seam. See
+  `architecture.md`.
 - **Combat uses real SRD 3.5 (OGL) numbers but doesn't roll them** (except Gremlin Mode).
   Turn-based → real-time: initiative dropped, the round survives only as fire-rate; to-hit
   is geometry + player aim, not a d20; damage is deterministic with legible breakpoints.
@@ -81,7 +102,11 @@ contract drives all of them.
 ## Status
 
 Fresh scaffold. No scenes, no scripts yet. **Vision reframed** to a tabletop-fantasy game
-show (`vision.md`); combat + presentation philosophy settled. Open design threads: run/round
-structure, prize rounds, hex orientation, movement glide-vs-hop. Next build milestone:
-Controller abstraction + one AI hero moving (6-way) and shooting (12-way) at a dummy in one
-room.
+show with a character-sheet metagame core (`vision.md`); governing SRD principle
+(`principles.md`), two-clock architecture + multiplayer roadmap (`architecture.md`), and
+combat + presentation philosophy all settled. **Newly resolved:** six-hero roster, derived
+stats, feats/skills first-class (transcribe from SRD), movement = SRD speed → hex glide,
+round = exact authoritative tick, movement glide-vs-hop. **Still open:** run/round/prize
+structure, hex orientation (pointy vs flat), the two extra roster classes, deterministic
+crits. Next build milestone: Controller abstraction + one AI hero moving (6-way) and
+shooting (12-way) at a dummy in one hex room.

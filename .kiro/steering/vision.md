@@ -1,7 +1,7 @@
 # Regauntless — The Vision™ (north star)
 
 **Regauntless is a tabletop-fantasy game show** — built on the **open d20 SRD 3.5 (OGL)**
-ruleset. A televised dungeon crawl. Contestants (the four heroes) run the gauntlet for
+ruleset. A televised dungeon crawl. Contestants (the six heroes) run the gauntlet for
 *big money, big prizes* while a host hypes the crowd and the dungeon tries to eat them.
 
 > *"You might solve the dungeon... but can you solve the DRAGON?!"*
@@ -79,6 +79,57 @@ A game show lives or dies on personality. There is a **host** — a Dungeon-Mast
 game-show-announcer. Sadistic-but-charming, hypes the crowd, taunts on death, narrates the
 spectacle. This is `whimsy is signal` turned up to 11 — the host is connective tissue, not
 decoration. See `../design-notes/announcer.md`.
+
+## The Metagame IS the game (for the human)
+
+**The human's primary loop is the character-sheet metagame — the beloved "between
+sessions" tabletop stuff.** Labor splits cleanly:
+
+- **The AI plays the session** — runs the crawl, executes real-time combat (the "at the
+  table" part).
+- **The human plays the character sheet** — levels up, shops, manages gear, allocates
+  feats, builds the party (the "between sessions" part tabletop players love *most*).
+
+This is the part a video game does *better* than the table: shopping, respec, planning a
+feat build, optimizing gear — bookkeeping friction at the table, pure dopamine with good UI.
+**This is what the "real SRD 3.5 numbers" decision was FOR** — in a twitch arcade game that
+depth is nearly wasted, but as a *build-craft metagame* the full 3.5 richness is the entire
+toy and finally pays full rent.
+
+Consequence (settled, per `principles.md` — follow the SRD): stats are **derived** from
+class + level + ability scores + feats + gear (NOT flat authored numbers — you can't have a
+build-craft metagame on flat stats). **Feats + skill/class progression are first-class
+systems, transcribed straight from the SRD.** How they're *presented* (sheet, shop, feat
+browser) is our creative job; the mechanics are the SRD's.
+
+### Demo = the auto-crawler (and the funnel)
+
+Phase 1 (AI-driven heroes) isn't just a dev stepping-stone — it's a **shippable
+auto-crawler / idle-battler** and the **demo**. Engagement = **unlock + configure +
+build-craft**: unlock party slots (grow the active party toward 6), unlock classes (reveal
+the roster), level and gear them. You're the **coach / producer**; the AI are the
+contestants. Then — Prime Directive — **"take control" is the upsell / full-game phase 2.**
+You've lovingly built your roster watching them compete; now grab the stick. The conversion
+is built into the fiction (audience → contestant). Demo progression should carry into the
+full game (on-ramp, not a walled sampler).
+
+## The roster — SIX heroes (PC-first)
+
+Not four. **Six** playable classes — and 6 *rhymes with the hexagon* (6 edges / 6 directions;
+whimsy is signal). Four was a Gauntlet/couch-hardware holdover; PC-first retires it. The four
+Gauntlet archetypes (Warrior / Valkyrie / Wizard / Elf) + two more SRD classes (candidates:
+Cleric, Rogue — TBD). All six are driven by `Controller`s (AI or human, interchangeable), so
+the roster works at every player count: single-player = 1 human + 5 AI; co-op = N humans +
+(6−N) AI. Roster size, party size, and co-op player count are the same number (6) but filled
+by any mix of Controllers. Level-design must keep 6 heroes + hordes readable (a design
+constraint, not a capacity one).
+
+## Multiplayer (PC-first, phased — see `architecture.md`)
+
+Host-authoritative; remote devices join as networked `Controller`s (bring-your-own-device,
+Jackbox-style). Roadmap: **single-player + AI → LAN/WiFi co-op (first multiplayer) →
+internet co-op (later)**. The host-authoritative 6-second tick doubles as the net-sync
+heartbeat (EQ model). Couch same-screen co-op is demoted. All later-phase; core-loop-first.
 
 ## Business / Live-Service North Star (funded-product stage — aspirational)
 

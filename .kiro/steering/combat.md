@@ -1,11 +1,15 @@
 # Regauntless — Combat Resolution & Dice
 
-**We use real SRD 3.5 (OGL) numbers. We do not roll them (except in one mode).**
+**We use real d20 SRD 3.5 (OGL) numbers. We do not roll them (except in one mode).**
+
+Governing law: **follow the SRD, don't reinvent** (see `principles.md`) — with the dev's
+house-rule override, and the one real-time carve-out below. The turn-based → real-time
+translation and the two-clock (tick) model live in `architecture.md`.
 
 3.5's class/feat/stat design is the good stuff — far richer and more modular than 5e for a
 game whose goal is "add more as we go." So the data model is honest 3.5: BAB, AC, saves,
 ability scores, HD, weapon dice, feats-as-data. What we change is not the *numbers*, it's
-the *turn structure* — because Gauntlet is real-time and 3.5 is turn-based.
+the *turn structure* — because the game is real-time and 3.5 is turn-based.
 
 ## What dies in the conversion (turn-based → real-time)
 
@@ -20,9 +24,9 @@ the *turn structure* — because Gauntlet is real-time and 3.5 is turn-based.
 
 ## To-hit: geometry, not a d20 (in normal play)
 
-In Gauntlet **the player is the to-hit roll.** Shots are 8-directional and player-aimed;
-lining up the shot *is* the accuracy skill. A visually-connecting arrow that a hidden d20
-turns into a "miss" is **anti-Gauntlet** — it tells the player their aim doesn't matter.
+**The player is the to-hit roll.** Shots are player-aimed (12-way snapped from analog 360°,
+see `vision.md`); lining up the shot *is* the accuracy skill. A visually-connecting shot that
+a hidden d20 turns into a "miss" tells the player their aim doesn't matter — unacceptable.
 
 So for Easy/Normal/Hard: **collision is the hit.** The projectile touching the enemy is the
 "yes." No to-hit roll. (Gremlin Mode is the exception — see below.)
@@ -97,3 +101,13 @@ what that attack does.
   comparison (AC): AC-as-damage-mitigation is a candidate but not locked.
 - **Low-level 3.5 swinginess** (6-HP level-1 death) is a difficulty/starting-level knob, not
   an architecture decision.
+
+## Resolved elsewhere (no longer open)
+
+- **Feats + skill/class progression** — first-class, transcribed straight from SRD (not
+  deferred). The character-sheet metagame IS the game for the human. See `vision.md`,
+  `principles.md`.
+- **Movement** — SRD speed → hexes/round → continuous glide via the time-scale dial; hexes
+  fix the 3.5 diagonal kludge. See `architecture.md`.
+- **The round** — kept as an exact authoritative 6-second tick (EQ two-clock model), doubling
+  as the net-sync heartbeat. See `architecture.md`.
