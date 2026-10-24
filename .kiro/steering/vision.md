@@ -69,9 +69,14 @@ another. This is the heart of the feel and it is non-negotiable.
   intersections.
 - 6 and 12 are *the* hex numbers (6 edges, 6 vertices) — which is why movement is 6-way and
   shooting 12-way. The control scheme is hex-native by construction.
-- Open: pointy-top vs flat-top orientation; whether movement is continuous glide along a
-  snapped heading vs discrete hex-hops (leaning continuous glide — twin-stick, not
-  boardgame). To be confirmed.
+- **Camera snap-rotation (Q/E):** the player snap-rotates the *camera* in 60° clicks (6
+  hex-native angles). The **world stays fixed / absolute** — only the view turns. Controls
+  are **always camera-relative** ("up" = up-on-screen), resolved to world-space before
+  intent; the hero owns its own persistent world-facing (camera never turns the hero). See
+  `architecture.md`. **Pointy-top vs flat-top is therefore a dead question** — just the
+  camera's default angle.
+- Open: whether movement is continuous glide along a snapped heading — **resolved: glide**,
+  at SRD speed via the time-scale dial (see `architecture.md`).
 
 ## The Host / Announcer
 

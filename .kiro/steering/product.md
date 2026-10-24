@@ -106,7 +106,8 @@ show with a character-sheet metagame core (`vision.md`); governing SRD principle
 (`principles.md`), two-clock architecture + multiplayer roadmap (`architecture.md`), and
 combat + presentation philosophy all settled. **Newly resolved:** six-hero roster, derived
 stats, feats/skills first-class (transcribe from SRD), movement = SRD speed → hex glide,
-round = exact authoritative tick, movement glide-vs-hop. **Still open:** run/round/prize
-structure, hex orientation (pointy vs flat), the two extra roster classes, deterministic
-crits. Next build milestone: Controller abstraction + one AI hero moving (6-way) and
-shooting (12-way) at a dummy in one hex room.
+round = exact authoritative tick, movement glide-vs-hop (glide), camera snap-rotation +
+camera-relative controls, hex orientation (dead question — camera default only). **Still
+open:** run/round/prize structure, the two extra roster classes, deterministic crits. Next
+build milestone: Controller abstraction + one AI hero moving (6-way) and shooting (12-way)
+at a dummy in one hex room.

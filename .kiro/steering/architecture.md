@@ -56,6 +56,56 @@ Per `principles.md`, movement is **not** invented — it's SRD transcription:
   hits the real-time carve-out — translate what maps (run = sprint, difficult terrain = slow
   zone), flag what doesn't.
 
+## Camera snap-rotation & camera-relative input (world stays absolute)
+
+The arena is viewed as a hex board the player can **snap-rotate**, but the **world never
+rotates** — only the camera does. This keeps the sim and netcode sane.
+
+- **Q/E snap-rotates the CAMERA** in discrete **60° clicks** (6 hex-native viewing angles;
+  60° is the hexagon's self-symmetry so the grid always lines up with itself). It is
+  **purely local, cosmetic, client-side** — camera angle is NEVER networked. Two players can
+  view the same authoritative world from different angles simultaneously.
+- **World positions are absolute.** Heroes, enemies, projectiles never move or re-orient
+  because of a camera snap. A camera snap mid-combat changes only *how you see* the board,
+  not where anything is.
+- **Pointy-top vs flat-top is a dead question** — it's just the camera's default angle; the
+  player rotates from there.
+
+### Three distinct things — do not conflate (this was a near-bug)
+
+1. **Hero facing** — a *persistent world-space direction owned by the unit*. Changes only
+   when the hero turns (from movement/aim intent). **Camera-independent.** Snapping the
+   camera does NOT turn the hero; he keeps his world facing and merely *appears* rotated
+   on screen.
+2. **Camera angle** — one of 6 snap positions; how you *view* the fixed world. Cosmetic/local.
+3. **Raw input** — screen-relative WASD/stick from the player.
+
+### Camera-relativity applies to INPUT ONLY
+
+Movement and aim are **always camera-relative** ("up" = up-on-screen), but that relativity
+is an **input transform**, not a property of the hero. The pipeline:
+
+```
+raw input (screen-relative)
+  → rotate by current camera angle (one of 6 fixed 60° offsets)   ← camera-relativity lives HERE
+  → world-space Move/Aim vector
+  → HeroIntent (ABSOLUTE world space)
+  → hero moves / updates its own persistent world facing / shoots
+  → (presentation: snap facing to 6 for body, aim to 12 for shot)
+```
+
+The hero's forward-facing is an **output in world space**, never re-derived from the camera.
+**Camera-relative resolution happens client-side BEFORE `HeroIntent` is emitted** — so intent
+is always absolute world-space direction. The host/sim never knows or cares what camera angle
+a (possibly remote) player was using. Player A on angle 2 and Player B on angle 5 both emit
+clean world-space intent; the authoritative world agrees. (This is also why camera rotation
+is netcode-free.)
+
+Sanity check: hero faces world-north, camera at angle 0. Snap camera +60°. Hero **still faces
+world-north**, now just drawn "up-left" on screen. Press W → "up on screen" now means
+world-northeast → hero turns to face that. The camera didn't turn him; the *next input,
+interpreted through the new camera angle*, did.
+
 ## The Controller seam carries multiplayer (Prime Directive, extended)
 
 The Prime Directive's `Controller → HeroIntent → Hero` seam is also the **multiplayer seam.**
