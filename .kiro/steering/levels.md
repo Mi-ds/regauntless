@@ -49,44 +49,51 @@ prize / exit ...) connected by corridors. It does NOT author the inside of rooms
 
 ---
 
-## The TWO-GRID / two-layer model (walls vs floor) — IMPORTANT
+## The TWO-GRID model (walls derived from floor) — THE REAL, VERIFIED CONSTRUCTION
 
-> **Correction:** earlier drafts assumed ONE packed hex grid with cracks "emerging from
-> diagonal wall placement." That was wrong (it came from picturing walls as a tightly-packed
-> flat-to-flat grid). The real model is TWO interlocking grids, authored as two toggleable
-> **layers**:
+> This is the construction that actually works (confirmed in the chunk painter after much
+> iteration). Mids' original two-sentence description was correct the whole time; earlier
+> drafts in this doc (edge-midpoints, (q+r) parity, "15° bridge") were the fox mis-implementing
+> it and are SUPERSEDED by what follows.
 
-- **FLOOR layer** = a **tightly-packed, flat-to-flat (edge-to-edge) hex grid.** The solid
-  walkable ground — hexes tessellate seamlessly into a continuous floor.
-- **WALL layer** = a **spaced-out, tip-to-tip (point-to-point) hex grid.** Wall hexes touch
-  only at their **vertices/points**, NOT edges — so there are natural **gaps between
-  point-touching walls.** This is the grid the author mostly draws on to shape a level/chunk.
+**Floor layer** = the base: a full, normally-bloomed, tightly-packed flat-to-flat hex grid.
+The solid walkable ground. (In the painter: `HexCoord.Range(radius)`, flat-top.)
 
-The author **toggles which layer** the brush paints (floor-grid vs wall-grid), same canvas,
-overlaid; the chunk is the composite. (Classic tilemap-layers approach.)
+**Wall layer** = derived from the floor by this exact recipe:
+1. **Copy** the floor footprint.
+2. **Move the copy half a cell straight N or S** — PURE VERTICAL, zero horizontal. (For
+   flat-top the N–S cell spacing is `√3·size`, so half a cell = `(√3/2)·size`.) The move goes
+   **OPPOSITE the bloom arc** (see step 3): bloom NE/N/NW → move **South**.
+3. **Half-bloom the copy on 3 adjacent sides** — grow one hex outward on `{facing, facing+1,
+   facing+2}` (a 180° arc). Default facing = the **NE/N/NW** arc. (`Bloom.HalfBloom`, tested.)
+4. **Rotate each wall hex 30°** in place (crosswise; 30° = the point-to-point orientation; by
+   hex symmetry 90°/30°/"15° via the trinary" describe the same crosswise look — orientation
+   is a 0/15/30 trinary for future-proofing).
 
-### Cracks are emergent — from the tip-to-tip WALL grid
+That's the whole thing. The point-to-point wall lattice, floor enclosed, **emerges** from
+copy + half-cell-vertical-move(opposite the bloom) + half-bloom + 30°. Do NOT try to
+manufacture the lattice per-edge — apply the transforms and let it emerge.
 
-Because wall hexes touch **point-to-point**, every junction where two walls meet at a vertex
-leaves a **pinch-gap = a crack**: a shot can thread the point-contact (subject to projectile
-width, combat-space.md), a body cannot. **Cracks are the default state of point-touching
-walls** — you don't author them, they're the geometry of the spaced wall grid.
+### Hard-won lessons (so we never redo the 37 tries)
 
-### Sealing a crack: the 15°-rotated bridge hex
+- **Hex offsets are a SINGLE pure direction, never an additive x+y diagonal.** A diagonal
+  "half left + half down" lands off-lattice and looks funky. Half a cell N/S is pure vertical.
+- **A generative recipe is applied, not reverse-engineered.** "Every other" / "point-to-point"
+  were *descriptions of the emergent result*, not per-cell rules to compute.
+- **Geometry is verified by EYE in-editor, not reasoned blind** (division of labor:
+  Mids owns spatial/geometric; fox owns the symbolic/coordinate math + implementation).
 
-To make a junction **solid** (no crack), drop a **bridging wall hex centered on the contact
-point, rotated ~15°, and rasterized** — it seats into the gap and fills the point-junction
-into continuous solid wall. So **crack-vs-solid is authored by presence/absence of the bridge
-hex**: leave the tip-to-tip junction open → crack; place the rotated bridge → solid wall.
-(Exact bridge angle is a render/rasterization detail to verify in-editor — 15° is Mids'
-description; confirm by eye. This is a "show me" geometry item — built with eyes-on, not blind.)
+### Cracks (revisit later, eyes-on)
 
-### Why this matters for the painter
+Where/whether shots thread between walls (cracks) falls out of this wall geometry + projectile
+width (combat-space.md). Exact crack behavior is a verify-in-editor item once walls collide
+with projectiles. The "window" in a guard room is an open gap in the wall run, not a token.
 
-The chunk painter must author on the **tip-to-tip wall grid** (the spaced one) for walls, with
-a toggle to the **packed floor grid** for floor — NOT the single packed grid an earlier painter
-draft used. The "window" opening in a guard room is just a crack (an open tip-to-tip junction)
-rather than a special token.
+### For the painter
+
+Floor + wall layers are independently viewable (visibility toggles + draw-order "Front"
+control). Walls auto-derive from the floor via the recipe above; the author paints the floor
+footprint (and, later, edits walls/overrides).
 
 ---
 

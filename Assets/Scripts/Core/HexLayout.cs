@@ -15,22 +15,25 @@ namespace Regauntless.Core
         public readonly bool PointyTop;
         public readonly float Size;      // center-to-corner distance (hex "radius")
         public readonly Vector2 Origin;
+        public readonly float Spacing;   // center-distance multiplier (1 = seamless; >1 = gaps)
 
-        public HexLayout(float size, bool pointyTop = false, Vector2 origin = default)
+        public HexLayout(float size, bool pointyTop = false, Vector2 origin = default, float spacing = 1f)
         {
             Size = size;
             PointyTop = pointyTop;
             Origin = origin;
+            Spacing = spacing <= 0f ? 1f : spacing;
         }
 
-        /// <summary>Axial hex → pixel center.</summary>
+        /// <summary>Axial hex → pixel center. Centers are spread by <see cref="Spacing"/>.</summary>
         public Vector2 HexToPixel(HexCoord h)
         {
+            float s = Size * Spacing; // spacing affects CENTER layout, not drawn hex size
             float x, y;
             if (PointyTop)
             {
-                x = Size * (Mathf.Sqrt(3f) * h.Q + Mathf.Sqrt(3f) / 2f * h.R);
-                y = Size * (1.5f * h.R);
+                x = s * (Mathf.Sqrt(3f) * h.Q + Mathf.Sqrt(3f) / 2f * h.R);
+                y = s * (1.5f * h.R);
             }
             else // flat-top
             {
@@ -43,8 +46,9 @@ namespace Regauntless.Core
         /// <summary>Pixel → fractional cube → rounded hex (for click-to-paint picking).</summary>
         public HexCoord PixelToHex(Vector2 p)
         {
-            float px = (p.x - Origin.x) / Size;
-            float py = (p.y - Origin.y) / Size;
+            float s = Size * Spacing; // must match HexToPixel's spaced centers
+            float px = (p.x - Origin.x) / s;
+            float py = (p.y - Origin.y) / s;
             float q, r;
             if (PointyTop)
             {

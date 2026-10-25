@@ -29,5 +29,37 @@ namespace Regauntless.Core
 
         /// <summary>A filled hexagonal room of the given radius (center + all within radius).</summary>
         public static List<HexCoord> Room(HexCoord center, int radius) => center.Range(radius);
+
+        /// <summary>
+        /// HALF BLOOM: given a footprint (set of hexes), return the hexes one step OUT from it on
+        /// only 3 ADJACENT directions — a 180° half-ring/arc on one side (see .kiro/steering/levels.md).
+        /// Walls are built by half-blooming the floor footprint (then offsetting + rotating 30°).
+        ///
+        /// <paramref name="facing"/> is the first of the 3 adjacent directions; the arc covers
+        /// {facing, facing+1, facing+2} (mod 6). Result excludes hexes already in the footprint
+        /// (only genuinely-new, outward hexes), de-duplicated.
+        /// </summary>
+        public static List<HexCoord> HalfBloom(IEnumerable<HexCoord> footprint, int facing)
+        {
+            var set = new HashSet<HexCoord>(footprint);
+            var result = new List<HexCoord>();
+            var seen = new HashSet<HexCoord>();
+
+            foreach (var h in set)
+            {
+                for (int k = 0; k < 3; k++)                 // 3 adjacent directions = 180° arc
+                {
+                    int dir = (((facing + k) % 6) + 6) % 6;
+                    HexCoord n = h.Neighbor(dir);
+                    if (set.Contains(n)) continue;          // not a new outward hex
+                    if (seen.Add(n)) result.Add(n);         // dedupe
+                }
+            }
+            return result;
+        }
+
+        /// <summary>Convenience: half-bloom a single hex (its footprint = just itself).</summary>
+        public static List<HexCoord> HalfBloom(HexCoord center, int facing)
+            => HalfBloom(new[] { center }, facing);
     }
 }
