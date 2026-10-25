@@ -36,6 +36,13 @@ namespace Regauntless.Levels
         /// <summary>Solid for movement/line-of-fire purposes (walls; cracks are a geometry layer).</summary>
         public bool IsSolid => Type == CellType.Wall;
 
+        /// <summary>
+        /// Lit-from-below (presentation.md): does this cell OCCLUDE the under-light? Opaque floor
+        /// (and anything built on floor) blocks it; a Hole transmits it straight up (light well).
+        /// None = outside the chunk = no floor stage at all.
+        /// </summary>
+        public bool OccludesUnderLight => Type != CellType.Hole && Type != CellType.None;
+
         public bool IsPartOfChunk => Type != CellType.None;
 
         public bool Equals(Cell other) => Type == other.Type && Variant == other.Variant;

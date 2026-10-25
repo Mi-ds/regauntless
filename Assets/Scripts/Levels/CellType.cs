@@ -10,10 +10,17 @@ namespace Regauntless.Levels
     /// </summary>
     public enum CellType
     {
-        /// <summary>Not part of this chunk (empty / outside the painted footprint).</summary>
+        /// <summary>
+        /// Not part of this chunk (unpainted / outside the footprint). EDITOR-ONLY concept — not
+        /// a brush. "Empty" = absence of a cell, not a paintable value.
+        /// </summary>
         None = 0,
 
-        /// <summary>Walkable floor. Painting floor defines the chunk's footprint/shape.</summary>
+        /// <summary>
+        /// Walkable floor. Painting floor defines the chunk's footprint/shape. OPAQUE — it is the
+        /// light-OCCLUSION mask for the lit-from-below rendering (see presentation.md): floor
+        /// blocks the under-light, which only reaches the play space via the faked ceiling bounce.
+        /// </summary>
         Floor = 1,
 
         /// <summary>Solid wall. Cracks EMERGE where walls meet only at a vertex (see levels.md).</summary>
@@ -33,5 +40,13 @@ namespace Regauntless.Levels
 
         /// <summary>The level exit. Gated to the late game by the generator (levels.md).</summary>
         Exit = 7,
+
+        /// <summary>
+        /// A gap in the floor — NON-WALKABLE (pit). Unlike floor it does NOT occlude: the
+        /// under-light radiates straight UP through it (a light well), per the lit-from-below
+        /// rendering (presentation.md). A traversal obstacle AND an atmospheric light shaft.
+        /// (A walkable 'Grate' variant is deferred.)
+        /// </summary>
+        Hole = 8,
     }
 }

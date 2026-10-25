@@ -6,6 +6,28 @@ Gauntlet is the *design* north star, not the *fidelity* ceiling. We are NOT doin
 pixel art. High-res, animated, shader-driven objects — but every visual choice serves a
 1985 design *concept*: readable at a glance, information-bearing, no clutter.
 
+## Lit from below (the signature rendering trick)
+
+Levels are **lit from beneath the floor.** This is the distinctive look-and-feel pillar.
+
+- **The floor is an opaque tile surface** mapped from the chunk footprint — and it doubles as
+  the **light-occlusion mask.** Under it (below the play plane in Unity space) runs a hidden
+  **lighting stage**: tessellated lights, color washes, animated "cool graphical shit."
+- **Opaque floor OCCLUDES** the under-light; it reaches the play space only by bouncing off a
+  **faked "ceiling rig" derived from the same floor footprint** — giving soft ambient reflection
+  for free. All ambiance/lighting is authored by doing cool stuff *under* the floor, never by
+  lighting the play space directly.
+- **Holes (Cell type `Hole`) are APERTURES, not voids:** where there's no floor, the under-light
+  **radiates straight up through the gap** — a bright **light well / shaft**, shaped by whatever
+  source glows beneath. Holes are non-walkable (pits) — a traversal obstacle *and* an atmospheric
+  beam. (`Cell.OccludesUnderLight` is false only for Hole/None.)
+- **The painted floor footprint does TRIPLE duty:** gameplay shape + light-occlusion mask +
+  (via the derived ceiling) reflection surface. One authored thing, three payoffs — so the chunk
+  paint editor is also authoring the lighting stencil.
+- Fits "modern tech, 1985 concepts": keeps the flat, legible top-down *read* while adding rich
+  modern atmosphere from beneath. (VERIFY-BY-EYE: this is a look that only the human-in-editor
+  can judge — URP 2D lights / under-floor stage / faked reflection. Fox builds, Mids judges.)
+
 ## Graphics are an information channel, not decoration
 
 We have the resolution to put real, legible meaning into the visuals. Use it. But —
