@@ -94,6 +94,15 @@ count (AI fills unmanned slots). See `vision.md`.
   lines); projectiles occupy the middle N% of a lane (per-class width + shape = spatial
   identity, Gauntlet-grounded); bodies ~50-60% of a hex; **everything collidable** via one
   footprint-overlap rule → blocking is legible coordination, not chaos. See `combat-space.md`.
+- **Survival = ONE shared party pool** (provisioned + mcguffins; drains via zone-hostility
+  tick + mitigated enemy damage; binary functional/down; food refills; P2P buy-back-in at
+  zero). Health=timer soul, at run level. Dumb-AI = a management decision (swap-to-human /
+  bench), diegetic Prime-Directive funnel. See `survival.md`.
+- **The coordination engine** — the shared pool *forces* teamwork: AoE heals/buffs multiply
+  by clustered members (stack-vs-spread tension), driving a spread⇄converge rally rhythm
+  (voice-comms in co-op; formations/commands solo). "Formations" = party-cohesion umbrella
+  fed by many SRD sources (Leadership radial / Bard inspire / Paladin aura); light action-game
+  command layer (radial + pre-run roles), no RTS micro. See `coordination.md`.
 - **Modern tech, 1985 design concepts.** High-res, but graphics are an information channel:
   legible through *feel*, explicit readouts reserved for the rare/surprising. Enemy health =
   discrete sprite states, one per hit-breakpoint. See `presentation.md`.
@@ -111,7 +120,10 @@ show with a character-sheet metagame core (`vision.md`); governing SRD principle
 combat + presentation philosophy all settled. **Newly resolved:** six-hero roster, derived
 stats, feats/skills first-class (transcribe from SRD), movement = SRD speed → hex glide,
 round = exact authoritative tick, movement glide-vs-hop (glide), camera snap-rotation +
-camera-relative controls, hex orientation (dead question — camera default only). **Still
-open:** run/round/prize structure, the two extra roster classes, deterministic crits. Next
-build milestone: Controller abstraction + one AI hero moving (6-way) and shooting (12-way)
-at a dummy in one hex room.
+camera-relative controls, hex orientation (dead question — camera default only), **and the
+big one: the health/survival model** (shared party pool + coordination engine +
+leadership/formations — see `survival.md`, `coordination.md`). **Still open:**
+run/round/prize structure, the two extra roster classes, deterministic crits, mcguffin
+specifics (consumable vs permanent), command-depth (deferred), enemy-AI philosophy (leaning
+deterministic/herdable baseline + type spice). Next build milestone: Controller abstraction
++ one AI hero moving (6-way) and shooting (12-way) at a dummy in one hex room.
