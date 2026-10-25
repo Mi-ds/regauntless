@@ -105,6 +105,24 @@ interleave-as-skill, it's the soul of the feel.
 The arena is viewed as a hex board the player can **snap-rotate**, but the **world never
 rotates** — only the camera does. This keeps the sim and netcode sane.
 
+### Why rotation exists (the gameplay purpose): line up clean firing lanes
+
+A hex grid has **6 clean straight lanes** (the edge directions — a row of edge-adjacent
+hexes is a straight channel); the vertex directions zigzag. *Which* clean lane runs
+"vertical/across" from the player's view depends on orientation (pointy-top = clean
+horizontal rows; flat-top = clean vertical columns). So **snap-rotating the camera 60°
+re-orients which clean lane points down your line of sight / down a corridor.** 
+
+That makes camera rotation a **combat/threading tool, not just a viewing convenience**:
+you rotate the board to *line up a clean firing lane* down a corridor or at a target. This
+is the **hex-native heir to Gauntlet's "shoot through the corner" trick** — on a square grid
+four cells kiss at a corner giving a free diagonal lane to exploit; hexes meet 3-at-a-vertex
+so that exploit is gone, but the clean edge-lanes + camera rotation give you a *deliberate*
+"rotate-to-align-the-lane" skill in its place. Corner-cheese (emergent grid exploit) →
+rotate-to-align (intentional skill). This is the crisp answer to "why would the player ever
+rotate the camera?"
+
+
 - **Q/E snap-rotates the CAMERA** in discrete **60° clicks** (6 hex-native viewing angles;
   60° is the hexagon's self-symmetry so the grid always lines up with itself). It is
   **purely local, cosmetic, client-side** — camera angle is NEVER networked. Two players can
