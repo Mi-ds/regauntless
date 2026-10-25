@@ -49,6 +49,47 @@ prize / exit ...) connected by corridors. It does NOT author the inside of rooms
 
 ---
 
+## The TWO-GRID / two-layer model (walls vs floor) — IMPORTANT
+
+> **Correction:** earlier drafts assumed ONE packed hex grid with cracks "emerging from
+> diagonal wall placement." That was wrong (it came from picturing walls as a tightly-packed
+> flat-to-flat grid). The real model is TWO interlocking grids, authored as two toggleable
+> **layers**:
+
+- **FLOOR layer** = a **tightly-packed, flat-to-flat (edge-to-edge) hex grid.** The solid
+  walkable ground — hexes tessellate seamlessly into a continuous floor.
+- **WALL layer** = a **spaced-out, tip-to-tip (point-to-point) hex grid.** Wall hexes touch
+  only at their **vertices/points**, NOT edges — so there are natural **gaps between
+  point-touching walls.** This is the grid the author mostly draws on to shape a level/chunk.
+
+The author **toggles which layer** the brush paints (floor-grid vs wall-grid), same canvas,
+overlaid; the chunk is the composite. (Classic tilemap-layers approach.)
+
+### Cracks are emergent — from the tip-to-tip WALL grid
+
+Because wall hexes touch **point-to-point**, every junction where two walls meet at a vertex
+leaves a **pinch-gap = a crack**: a shot can thread the point-contact (subject to projectile
+width, combat-space.md), a body cannot. **Cracks are the default state of point-touching
+walls** — you don't author them, they're the geometry of the spaced wall grid.
+
+### Sealing a crack: the 15°-rotated bridge hex
+
+To make a junction **solid** (no crack), drop a **bridging wall hex centered on the contact
+point, rotated ~15°, and rasterized** — it seats into the gap and fills the point-junction
+into continuous solid wall. So **crack-vs-solid is authored by presence/absence of the bridge
+hex**: leave the tip-to-tip junction open → crack; place the rotated bridge → solid wall.
+(Exact bridge angle is a render/rasterization detail to verify in-editor — 15° is Mids'
+description; confirm by eye. This is a "show me" geometry item — built with eyes-on, not blind.)
+
+### Why this matters for the painter
+
+The chunk painter must author on the **tip-to-tip wall grid** (the spaced one) for walls, with
+a toggle to the **packed floor grid** for floor — NOT the single packed grid an earlier painter
+draft used. The "window" opening in a guard room is just a crack (an open tip-to-tip junction)
+rather than a special token.
+
+---
+
 ## Layer 2 — Set-piece chunks (hand-authored, "fox created")
 
 Small, crafted hex segments with *intent* — e.g. a **guard room**: a little room with a guard
@@ -71,9 +112,10 @@ CHUNK:
     - guard-spawn @ <hex>          # generators, enemies, pickups/food, props
 ```
 
-- **Openings have TYPES** — `door` (corridor connection; bodies + projectiles) vs. `window`
-  (a crack — projectiles/sightline only, not bodies). Windows are architectural features that
-  interact with the lane/collision/threading system (a window IS a crack).
+- **Openings:** `door` = a full passage (open floor on the chunk boundary; bodies + shots
+  pass; the maze corridor stitches here). A `window`/crack is NOT a separate token — it's just
+  an open **tip-to-tip wall junction** (see the two-grid model above): shots thread it,
+  bodies don't. Author cracks by leaving wall junctions un-bridged.
 - **Connection points are how Layer 1 stitches to Layer 2** — the generator attaches a maze
   corridor to a chunk's `door`.
 - **Contents = the authored intent** — the guard spawn, the trap, the swarm generators, the
