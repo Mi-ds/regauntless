@@ -24,6 +24,14 @@ Levels are **lit from beneath the floor.** This is the distinctive look-and-feel
 - **The painted floor footprint does TRIPLE duty:** gameplay shape + light-occlusion mask +
   (via the derived ceiling) reflection surface. One authored thing, three payoffs — so the chunk
   paint editor is also authoring the lighting stencil.
+
+> **Back-pocket (parked for the lighting pass):** build the under-floor stage as a
+> **camera-synced shading/mask layer**, NOT a bounded textured box. Cheap textures used as
+> occluding shading masks can fake rich atmosphere (cf. Mids' Nebulous skyboxes), AND — crucially
+> — a camera-synced mask layer **rotates infinitely and seamlessly** with no seam/reload hitch.
+> This matters directly: when the player **snap-rotates the camera** (architecture.md), the
+> under-floor light stage must rotate WITH it; a bounded box would seam, a synced mask layer
+> won't. Pre-solved technique; revisit when we actually wire lighting + rotation.
 - Fits "modern tech, 1985 concepts": keeps the flat, legible top-down *read* while adding rich
   modern atmosphere from beneath. (VERIFY-BY-EYE: this is a look that only the human-in-editor
   can judge — URP 2D lights / under-floor stage / faked reflection. Fox builds, Mids judges.)
