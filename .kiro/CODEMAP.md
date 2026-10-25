@@ -101,6 +101,11 @@ Each maps to a steering doc. Nothing here is built; this shows the plug-point.
 - **Coordination: formations + roles** `[ ]` → radial (Leadership/Bard/Paladin-sourced) +
   per-AI roles. AI positioning must not block ally lanes. Spec: `coordination.md`.
 - **SpawnDirector ("generators")** `[ ]` → replaces TestSceneDirector; waves/arenas.
+- **Level generation** `[ ]` → two layers: fractal crystal-grown MAZE (seed+ruleset, pure,
+  deterministic) furnishing hand-authored SET-PIECE CHUNKS (guard-room-style, doors/windows).
+  Two text formats (chunk files = ASCII-hex-art; generator ruleset = seed+budget). Replaces
+  manual scene authoring. Spec: `levels.md`. Build order: chunk format → loader → HexCoord →
+  crystal generator → slotting → Tilemap render.
 - **Announcer, leaderboard, live-service** `[ ]` → later/flagged. Design notes exist.
 
 ---

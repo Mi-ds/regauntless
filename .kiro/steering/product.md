@@ -103,6 +103,10 @@ count (AI fills unmanned slots). See `vision.md`.
   (voice-comms in co-op; formations/commands solo). "Formations" = party-cohesion umbrella
   fed by many SRD sources (Leadership radial / Bard inspire / Paladin aura); light action-game
   command layer (radial + pre-run roles), no RTS micro. See `coordination.md`.
+- **Level generation** — two layers: a fractal crystal-grown maze (seed + ruleset,
+  deterministic) furnishing hand-authored set-piece chunks (guard-room-style, with
+  door/window openings). Text formats (chunk = ASCII-hex-art; ruleset = seed+budget);
+  escapes manual scene authoring. See `levels.md`.
 - **Modern tech, 1985 design concepts.** High-res, but graphics are an information channel:
   legible through *feel*, explicit readouts reserved for the rare/surprising. Enemy health =
   discrete sprite states, one per hit-breakpoint. See `presentation.md`.
