@@ -39,6 +39,28 @@ namespace Regauntless.Levels
         [Tooltip("The painted cells. Floor cells define the footprint; unpainted hexes are outside.")]
         public List<Entry> Cells = new List<Entry>();
 
+        [Serializable]
+        public struct WallEntry
+        {
+            public int Q;
+            public int R;
+            public int Dir;    // canonical (hex,dir) wall edge
+            public int Variant;
+            public WallEdge Edge => new WallEdge(new HexCoord(Q, R), Dir);
+        }
+
+        [Tooltip("Walls as canonical (hex,dir) edges. Sparse — ~3 owned per hex. See WallEdge.")]
+        public List<WallEntry> Walls = new List<WallEntry>();
+
+        /// <summary>Build a set of the present wall edges (canonicalized).</summary>
+        public HashSet<WallEdge> ToWallSet()
+        {
+            var set = new HashSet<WallEdge>();
+            foreach (var w in Walls)
+                set.Add(w.Edge.Canonical());
+            return set;
+        }
+
         /// <summary>Build a fast lookup from the serialized list. Call once at load.</summary>
         public Dictionary<HexCoord, Cell> ToMap()
         {
