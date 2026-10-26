@@ -179,3 +179,6 @@ with a deterministic test harness.
 - **Content-as-recipe / live-service** — add chunks + tweak rulesets → endless fresh dungeons
   without hand-building each (the Fortnite/Diablo content engine, `vision.md`).
 - **Escapes manual scene authoring** — levels become text, not drag-the-objects-in-Unity.
+
+## Spawners & trigger fields
+See `spawners-and-triggers.md` — the TWO primitives: (1) one parameterized Emitter Spawner (location/direction/mob + burst/rate/count; presets reproduce generator/burst/clump/solitary), and (2) a Trigger Field/event scripting layer (zone + trigger condition + ordered script; "ambush"/"boss lair" are authored scripts, not engine types). The authored set-piece chunks above ARE trigger-field scripts.
