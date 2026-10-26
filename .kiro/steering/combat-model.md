@@ -185,6 +185,30 @@ person.*
   speed, NO web weapon — pure fast venomous brawler) and **web-spinners** (hold/trap, HAVE
   web-lob). One stat chassis, a flag picks which.
 
+## Grab / Grapple family (one resolution: the grapple check)
+
+SRD grab-type specials (**improved grab, constrict, bull rush, trip**) all resolve by the SAME
+thing — a **grapple/opposed STR check** — so in Regauntless they share ONE resolution; we don't
+invent per-creature systems (follow the SRD). Our real-time expression of "a grapple check":
+
+- **When a grabbed/rooted hero tries to MOVE, the game blocks the move and rolls a contested
+  grapple check** (under the existing RollPolicy modes — Easy/Normal/Hard/Gremlin — deterministic
+  & legible, not twitch). **Win → free; lose → still held** (and any ongoing effect, e.g.
+  constrict DoT, ticks that round).
+- **Prime-Directive clean:** AI-driven and human heroes resolve it the SAME way — no "human mashes
+  a button" branch (that'd be a player/AI design smell). It's a stat contest, not an input.
+- Also freed by **killing the grabber** (low-HP grabbers → focus-fire frees the held hero) or an
+  **ally assist**.
+
+**Members (share the resolution, differ in payload):**
+- **Constrictor (snake):** bite-hit → **ROOT** (can't move) + ongoing **CONSTRICT DoT** each held
+  round. Hard single-target lockdown (vs web's soft slow). CR2 — out of current scope, model banked.
+- **Scorpion:** claw-hit → **grab + held**, auto-crush each round. In scope (Tiny/Small).
+- **Bull rush / shove** (the giant Santa-cat concept): a displacement grapple — shoves the hero
+  (off a ledge / out of position). Same check family; payload = displacement, not a hold.
+(Latcher/Attach is RELATED but DISTINCT — it RIDES the hero via the hands-capacity ladder +
+ally-clean, not the move-blocking grapple check. See the Latcher section.)
+
 ## Ranged-delivery taxonomy (one primitive, several delivery physics)
 
 An attack/spell picks a DELIVERY TYPE. Both mob attacks and hero/spell attacks reuse these:
