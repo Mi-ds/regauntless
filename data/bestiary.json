@@ -98,6 +98,12 @@
       "cr": "1/10", "size": "Diminutive", "type": "Animal",
       "archetype": "noncombat",
       "notes2D": "NONCOMBAT — no attack (1 hp, flies). Not a threat mob; excluded from the enemy roster. Recorded so it reads as evaluated-and-excluded, not an oversight. (Could exist later as ambient fauna/decoration — poppable flavor — but is NOT a spawner threat.)"
+    },
+    {
+      "name": "Cat",
+      "cr": "1/4", "size": "Tiny", "type": "Animal",
+      "archetype": "noncombat",
+      "notes2D": "NOT A MONSTER — a housecat. Technically attacks (2 claws 1d2-4, bite 1d3-4 = ~1 dmg) but 2 hp and negligible; fauna, not a threat. Same natural-attack brawler profile as the Badger but strictly weaker — introduces NO new mechanic. Excluded from the enemy roster (fauna only)."
     }
   ]
 }
