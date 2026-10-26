@@ -103,6 +103,13 @@ count (AI fills unmanned slots). See `vision.md`.
   (voice-comms in co-op; formations/commands solo). "Formations" = party-cohesion umbrella
   fed by many SRD sources (Leadership radial / Bard inspire / Paladin aura); light action-game
   command layer (radial + pre-run roles), no RTS micro. See `coordination.md`.
+- **Character creation = the build model** (metagame-is-the-game). One unified primitive:
+  a character = stat-mods + a pile of source-agnostic FEATS ("class features" are just
+  class-granted feats; no feat is owned by a source). Three grant-source axes
+  (Race/Class/Background) inject feats + mods; a capability is an OUTCOME reachable by
+  feat/skill/item (Cleric vs cult-Warrior vs UMD-Rogue), with the grant carrying its own
+  power envelope. Backgrounds pair perks ± drawbacks (disadvantages = negative feats /
+  conditional ±5 triggers). See `character-creation.md`.
 - **Level generation** — two layers: a fractal crystal-grown maze (seed + ruleset,
   deterministic) furnishing hand-authored set-piece chunks (guard-room-style, with
   door/window openings). Text formats (chunk = ASCII-hex-art; ruleset = seed+budget);
