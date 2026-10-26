@@ -116,6 +116,11 @@ no matter what. (Exceptions: the **badger burrows THROUGH** walls instead of sli
 
 ## Sensing — what gives a mob a live vector (shared, live, one-round grace)
 
+> **NOTE:** this section describes per-mob sensing as first worked out. The later **"Spawners —
+> the SPAWNER is the brain"** section REFINES this: for the common case the *spawner* holds the
+> target/aim and mobs just "run forward." Read both; where they differ, the spawner-brain model
+> wins. (Scent-as-direction and the LoS one-round grace below still hold.)
+
 Movement only happens when a mob HAS a target. Two drivers:
 - **Scent mobs (badger, dog):** vector is **always live** — they know the player from spawn,
   move immediately, no waiting on sightlines.
@@ -172,9 +177,53 @@ dynamics, free:
   level-design levers** — you tune the RECIPE, not script the behavior. This is the justification
   for the whole brainless model: legible emergent chaos is what we BUY by refusing pathing/alert-AI.
 
-## Spawners ("generators") — movement note
-Spawner-fed columns use the same collision-slide-drain; the "single-file lines + pile-up" above is
-just that rule applied at the spawn mouth (bodies extrude and shove the pile outward).
+## Spawners ("generators") — the SPAWNER is the brain, mobs are dumb "run forward"
+
+**REFINEMENT (supersedes the per-mob "always-live vector" framing in Sensing above for the
+common case):** intelligence lives in the **spawner**, not the individual mob. A mob's entire
+instruction is **"run forward"** (a heading, not a target). It does not know where the player is,
+does not path, does not think — it runs the direction it's pointed and everything else
+(V-stack, spread, collision-slide-drain, pile, cascade) is emergent collision on top of that.
+
+### Default: dumb extrusion
+Most mobs (ghosts, goblins) get **no aimed vector at all.** The spawner extrudes them **directly
+in front of itself**; each new spawn **shoves the pile outward** by pressure; they sit **inert
+until there's a reason to move.** Pure pressure-fill + overflow. (This IS the Gauntlet room-fill:
+the generator keeps pushing bodies out, they fill the room by extrusion pressure, going nowhere
+until the door opens / the player is sighted and the mass rushes.)
+
+### The spawner acquires a target (LoS-gated) and aims
+- **LoS only** triggers targeting. (A **sense** like scent may hand the spawner a rough
+  *direction* earlier — per-creature-type property, the minority case — but the real target lock
+  and the aim is LoS.)
+- When one of the spawner's mobs gains **LoS on the player**, the spawner locks onto **the CORNER
+  / opening where that sighting happened** — a *geometry waypoint*, NOT the player (it can't aim
+  through a wall). It **turns its extruder to point at that corner** and stamps every mob it makes
+  with **"run straight at the corner."** The horde becomes a hose pointed at the chokepoint; mobs
+  pour to the corner, cascade around it, each picking up its own LoS on the far side.
+
+### Aim ratchets toward the player (monotonic, dumb rule)
+- **Retarget rule:** whenever any mob achieves **LoS-to-player from a point CLOSER to the player
+  than the current aim-waypoint**, the spawner moves its aim there. **Monotonic** — the aim only
+  ever walks *toward* the player, corner-by-corner (A→B→C...), dragged forward by the horde's own
+  progress. No pathfinding; just "closest-LoS-to-player wins."
+- **Self-correcting:** if the player repositions, stale waypoints stop producing closer-LoS and
+  the next closer sighting re-aims naturally.
+- **Reverse pressure (beating back the spawn):** if the party out-DPSes the spawn rate, the front
+  **recedes** → sightlines reach deeper → the aim-ratchet walks the contested point back UP the
+  corridor toward the source → eventually the **spawner itself falls into a clean lane and dies.**
+  The chokepoint war has a win condition built into the geometry.
+- **Kill the spawner = decapitate the aim.** Destructible + priority. The waypoint chain dies with
+  it; leftover mobs revert to dumb "run forward / inert."
+
+### Pack flag (orthogonal, LoS-gated second-stage)
+"Pack" is a per-creature flag layered on top. Stage 1 (universal): all mobs are V-ish footprints
+that stack/spread by collision. Stage 2 (pack only, once LoS is gained & the front rounds the
+corner toward the player): pack mobs **go AROUND a blocked same-kind ally instead of queuing**, so
+**more than one line cascades around the corner** — defeating the single-file funnel. Scent is NOT
+sufficient to trigger the pack stage; **LoS is.** (Collision/footprint GEOMETRY — the V shape, how
+wedges deflect followers, hex tiling — is Mids-owned spatial work, flagged TBD; the fox implements
+once Mids drives it.)
 
 ## Emergent tactics (fall out of the rules — not scripted)
 - **Corner kill-zone:** establish a SIGHTLINE down a corridor/chokepoint; because shots have no
@@ -184,6 +233,27 @@ just that rule applied at the spawn mouth (bodies extrude and shove the pile out
   splash (aimed at your position, ignoring cover) lands on its OWN spawner/allies → turn enemy
   area-fire into a weapon against them. (Emergent from: lob arcs over cover + faction-blind splash
   + lobber targets the player + spawners are destructible.)
+- **Bait-and-flank (the classic Gauntlet co-op moment, EMERGENT):** "Valk, stand by that wall and
+  distract the ghosts." Valk presents LoS at one corner → spawner's aim **ratchets to Valk's
+  corner** → the whole horde floods HER (she's not a scripted aggro-magnet; she's just the
+  closest-LoS point, and tanky enough to hold it). Meanwhile the Wizard flanks a DIFFERENT corridor
+  — empty, because the aim is committed to Valk — gains LoS on the **spawner itself**, and (no-range)
+  shoots it dead "from below." Falls out of: spawner-aims-closest-LoS + mobs-run-forward +
+  no-range-LoS-fire + destructible-spawner. Nobody coded a "distraction mechanic."
+- **Converge-and-grind (war of attrition, EMERGENT):** Elf holds a corner and mows the stream but
+  CAN'T out-DPS the spawn rate alone → stalemate (winning the trade, hose never dries). Party goes
+  around the south wall and **shoots up to support** — a second LoS lane converging on the same
+  stream. Combined DPS now **exceeds spawn rate** → the front **recedes** → (aim-ratchet in reverse)
+  sightlines reach deeper → the **spawner is beaten back into a clean lane and killed.** Falls out
+  of: out-DPS-recedes-the-front + closest-LoS-retarget + destructible-spawner.
+- These two are the **thesis proven twice:** signature co-op Gauntlet plays reproduced as pure
+  consequences of simple rules — zero scripting. (Also validates the roles: tanky Valk eats the
+  hose while squishy Wizard/Elf do safe-angle work; the shared survival pool makes the trade
+  affordable — see survival.md / coordination.md.)
+
+## Spawner movement note (collision)
+Spawner-fed columns use the same collision-slide-drain; the "single-file lines + pile-up" above is
+just that rule applied at the spawn mouth (bodies extrude and shove the pile outward).
 
 ## Sim boundary (what the non-graphical tester CAN'T do)
 The numbers-sim validates **systems**: AP economy, LoS-gated shooting, breakpoints (shots-to-kill
