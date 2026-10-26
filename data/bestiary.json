@@ -284,6 +284,43 @@
       },
       "notes2D": "First VENOMOUS mob + first STATUS-EFFECT delivery. Mindless vermin (Int Ø) = dead-simple AI: straight-line approach, bite, done — no kiting, no LoS logic. Damage is trivial (Str penalty -> ~1/bite); the THREAT is the poison, not the hit. Climb speed = reaches over/around cover (walls less useful vs it). Colony/swarm organization (Tiny 8-16) = spawner CHAFF that's dangerous by poison STACKING, not per-hit damage. SIZE LADDER (Tiny->Small->Medium->...) is the SRD's own scaling curve — a clean source for 'level scales the monster' using one archetype.",
       "notesSim": "In-scope: 1/2/4 hp, AC14, single bite/round (low/no damage) + poison-on-hit. Models: mindless straight approach (no LoS gate); on contact roll bite, on hit apply poison (Fort DC 10 vs hero). Poison EFFECT depends on Mids' mapping decision (slow debuff vs pool-DoT) — sim can't model it until that's set. Swarm = many cheap units; validates contact-phase + status stacking. Poison save math: hero Fort vs fixed DC 10."
+    },
+    {
+      "name": "Dog",
+      "srd": {
+        "_note": "Verbatim SRD 3.5 stat block + flavor, full page. Two columns: normal Dog + Celestial Dog (CR 1/3 both). Also covers coyotes/jackals/African wild dogs.",
+        "source": "d20srd.org/srd/monsters/dog.htm",
+        "variants": [
+          { "variant": "Dog", "sizeType": "Small Animal", "hd": "1d8+2 (6 hp)", "init": 3, "speed": "40 ft (8 squares)", "ac": "15 (+1 size, +3 Dex, +1 natural), touch 14, flat-footed 12", "baseAtk": 0, "grapple": -3, "attack": "Bite +2 melee (1d4+1)", "fullAttack": "Bite +2 melee (1d4+1)", "space": "5 ft / 5 ft", "specialAttacks": "-", "specialQualities": "Low-light vision, scent", "saves": { "fort": 4, "ref": 5, "will": 1 }, "abilities": { "str": 13, "dex": 17, "con": 15, "int": 2, "wis": 12, "cha": 6 }, "skills": "Jump +7, Listen +5, Spot +5, Survival +1*", "feats": "Alertness, Track(B)", "environment": "Temperate plains", "organization": "Solitary or pack (5-12)", "cr": "1/3", "alignment": "Always neutral", "advancement": "-", "la": "-" },
+          { "variant": "Celestial Dog", "sizeType": "Small Magical Beast (Extraplanar)", "hd": "1d8+2 (6 hp)", "init": 3, "speed": "40 ft (8 squares)", "ac": "15 (+1 size, +3 Dex, +1 natural), touch 14, flat-footed 12", "baseAtk": 0, "grapple": -3, "attack": "Bite +2 melee (1d4+1)", "fullAttack": "Bite +2 melee (1d4+1)", "space": "5 ft / 5 ft", "specialAttacks": "Smite Evil", "specialQualities": "Low-light vision, scent, darkvision 60 ft, resistance to acid 5/cold 5/electricity 5, spell resistance 6", "saves": { "fort": 4, "ref": 5, "will": 1 }, "abilities": { "str": 13, "dex": 17, "con": 15, "int": 3, "wis": 12, "cha": 6 }, "skills": "Jump +7, Listen +5, Spot +5, Survival +1*", "feats": "Alertness, Track(B)", "environment": "Any good-aligned plane", "organization": "Solitary or pack (5-12)", "cr": "1/3", "alignment": "Always lawful good", "advancement": "-", "la": "-" }
+        ],
+        "flavor": "The statistics describe a fairly small dog of about 20 to 50 pounds. Also usable for small wild canines such as coyotes, jackals, and African wild dogs.",
+        "combat": "Dogs generally hunt in packs, chasing and exhausting prey until they can drag it down.",
+        "skillsText": "+4 racial on Jump. *+4 racial on Survival when tracking by scent.",
+        "celestial": "Celestial dogs are commonly summoned by summon monster I. Smite Evil (Su): once/day a normal melee attack deals +1 damage vs an evil foe."
+      },
+      "cr": "1/3", "size": "Small", "type": "Animal",
+      "hp": 6, "hd": "1d8+2", "ac": 15, "touchAC": 14, "flatAC": 12,
+      "speedFt": 40, "init": 3,
+      "bab": 0, "grapple": -3,
+      "saves": { "fort": 4, "ref": 5, "will": 1 },
+      "abilities": { "str": 13, "dex": 17, "con": 15, "int": 2, "wis": 12, "cha": 6 },
+      "attacks": [
+        { "name": "Bite", "mode": "melee", "delivery": "contact", "toHit": 2, "damage": "1d4+1", "crit": "x2", "faction": "filtered" }
+      ],
+      "specials": ["Low-light vision", "Scent (always knows player location; LoS-independent — vector always live, see combat-model.md 'Sensing')"],
+      "archetype": "brawler (fast pack-hunter)",
+      "behavior": {
+        "priorityList": [
+          "SCENT: always-live vector straight toward player (no LoS gate); inherits the DEFAULT mob-movement model (combat-model.md): collision-slide-drain, NO pathfinding",
+          "on contact -> bite (single attack, 1d4+1)"
+        ],
+        "movementIntent": "close (fast, relentless — scent)",
+        "contact": "melee",
+        "movementModel": "DEFAULT (combat-model.md 'Mob movement'): desired vector = straight at player; collide-and-slide vs walls+bodies; pile & drain; jaggies self-fill. No special movement — the dog is the straightforward FAST brawler that simply inherits the shared rule. Faster drain than most (8 hexes/round) so it surges to the front of a mixed pile (speed-sorting)."
+      },
+      "notes2D": "The straightforward FAST pack-brawler — the 'honest' creature with no gimmick. vs Badger (same 6hp/scent/CR-ish): simpler (single bite, no burrow, no rage) but FASTER (40ft/8 hexes vs 30/6) and PACKS (5-12). Scent = LoS-independent (always-live vector, can't juke by breaking LoS) but honest about it — no untargetable window, just runs at you fast, in numbers. Whole threat profile = SPEED + NUMBERS, not a special. Anchors the 'fast rusher' end of the brawler axis (vs the slow-tanky brawler). In a mixed spawn, speed-sorts to the FRONT of the pile. Obvious pet/familiar (hound companion) candidate later, but recorded as a real melee threat.",
+      "notesSim": "6hp, AC15, single bite +2 (1d4+1), speed 8 hexes/round (FAST). Models: always-live straight approach (scent, no LoS gate); on contact single melee attack. No multi-attack (unlike badger), no status (unlike centipede), no ranged (unlike goblin). Validates: fast-closer in the approach-race (8 hexes closes the fire-rate-vs-movement gap quicker) and speed-sorting in a mixed pile. First creature whose lift is purely movement-speed + pack-count."
     }
   ]
 }

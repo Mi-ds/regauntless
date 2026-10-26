@@ -91,6 +91,91 @@ v1 focus: **flat shot + lob** (Gauntlet-grounded). Cone + LoS-bolt arrive with t
   up in lines** (single-file-ish columns), not spreading out with clever pathfinding. This is why
   chokepoints/corners work as kill-zones (the column funnels into one sightline).
 
+## Mob movement — collision-slide-drain, NO pathfinding (the Gauntlet rule)
+
+Mobs have **zero navigation AI**. Movement is three dumb rules; everything else is emergent:
+
+1. **Desired vector** = straight toward the target (the player/party). No pathing, no steering,
+   no corner-rounding, no A*. Just a direction.
+2. **Actual move = desired vector, collide-and-slide** against walls AND against other bodies:
+   - Head-on into a wall → the into-wall component is cancelled → **stop / pile up.**
+   - Hit at an ANGLE → into-wall component cancelled, along-wall component carries → **slide
+     along the wall.** (The wall does the "thinking" — it's collision math, not intelligence.)
+   - Can't enter an occupied hex → **wait** until the body ahead vacates.
+3. **Jaggies self-fill:** a body that slides into a notch/gap fills it and sits there, which
+   **smooths the wall-line for the mobs behind it.** The first bodies become terrain; the rest
+   flow over the smoothed path. **The pile IS the pathfinding** — emergent, free.
+
+### The drain
+A pile isn't stuck — it **drains.** The front body (the one with a clear path) moves, **vacating
+a hex**; the next advances into the gap, vacating its hex; and so on. The swarm pours toward the
+player **first-in-first-out at the rate the front empties.** Geometry is the throttle, not the
+mob's brain: fast mobs drain quicker (close the vacated gap sooner); tight corridors drain slow
+no matter what. (Exceptions: the **badger burrows THROUGH** walls instead of sliding/piling; a
+**ghost/detonator ignores monster collisions** so swarms flow through it.)
+
+## Sensing — what gives a mob a live vector (shared, live, one-round grace)
+
+Movement only happens when a mob HAS a target. Two drivers:
+- **Scent mobs (badger, dog):** vector is **always live** — they know the player from spawn,
+  move immediately, no waiting on sightlines.
+- **LoS mobs (kobold, goblin):** vector lives **only while the player is seen.**
+
+Awareness is **shared across the copies, LIVE, with hysteresis** — and crucially it's **NOT
+latching**:
+- **Gain LoS** (ANY copy sees the party) → vector goes live **immediately** (shared: since
+  they're all copies of one definition, one sighting lights the mob type — but see "why shared is
+  fine" below).
+- **Lose LoS** (NOBODY sees the party) → vector **persists through the end of the NEXT round**,
+  THEN goes dead (freeze / pile). One round of **grace/momentum**, not an instant switch: a
+  mob mid-charge finishes its lunge / rounds the corner instead of comically freezing; and you
+  **can't cheese the pulse with one frame of cover** — you must stay broken a full round+ to reset.
+- No memory, no last-known-position search. "Dead vector" = just stop. It's the current vector
+  held one beat longer, nothing smarter.
+
+**Why shared awareness is fine (no hivemind problem):** even when all copies flip live at once,
+they **can't all move** — they're piled, blocking each other. Only the front (clear path) moves;
+the rest drain behind it as hexes vacate. **The geometry meters the "wave of awakening," not an
+alert-propagation rule.** So we don't need per-instance sensing or a "bark" ripple; the pile-drain
+produces the same visual (front charges, rest pour after) for free. Simplest wins: shared + live.
+
+## Wave rhythm (emergent — Gauntlet's pulse, not scripted spawn timers)
+
+The loop that falls out of (spawn-pressure + collision-slide-drain + live-non-latching awareness):
+1. Party in a safe pocket, **no LoS** → all vectors dead → mobs **pile inert** at spawner/corners.
+2. Spawner keeps pumping → pile grows and **overflows** down corridors by pure spawn-pressure
+   (bodies shoving bodies), creeping toward the party.
+3. Leading edge **rounds a corner into LoS** → vectors live → the built-up mass **drains onto the
+   party at once = a WAVE.**
+4. Party kills the wave; the moment the last visible mob drops & no LoS remains → (after the
+   one-round grace) vectors die → the trickle **freezes / re-piles.**
+5. Pressure rebuilds behind cover → **next wave.**
+
+Waves are **emergent, not spawn-timer scripts.** The party can play tempo: sit & break LoS to
+**stall and let pressure build** (riskier — bigger wave), or **push the corner** to trigger early
+on their terms. "Sit doing nothing → waves crash in" is the player-facing read.
+
+## Emergent mixing — why it's "more than static" (the payoff of refusing AI)
+
+Because movement is just vector + collision + speed, a **mixed spawn** behaves like loose fluid
+dynamics, free:
+- **Speed-sorting:** fast mobs (dog, 8 hexes) surge to the front; slow mobs clog the tail. The
+  leading edge's composition differs from the back and shifts as it drains.
+- **Accidental-LoS leaks:** a scent mob (always-live vector) shoving through a pile of blind LoS
+  mobs can **physically displace one around a corner into sightline** → that mob's vector goes
+  live "by accident" → cascades the drain early. One creature's awareness **leaks** into another's
+  via collision — nobody scripted "trigger the swarm"; a badger bumped a goblin into view.
+- **Cross-push churn:** bodies shoving bodies → the pile never sits stable; it repacks, re-fills
+  jaggies differently each run. A ghost cutting through (ignores monster collision) channels the mass.
+- **Result: the corridor is a SYSTEM, not a spawn-list.** Same spawner + geometry, different
+  *mess* run-to-run depending on the mix and spawn order. **Spawn-rate and mob-mix are the real
+  level-design levers** — you tune the RECIPE, not script the behavior. This is the justification
+  for the whole brainless model: legible emergent chaos is what we BUY by refusing pathing/alert-AI.
+
+## Spawners ("generators") — movement note
+Spawner-fed columns use the same collision-slide-drain; the "single-file lines + pile-up" above is
+just that rule applied at the spawn mouth (bodies extrude and shove the pile outward).
+
 ## Emergent tactics (fall out of the rules — not scripted)
 - **Corner kill-zone:** establish a SIGHTLINE down a corridor/chokepoint; because shots have no
   range and spawned mobs come single-file, you mow the incoming line (cf. "the Elf charges ahead,
