@@ -1,5 +1,5 @@
 {
-  "_comment": "Regauntless canonical bestiary. The game's Monster Manual as DATA (datastream, not prose). Read by the crawl-sim now, by the game later. Grown mob-by-mob via the pull->define->append walkthrough. Stats transcribed from SRD 3.5 (OGL); 'archetype'/'behavior'/'notes*' are OUR definitions (how it plays in 2D + how the sim models it). See .kiro/steering/combat-model.md.",
+  "_comment": "Regauntless canonical bestiary. The game's Monster Manual as DATA (datastream, not prose). Read by the crawl-sim now, by the game later. PROCESS: we are DATAMINING the SRD — EVERY creature gets its full stat block ('srd' block) pulled and saved verbatim, regardless of CR or whether it fights. CR and 'archetype:noncombat' are CLASSIFICATION METADATA on the data, NOT a skip filter (scope is a moving line — a noncombat housecat may become a boss; an out-of-scope CR may come in-scope). 'archetype'/'behavior'/'notes*' are OUR definitions (how it plays in 2D + how the sim models it). Grown creature-by-creature via the pull->full-srd->interpret-or-mark->append walkthrough. See .kiro/steering/combat-model.md.",
   "_schema": {
     "name": "string", "cr": "string (SRD CR)", "size": "string", "type": "string",
     "hp": "int (typical)", "hd": "string", "ac": "int", "touchAC": "int", "flatAC": "int",
@@ -325,6 +325,64 @@
       },
       "notes2D": "The straightforward FAST pack-brawler — the 'honest' creature with no gimmick. vs Badger (same 6hp/scent/CR-ish): simpler (single bite, no burrow, no rage) but FASTER (40ft/8 hexes vs 30/6) and PACKS (5-12). Scent = LoS-independent (always-live vector, can't juke by breaking LoS) but honest about it — no untargetable window, just runs at you fast, in numbers. Whole threat profile = SPEED + NUMBERS, not a special. Anchors the 'fast rusher' end of the brawler axis (vs the slow-tanky brawler). In a mixed spawn, speed-sorts to the FRONT of the pile. Obvious pet/familiar (hound companion) candidate later, but recorded as a real melee threat.",
       "notesSim": "6hp, AC15, single bite +2 (1d4+1), speed 8 hexes/round (FAST). Models: always-live straight approach (scent, no LoS gate); on contact single melee attack. No multi-attack (unlike badger), no status (unlike centipede), no ranged (unlike goblin). Validates: fast-closer in the approach-race (8 hexes closes the fire-rate-vs-movement gap quicker) and speed-sorting in a mixed pile. First creature whose lift is purely movement-speed + pack-count."
+    },
+    {
+      "name": "Donkey",
+      "srd": {
+        "_note": "Verbatim SRD 3.5 stat block + flavor, full page. Single-size. Also describes burros.",
+        "source": "d20srd.org/srd/monsters/donkey.htm",
+        "variant": "Donkey",
+        "sizeType": "Medium Animal",
+        "hd": "2d8+2 (11 hp)", "init": 1, "speed": "30 ft (6 squares)",
+        "ac": "13 (+1 Dex, +2 natural), touch 11, flat-footed 12",
+        "baseAtk": 1, "grapple": 1,
+        "attack": "Bite +1 melee (1d2)", "fullAttack": "Bite +1 melee (1d2)",
+        "space": "5 ft / 5 ft", "specialAttacks": "-",
+        "specialQualities": "Low-light vision, scent",
+        "saves": { "fort": 4, "ref": 4, "will": 0 },
+        "abilities": { "str": 10, "dex": 13, "con": 12, "int": 2, "wis": 11, "cha": 4 },
+        "skills": "Balance +3, Listen +3, Spot +2",
+        "feats": "Endurance",
+        "environment": "Temperate deserts",
+        "organization": "Solitary",
+        "cr": "1/6", "advancement": "-", "la": "-",
+        "flavor": "These long-eared, horselike creatures are surefooted and sturdy. The statistics could also describe burros.",
+        "combat": "A donkey bites only when it has no way to escape.",
+        "carryingCapacity": "Light up to 50 lb; medium 51-100; heavy 101-150. Can drag 750 lb.",
+        "skillsText": "+2 racial on Balance."
+      },
+      "cr": "1/6", "size": "Medium", "type": "Animal",
+      "archetype": "noncombat",
+      "notes2D": "NONCOMBAT — beast of burden. Technically bites (1d2) but SRD says it 'bites only when it has no way to escape' — it flees, doesn't fight. Solitary, not a threat mob; excluded from the enemy roster. No new mechanic (scent + bite already covered). Reserved for mount/pack-animal flavor. Part of the SRD 'livestock cluster' (donkey/mule/horse/pony/camel) — mostly noncombat or out-of-scope beasts of burden."
+    },
+    {
+      "name": "Mule",
+      "srd": {
+        "_note": "Verbatim SRD 3.5 stat block + flavor, full page. Single-size. Sterile donkey x horse crossbreed.",
+        "source": "d20srd.org/srd/monsters/mule.htm",
+        "variant": "Mule",
+        "sizeType": "Large Animal",
+        "hd": "3d8+9 (22 hp)", "init": 1, "speed": "30 ft (6 squares)",
+        "ac": "13 (-1 size, +1 Dex, +3 natural), touch 10, flat-footed 12",
+        "baseAtk": 2, "grapple": 9,
+        "attack": "Hoof +4 melee (1d4+3)", "fullAttack": "2 hooves +4 melee (1d4+3)",
+        "space": "10 ft / 5 ft", "specialAttacks": "-",
+        "specialQualities": "Low-light vision, scent",
+        "saves": { "fort": 6, "ref": 4, "will": 1 },
+        "abilities": { "str": 16, "dex": 13, "con": 17, "int": 2, "wis": 11, "cha": 6 },
+        "skills": "Listen +6, Spot +6",
+        "feats": "Alertness, Endurance",
+        "environment": "Warm plains",
+        "organization": "Domesticated",
+        "cr": "1", "advancement": "-", "la": "-",
+        "flavor": "Mules are sterile crossbreeds of donkeys and horses. Similar to a light horse, slightly stronger and more agile.",
+        "combat": "A mule's powerful kick can be dangerous.",
+        "carryingCapacity": "Light up to 230 lb; medium 231-460; heavy 461-690. Can drag 3,450 lb.",
+        "skillsText": "+2 racial on Dex checks to avoid slipping/falling."
+      },
+      "cr": "1", "size": "Large", "type": "Animal",
+      "archetype": "noncombat",
+      "notes2D": "OUT OF CURRENT COMBAT SCOPE (CR 1, boundary) + beast of burden. Domesticated, 2-hoof kick (1d4+3) — more capable than the donkey but still livestock, not a spawner threat. Data saved verbatim for the datamine (scope is a moving line); marked noncombat/out-of-scope. Part of the livestock cluster. Reserved for mount/pack-animal flavor."
     }
   ]
 }
