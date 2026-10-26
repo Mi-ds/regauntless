@@ -1,0 +1,148 @@
+{
+  "_comment": "Regauntless ability scores — transcribed VERBATIM from SRD 3.5 (OGL): theBasics.htm ('The Abilities' + the Ability Modifiers table) and combat/combatStatistics.htm (how each ability feeds attack/AC/saves). Six core abilities (Str/Dex/Con/Int/Wis/Cha). PROCESS: like feats/skills/bestiary — each entry has an 'srd' block (verbatim: what the ability governs + which checks/saves key off it) + a 'regauntless' interpretation layer (how it maps to our model). FEEDS character-creation.md (point-buy pool sized by Race, then racial stat-mods apply) and combat-model.md (the ability-score-DAMAGE mapping: Dex->movement slow, Str->shot-damage down, Con->party-pool MAX; 0 in ANY physical stat = INCAP). The '_abilityModifierRule' entry captures the SRD score->modifier formula. Validate JSON after every edit.",
+  "_schema": {
+    "name": "string",
+    "abbrev": "Str|Dex|Con|Int|Wis|Cha",
+    "srd": {
+      "governs": "string — short verbatim summary of what the ability measures and affects",
+      "checksAndSaves": "[string] — the die rolls / saves / key skills the modifier applies to (verbatim)",
+      "source": "d20srd.org/srd/theBasics.htm (+ combat/combatStatistics.htm for the combat formulas)"
+    },
+    "regauntless": {
+      "status": "clean | reinterpret | no-op | house",
+      "note": "how it maps to our model (char-creation point-buy + combat-model ability-damage FEEL)"
+    }
+  },
+  "_abilityModifierRule": {
+    "srd": {
+      "formula": "modifier = floor((score - 10) / 2)",
+      "description": "Each ability, after racial changes, has a modifier ranging from -5 to +5 (the Ability Modifiers and Bonus Spells table). The modifier is the number you apply to the die roll when your character tries to do something related to that ability. A positive modifier is a bonus; a negative modifier is a penalty. Per the SRD rounding rule, fractions round down. A score of 1 = -5 (and can't cast spells tied to it); 10-11 = 0; each +2 to the score is +1 to the modifier.",
+      "examples": [
+        { "score": 1, "modifier": -5 },
+        { "score": 8, "modifier": -1 },
+        { "score": 9, "modifier": -1 },
+        { "score": 10, "modifier": 0 },
+        { "score": 11, "modifier": 0 },
+        { "score": 12, "modifier": 1 },
+        { "score": 13, "modifier": 1 },
+        { "score": 14, "modifier": 2 },
+        { "score": 15, "modifier": 2 },
+        { "score": 18, "modifier": 4 },
+        { "score": 20, "modifier": 5 }
+      ],
+      "source": "d20srd.org/srd/theBasics.htm#tableAbilityModifiersandBonusSpells"
+    },
+    "regauntless": {
+      "status": "clean",
+      "note": "The score->modifier formula ports as-is. character-creation.md: Race sizes the point-buy pool, you spend it to raise abilities, then racial stat-mods apply, then this formula yields the mod that feeds the sheet. The sheet IS the metagame (vision 'metagame-is-the-game'); the field hero reads the resulting mods. Scores themselves (not just mods) are tracked for the physical stats because combat-model.md subtracts ability DAMAGE from the real number (feel derived from current value; 0 = incap)."
+    }
+  },
+  "abilities": [
+    {
+      "name": "Strength",
+      "abbrev": "Str",
+      "srd": {
+        "governs": "Strength measures your character's muscle and physical power. Especially important for fighters, barbarians, paladins, rangers, and monks because it helps them prevail in combat. Strength also limits the amount of equipment your character can carry (carrying capacity).",
+        "checksAndSaves": [
+          "Melee attack rolls (melee attack bonus = base attack bonus + Str mod + size mod).",
+          "Damage rolls when using a melee weapon or a thrown weapon (including a sling). Exceptions: off-hand attacks get only 1/2 Str bonus; two-handed attacks get 1-1/2 times Str bonus; a Str penalty (but not a bonus) applies to attacks with a non-composite bow.",
+          "Climb, Jump, and Swim checks (the Str-key skills).",
+          "Strength checks (for breaking down doors and the like)."
+        ],
+        "source": "d20srd.org/srd/theBasics.htm; combat formulas d20srd.org/srd/combat/combatStatistics.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret",
+        "note": "OFFENSE axis. combat-model.md ability-damage mapping: Str damage -> shot-hit damage down (a ~-20% band per loss, toward nothing). Str 0 = INCAP (collapsed single down-state). On the sheet (character-creation.md) Str feeds the melee-flavored classes (Warrior/Valkyrie). Carrying-capacity/encumbrance is SRD-real but low-priority to wire in a horde crawler (no inventory-weight system yet)."
+      }
+    },
+    {
+      "name": "Dexterity",
+      "abbrev": "Dex",
+      "srd": {
+        "governs": "Dexterity measures hand-eye coordination, agility, reflexes, and balance. Most important for rogues, high on the list for characters in light/medium or no armor (rangers, barbarians, monks, wizards, sorcerers) and for any skilled archer.",
+        "checksAndSaves": [
+          "Ranged attack rolls, including bows, crossbows, throwing axes, and other ranged weapons (ranged attack bonus = base attack bonus + Dex mod + size mod + range penalty).",
+          "Armor Class (AC), provided the character can react to the attack (AC = 10 + armor + shield + Dex mod + size mod; armor caps the Dex bonus allowed).",
+          "Reflex saving throws, for avoiding fireballs and other attacks you can escape by moving quickly.",
+          "Balance, Escape Artist, Hide, Move Silently, Open Lock, Ride, Sleight of Hand, Tumble, and Use Rope checks (the Dex-key skills)."
+        ],
+        "source": "d20srd.org/srd/theBasics.htm; combat formulas d20srd.org/srd/combat/combatStatistics.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret",
+        "note": "MOVEMENT axis. combat-model.md ability-damage mapping: Dex damage -> movement slows (~-2 hexes/point-ish, toward frozen). Dex 0 = INCAP. On the sheet Dex drives the fast ranged archetypes (Elf fastest move/fire; also Wizard). Ranged attack / AC / Reflex are SRD-real inputs to the build math; the live field read of Dex loss is the slow-feel."
+      }
+    },
+    {
+      "name": "Constitution",
+      "abbrev": "Con",
+      "srd": {
+        "governs": "Constitution represents your character's health and stamina. A Constitution bonus increases hit points, so the ability is important for all classes. If Con changes enough to alter the modifier, the character's hit points also increase or decrease accordingly.",
+        "checksAndSaves": [
+          "Each roll of a Hit Die (a Con penalty can never drop a HD result below 1 — a character always gains at least 1 hp per level).",
+          "Fortitude saving throws, for resisting poison and similar threats.",
+          "Concentration checks (the Con-key skill, important to spellcasters)."
+        ],
+        "source": "d20srd.org/srd/theBasics.htm; HP/Fort rules d20srd.org/srd/combat/combatStatistics.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret",
+        "note": "SURVIVAL axis. combat-model.md ability-damage mapping: Con damage -> lowers the PARTY-POOL MAX attributed to this hero (a greyed/locked band at the top of the shared HP bar; caps where you can heal to, overflow drains off the top). Con 0 = INCAP (we collapse SRD's 'Con 0 = dead' into the single down-state). SRD HP-per-HD and Fort-vs-poison are the mechanical inputs; the shared survival pool (survival.md) is the Regauntless expression of HP."
+      }
+    },
+    {
+      "name": "Intelligence",
+      "abbrev": "Int",
+      "srd": {
+        "governs": "Intelligence determines how well your character learns and reasons. Important for wizards (it affects how many spells they can cast, how hard their spells are to resist, and how powerful their spells can be) and for any character who wants a wide assortment of skills. A wizard gains bonus spells based on Int; minimum Int to cast a wizard spell is 10 + the spell's level. An animal has Int 1 or 2; humanlike intelligence is at least 3.",
+        "checksAndSaves": [
+          "The number of languages your character knows at the start of the game.",
+          "The number of skill points gained each level (always at least 1 per level).",
+          "Appraise, Craft, Decipher Script, Disable Device, Forgery, Knowledge, Search, and Spellcraft checks (the Int-key skills).",
+          "Wizard bonus spells (arcane prepared casting)."
+        ],
+        "source": "d20srd.org/srd/theBasics.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret",
+        "note": "A MENTAL (non-physical) stat: NOT in the combat-model.md ability-DAMAGE triad (only Str/Dex/Con are tracked for the incap-feel). On the sheet (character-creation.md) Int drives skill-point budget and arcane-caster capability (the Wizard's bonus spells / spell DCs) — relevant once the caster/skills build layer lands. No live field-damage FEEL; a sheet-level input only. Skill points feed the cross-class/class-skill rank economy (data/skills.json)."
+      }
+    },
+    {
+      "name": "Wisdom",
+      "abbrev": "Wis",
+      "srd": {
+        "governs": "Wisdom describes willpower, common sense, perception, and intuition (being in tune with and aware of one's surroundings, vs Intelligence's analysis). Most important for clerics and druids, also important for paladins and rangers. Put a high score here for acute senses. Every creature has a Wisdom score. Clerics, druids, paladins, and rangers get bonus spells based on Wis; minimum Wis to cast such a spell is 10 + the spell's level.",
+        "checksAndSaves": [
+          "Will saving throws (for negating charm person and other mind-affecting spells).",
+          "Heal, Listen, Profession, Sense Motive, Spot, and Survival checks (the Wis-key skills).",
+          "Divine bonus spells for clerics, druids, paladins, and rangers."
+        ],
+        "source": "d20srd.org/srd/theBasics.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret",
+        "note": "A MENTAL (non-physical) stat: NOT in the combat-model.md ability-DAMAGE triad. KEY TO THE MEDIC ROLE: Wis is the key ability for the Heal skill (data/skills.json: Heal = THE revive skill behind the First-Aid contextual button in combat-model.md 'Reviving the incapped'). Also governs divine bonus spells (Cleric/Druid/Paladin/Ranger), relevant to character-creation.md's divine-casting capability-as-outcome. Will saves feed the resist-save loop for mind-affecting statuses. Sheet-level input; no live field-damage FEEL."
+      }
+    },
+    {
+      "name": "Charisma",
+      "abbrev": "Cha",
+      "srd": {
+        "governs": "Charisma measures force of personality, persuasiveness, personal magnetism, ability to lead, and physical attractiveness (actual strength of personality, not merely how one is perceived). Most important for paladins, sorcerers, and bards; also important for clerics since it affects turning undead. Every creature has a Charisma score. Sorcerers and bards get bonus spells based on Cha; minimum Cha to cast such a spell is 10 + the spell's level.",
+        "checksAndSaves": [
+          "Bluff, Diplomacy, Disguise, Gather Information, Handle Animal, Intimidate, Perform, and Use Magic Device checks (the Cha-key skills).",
+          "Checks that represent attempts to influence others.",
+          "Turning checks for clerics and paladins attempting to turn zombies, vampires, and other undead.",
+          "Sorcerer and bard bonus spells (spontaneous arcane casting)."
+        ],
+        "source": "d20srd.org/srd/theBasics.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret",
+        "note": "A MENTAL (non-physical) stat: NOT in the combat-model.md ability-DAMAGE triad. On the sheet (character-creation.md) Cha is the key ability for Use Magic Device (data/skills.json) — the Rogue's 'faker' path to cast off-list magic from items (capability-as-outcome). Also governs spontaneous arcane bonus spells (Sorcerer/Bard) and undead-turning. The Backgrounds layer's 'Unsavory' drawback (Pirate) is a conditional -Cha/-5 in social situations (char-creation.md ±5 circumstance pile). Sheet-level input; no live field-damage FEEL."
+      }
+    }
+  ]
+}

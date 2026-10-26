@@ -1,0 +1,205 @@
+{
+  "_comment": "Regauntless races — transcribed VERBATIM from SRD 3.5 (OGL, d20srd.org/srd/races.htm). Per character-creation.md, a RACE is a GRANT-SOURCE BUNDLE: it injects ability stat-mods (±N) + sets the build/buy-point pool size + grants some feats (the 'racial traits'). Nothing here is owned by the race — traits are source-agnostic feat/mod entries that land in the one unified sheet pile. PROCESS mirrors feats.json / skills.json: an 'srd' block (verbatim) + a short 'regauntless' interpretation layer flagging each bundle as clean (stat mods / speed / darkvision port 1:1), reinterpret (save/skill bonuses route through the ±5 circumstance pile or feats-as-data), or no-op (languages — no dialogue/social system in a horde crawl). Faithful data-entry; no redesign. Validate JSON after every edit. OPEN KNOB (character-creation.md): point-buy pool size per race is unset here (tuning); SRD 3.5 core races have no pool-size distinction, so 'buildPointPool' is left null pending Mids' tuning pass.",
+  "_schema": {
+    "name": "string",
+    "srd": {
+      "abilityAdjustments": "string — verbatim stat mods, e.g. '+2 Con, -2 Cha' or 'none' (Human/Half-Elf)",
+      "size": "Medium | Small (+ verbatim size-trait text where the SRD attaches bonuses)",
+      "baseSpeed": "string — verbatim base land speed (+ any speed caveats, e.g. dwarf armor-ignore)",
+      "racialTraits": "[string] — verbatim trait lines: darkvision/low-light, stonecunning, stability, weapon familiarity/proficiency, save bonuses, skill bonuses, attack bonuses vs type, dodge-AC vs giants, blood subtypes, spell-like abilities, bonus feat/skill points",
+      "favoredClass": "string — verbatim (incl. 'Any' + the highest-class-doesn't-count clause for Human/Half-Elf)",
+      "languages": { "automatic": "string", "bonus": "string" },
+      "source": "d20srd.org/srd/races.htm"
+    },
+    "regauntless": {
+      "status": "clean | reinterpret | no-op | mixed — does the bundle port to our real-time horde-crawl model?",
+      "buildPointPool": "int | null — point-buy pool size this race grants (character-creation.md knob; null = untuned)",
+      "note": "SHORT — traits as granted feats/mods per character-creation.md; which are clean / reinterpret (±5 pile or feats-as-data) / no-op (languages)"
+    }
+  },
+  "races": [
+    {
+      "name": "Human",
+      "srd": {
+        "abilityAdjustments": "none",
+        "size": "Medium: As Medium creatures, humans have no special bonuses or penalties due to their size.",
+        "baseSpeed": "Human base land speed is 30 feet.",
+        "racialTraits": [
+          "1 extra feat at 1st level.",
+          "4 extra skill points at 1st level and 1 extra skill point at each additional level."
+        ],
+        "favoredClass": "Any. When determining whether a multiclass human takes an experience point penalty, his or her highest-level class does not count.",
+        "languages": {
+          "automatic": "Common.",
+          "bonus": "Any (other than secret languages, such as Druidic). See the Speak Language skill."
+        },
+        "source": "d20srd.org/srd/races.htm"
+      },
+      "regauntless": {
+        "status": "clean",
+        "buildPointPool": null,
+        "note": "No stat mods, Medium, 30 ft — all clean 1:1. Bonus feat = literally one extra entry into the feat pile (character-creation.md's core primitive). Extra skill points feed the build/ranks model. Languages = no-op (no dialogue system). The 'floor hero, lift from build' pick."
+      }
+    },
+    {
+      "name": "Dwarf",
+      "srd": {
+        "abilityAdjustments": "+2 Constitution, -2 Charisma.",
+        "size": "Medium: As Medium creatures, dwarves have no special bonuses or penalties due to their size.",
+        "baseSpeed": "Dwarf base land speed is 20 feet. However, dwarves can move at this speed even when wearing medium or heavy armor or when carrying a medium or heavy load (unlike other creatures, whose speed is reduced in such situations).",
+        "racialTraits": [
+          "Darkvision: Dwarves can see in the dark up to 60 feet. Darkvision is black and white only, but it is otherwise like normal sight, and dwarves can function just fine with no light at all.",
+          "Stonecunning: This ability grants a dwarf a +2 racial bonus on Search checks to notice unusual stonework, such as sliding walls, stonework traps, new construction (even when built to match the old), unsafe stone surfaces, shaky stone ceilings, and the like. Something that isn't stone but that is disguised as stone also counts as unusual stonework. A dwarf who merely comes within 10 feet of unusual stonework can make a Search check as if he were actively searching, and a dwarf can use the Search skill to find stonework traps as a rogue can. A dwarf can also intuit depth, sensing his approximate depth underground as naturally as a human can sense which way is up.",
+          "Weapon Familiarity: Dwarves may treat dwarven waraxes and dwarven urgroshes as martial weapons, rather than exotic weapons.",
+          "Stability: A dwarf gains a +4 bonus on ability checks made to resist being bull rushed or tripped when standing on the ground (but not when climbing, flying, riding, or otherwise not standing firmly on the ground).",
+          "+2 racial bonus on saving throws against poison.",
+          "+2 racial bonus on saving throws against spells and spell-like effects.",
+          "+1 racial bonus on attack rolls against orcs and goblinoids.",
+          "+4 dodge bonus to Armor Class against monsters of the giant type. Any time a creature loses its Dexterity bonus (if any) to Armor Class, such as when it's caught flat-footed, it loses its dodge bonus, too.",
+          "+2 racial bonus on Appraise checks that are related to stone or metal items.",
+          "+2 racial bonus on Craft checks that are related to stone or metal."
+        ],
+        "favoredClass": "Fighter. A multiclass dwarf's fighter class does not count when determining whether he takes an experience point penalty for multiclassing.",
+        "languages": {
+          "automatic": "Common and Dwarven.",
+          "bonus": "Giant, Gnome, Goblin, Orc, Terran, and Undercommon."
+        },
+        "source": "d20srd.org/srd/races.htm"
+      },
+      "regauntless": {
+        "status": "mixed",
+        "buildPointPool": null,
+        "note": "CLEAN: +2 Con / -2 Cha stat mods, Medium, darkvision 60 ft — and the armor-doesn't-slow clause is a clean movement feat (fits the Dex->move-slow model by exempting dwarves from encumbrance slow). REINTERPRET as conditional ±5-pile feats/mods: Stability (+4 vs bull-rush/trip -> resist the knockdown/displace family in combat-model.md), poison/spell/illusion-adjacent saves, +1 attack vs orcs/goblinoids, +4 dodge-AC vs giants (conditional-by-enemy-type bonus; drops when flat-footed). REINTERPRET-but-low: Stonecunning + Appraise/Craft skill bonuses (dungeon-search flavor, little combat purchase). NO-OP: languages."
+      }
+    },
+    {
+      "name": "Elf",
+      "srd": {
+        "abilityAdjustments": "+2 Dexterity, -2 Constitution.",
+        "size": "Medium: As Medium creatures, elves have no special bonuses or penalties due to their size.",
+        "baseSpeed": "Elf base land speed is 30 feet.",
+        "racialTraits": [
+          "Immunity to magic sleep effects, and a +2 racial saving throw bonus against enchantment spells or effects.",
+          "Low-Light Vision: An elf can see twice as far as a human in starlight, moonlight, torchlight, and similar conditions of poor illumination. She retains the ability to distinguish color and detail under these conditions.",
+          "Weapon Proficiency: Elves receive the Martial Weapon Proficiency feats for the longsword, rapier, longbow (including composite longbow), and shortbow (including composite shortbow) as bonus feats.",
+          "+2 racial bonus on Listen, Search, and Spot checks. An elf who merely passes within 5 feet of a secret or concealed door is entitled to a Search check to notice it as if she were actively looking for it."
+        ],
+        "favoredClass": "Wizard. A multiclass elf's wizard class does not count when determining whether she takes an experience point penalty for multiclassing.",
+        "languages": {
+          "automatic": "Common and Elven.",
+          "bonus": "Draconic, Gnoll, Gnome, Goblin, Orc, and Sylvan."
+        },
+        "source": "d20srd.org/srd/races.htm"
+      },
+      "regauntless": {
+        "status": "mixed",
+        "buildPointPool": null,
+        "note": "CLEAN: +2 Dex / -2 Con stat mods, Medium, low-light vision. Weapon Proficiency = granted feats straight into the pile (the source-agnostic primitive; bow proficiency flatters the Elf archetype's ranged identity). REINTERPRET: sleep-immunity + enchantment save bonus route through the status/resist family (immunity = a hard no-op on that CC); Listen/Spot/Search +2 are perception/search skill bonuses (±5 pile, low combat purchase, the secret-door clause is out-of-genre flavor). NO-OP: languages. NOTE: SRD Elf (+Dex -Con) ≠ the Regauntless hero 'Elf' archetype (fastest move+fire-rate) — the archetype is a class/HeroStats thing, not this race bundle."
+      }
+    },
+    {
+      "name": "Gnome",
+      "srd": {
+        "abilityAdjustments": "+2 Constitution, -2 Strength.",
+        "size": "Small: As a Small creature, a gnome gains a +1 size bonus to Armor Class, a +1 size bonus on attack rolls, and a +4 size bonus on Hide checks, but he uses smaller weapons than humans use, and his lifting and carrying limits are three-quarters of those of a Medium character.",
+        "baseSpeed": "Gnome base land speed is 20 feet.",
+        "racialTraits": [
+          "Low-Light Vision: A gnome can see twice as far as a human in starlight, moonlight, torchlight, and similar conditions of poor illumination. He retains the ability to distinguish color and detail under these conditions.",
+          "Weapon Familiarity: Gnomes may treat gnome hooked hammers as martial weapons rather than exotic weapons.",
+          "+2 racial bonus on saving throws against illusions.",
+          "Add +1 to the Difficulty Class for all saving throws against illusion spells cast by gnomes. This adjustment stacks with those from similar effects.",
+          "+1 racial bonus on attack rolls against kobolds and goblinoids.",
+          "+4 dodge bonus to Armor Class against monsters of the giant type. Any time a creature loses its Dexterity bonus (if any) to Armor Class, such as when it's caught flat-footed, it loses its dodge bonus, too.",
+          "+2 racial bonus on Listen checks.",
+          "+2 racial bonus on Craft (alchemy) checks.",
+          "Spell-Like Abilities: 1/day—speak with animals (burrowing mammal only, duration 1 minute). A gnome with a Charisma score of at least 10 also has the following spell-like abilities: 1/day—dancing lights, ghost sound, prestidigitation. Caster level 1st; save DC 10 + gnome's Cha modifier + spell level."
+        ],
+        "favoredClass": "Bard. A multiclass gnome's bard class does not count when determining whether he takes an experience point penalty.",
+        "languages": {
+          "automatic": "Common and Gnome.",
+          "bonus": "Draconic, Dwarven, Elven, Giant, Goblin, and Orc. In addition, a gnome can speak with a burrowing mammal (a badger, fox, rabbit, or the like). This ability is innate to gnomes. See the speak with animals spell description."
+        },
+        "source": "d20srd.org/srd/races.htm"
+      },
+      "regauntless": {
+        "status": "mixed",
+        "buildPointPool": null,
+        "note": "CLEAN: +2 Con / -2 Str stat mods, low-light vision. Small = a clean size bundle: +1 AC / +1 attack / +4 Hide / smaller weapons / 3/4 carry (AC+attack port; Hide is ±5-pile, carry is sheet-level). REINTERPRET as conditional ±5/feat entries: illusion save bonus, +1 DC to the gnome's own illusions (relevant only once gnomes CAST — caster layer), +1 attack vs kobolds/goblinoids, +4 dodge-AC vs giants. Weapon Familiarity + spell-like abilities = granted feats (SLAs wait for the caster/spell layer; speak-with-animals is pure no-op flavor). NO-OP: languages, Listen/Craft skill bonuses low-value."
+      }
+    },
+    {
+      "name": "Half-Elf",
+      "srd": {
+        "abilityAdjustments": "none",
+        "size": "Medium: As Medium creatures, half-elves have no special bonuses or penalties due to their size.",
+        "baseSpeed": "Half-elf base land speed is 30 feet.",
+        "racialTraits": [
+          "Immunity to sleep spells and similar magical effects, and a +2 racial bonus on saving throws against enchantment spells or effects.",
+          "Low-Light Vision: A half-elf can see twice as far as a human in starlight, moonlight, torchlight, and similar conditions of poor illumination. She retains the ability to distinguish color and detail under these conditions.",
+          "+1 racial bonus on Listen, Search, and Spot checks.",
+          "+2 racial bonus on Diplomacy and Gather Information checks.",
+          "Elven Blood: For all effects related to race, a half-elf is considered an elf."
+        ],
+        "favoredClass": "Any. When determining whether a multiclass half-elf takes an experience point penalty, her highest-level class does not count.",
+        "languages": {
+          "automatic": "Common and Elven.",
+          "bonus": "Any (other than secret languages, such as Druidic)."
+        },
+        "source": "d20srd.org/srd/races.htm"
+      },
+      "regauntless": {
+        "status": "mixed",
+        "buildPointPool": null,
+        "note": "CLEAN: no stat mods, Medium, 30 ft, low-light vision. REINTERPRET: sleep-immunity + enchantment save bonus (status/resist family, immunity is a hard no-op on that CC); +1 Listen/Search/Spot perception bonuses (±5 pile, low value). NO-OP: +2 Diplomacy/Gather Information (social, out-of-genre — no dialogue), languages. Elven Blood = a race-tag flag (matters only if we gate feats/effects on 'counts as elf'); cheap to carry as data."
+      }
+    },
+    {
+      "name": "Half-Orc",
+      "srd": {
+        "abilityAdjustments": "+2 Strength, -2 Intelligence, -2 Charisma. A half-orc's starting Intelligence score is always at least 3. If this adjustment would lower the character's score to 1 or 2, his score is nevertheless 3.",
+        "size": "Medium: As Medium creatures, half-orcs have no special bonuses or penalties due to their size.",
+        "baseSpeed": "Half-orc base land speed is 30 feet.",
+        "racialTraits": [
+          "Darkvision: Half-orcs (and orcs) can see in the dark up to 60 feet. Darkvision is black and white only, but it is otherwise like normal sight, and half-orcs can function just fine with no light at all.",
+          "Orc Blood: For all effects related to race, a half-orc is considered an orc."
+        ],
+        "favoredClass": "Barbarian. A multiclass half-orc's barbarian class does not count when determining whether he takes an experience point penalty.",
+        "languages": {
+          "automatic": "Common and Orc.",
+          "bonus": "Draconic, Giant, Gnoll, Goblin, and Abyssal."
+        },
+        "source": "d20srd.org/srd/races.htm"
+      },
+      "regauntless": {
+        "status": "clean",
+        "buildPointPool": null,
+        "note": "CLEAN: +2 Str / -2 Int / -2 Cha stat mods (Str->shot-damage up, the brute pick), Medium, darkvision 60 ft — all port 1:1. The 'Int min 3' floor is a clamp on the stat-mod math. Orc Blood = a race-tag flag (like Elven Blood). NO-OP: languages. Simplest bundle of the seven — stat mods + darkvision + two tags."
+      }
+    },
+    {
+      "name": "Halfling",
+      "srd": {
+        "abilityAdjustments": "+2 Dexterity, -2 Strength.",
+        "size": "Small: As a Small creature, a halfling gains a +1 size bonus to Armor Class, a +1 size bonus on attack rolls, and a +4 size bonus on Hide checks, but she uses smaller weapons than humans use, and her lifting and carrying limits are three-quarters of those of a Medium character.",
+        "baseSpeed": "Halfling base land speed is 20 feet.",
+        "racialTraits": [
+          "+2 racial bonus on Climb, Jump, Listen, and Move Silently checks.",
+          "+1 racial bonus on all saving throws.",
+          "+2 morale bonus on saving throws against fear: This bonus stacks with the halfling's +1 bonus on saving throws in general.",
+          "+1 racial bonus on attack rolls with thrown weapons and slings."
+        ],
+        "favoredClass": "Rogue. A multiclass halfling's rogue class does not count when determining whether she takes an experience point penalty for multiclassing.",
+        "languages": {
+          "automatic": "Common and Halfling.",
+          "bonus": "Dwarven, Elven, Gnome, Goblin, and Orc."
+        },
+        "source": "d20srd.org/srd/races.htm"
+      },
+      "regauntless": {
+        "status": "mixed",
+        "buildPointPool": null,
+        "note": "CLEAN: +2 Dex / -2 Str stat mods. Small = clean size bundle (+1 AC / +1 attack port; +4 Hide is ±5-pile; smaller weapons / 3/4 carry sheet-level). REINTERPRET as flat/conditional mods: +1 to ALL saves (blanket save mod), +2 morale vs fear (fear-status resist, stacks), +1 attack with thrown/sling (ranged-weapon flavor bonus). REINTERPRET-low: +2 Climb/Jump/Listen/Move Silently skill bonuses (mobility/stealth flavor, little combat purchase). NO-OP: languages."
+      }
+    }
+  ]
+}

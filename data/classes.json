@@ -1,0 +1,356 @@
+{
+  "_comment": "Regauntless base classes — transcribed VERBATIM from SRD 3.5 (OGL), d20srd.org/srd/classes/<class>.htm (Barbarian, Bard, Cleric, Druid, Fighter, Monk, Paladin, Ranger, Rogue, Sorcerer, Wizard). Per character-creation.md a CLASS is NOT a special system: it is one GRANT-SOURCE BUNDLE that injects into the one unified sheet — Hit Die (pool contribution) + BAB progression (-> fire-rate per combat.md) + save progression + weapon/armor/shield proficiencies + class-skill list + skill points/level + a level-by-level GRANTED-FEATURE list (the 'class features', which are just class-granted FEATS, source-agnostic — no feat is OWNED by a class). SCOPE: the core table + features of each class, verbatim-faithful. Spellcasting is captured as a feature NAME + a note that the slot/known tables defer to the caster layer (character-creation.md's caster-progression envelope: full vs half/partial vs none). PROCESS mirrors feats/skills/abilities/bestiary: each entry has an 'srd' block (verbatim) + a 'regauntless' interpretation layer. The 6 Regauntless heroes map onto these: Warrior=Fighter, Valkyrie~Fighter/Paladin (best armor, tanky), Wizard=Wizard/Sorcerer, Elf~Ranger/Rogue (fast ranged); Cleric/Monk/Rogue/Paladin referenced in the build-space examples. Validate JSON after every edit. This is faithful DATA-ENTRY, not redesign.",
+  "_schema": {
+    "name": "string",
+    "srd": {
+      "hitDie": "string (e.g. 'd10') — the class's Hit Die size",
+      "babProgression": "full | 3/4 | 1/2 — base attack bonus rate (full = +1/level; 3/4; 1/2)",
+      "saves": { "fort": "good | poor", "ref": "good | poor", "will": "good | poor" },
+      "skillPointsPerLevel": "string (e.g. '2 + Int'); x4 at 1st level per SRD",
+      "classSkills": "[string] — the class-skill list (key ability noted where SRD does)",
+      "proficiencies": { "weapons": "string (verbatim)", "armor": "string (verbatim)", "shields": "string (verbatim)" },
+      "features": "[ { level:int, name, summary: 1-2 sentence verbatim-faithful } ] — the level-by-level granted features (= class-granted feats)",
+      "source": "d20srd.org/srd/classes/<class>.htm"
+    },
+    "regauntless": {
+      "note": "SHORT — which features map CLEAN (BAB->fire-rate, HD->pool, proficiencies), which REINTERPRET (abilities needing real-time mapping), which are NO-OP or CASTER-LAYER (spellcasting -> defer, note caster-progression envelope). Plus which Regauntless hero(es) this class maps onto."
+    }
+  },
+  "_grantBundleNote": {
+    "note": "A class bundle = Hit Die + BAB + saves + proficiencies + class-skill list + skill-points/level + the granted-feature list. BAB->fire-rate cadence (combat.md: 'BAB +6/+1 = two attacks per 6-second round' becomes a fire-rate cooldown; higher BAB = faster cadence; we keep the rate, drop the turn queue). HD->the party-pool contribution (combat-model.md Con->party-pool MAX; HD size is the per-level pool slice). Proficiencies map clean to what weapons/armor the hero can use. Saves (Fort/Ref/Will good=+2 at L1 rising to +12 at L20; poor=+0 rising to +6) are sheet-level inputs to the ±5 circumstance/resist math. Spellcasting (per-day + known tables) is a CASTER-LAYER concern — deferred here; the envelope (full caster = Cleric/Druid/Sorcerer/Wizard/Bard; half/partial = Paladin/Ranger starting L4 at caster level = 1/2 class level; none = martial) is the character-creation.md 'grant carries its own power envelope' rule."
+  },
+  "classes": [
+    {
+      "name": "Barbarian",
+      "srd": {
+        "hitDie": "d12",
+        "babProgression": "full",
+        "saves": { "fort": "good", "ref": "poor", "will": "poor" },
+        "skillPointsPerLevel": "4 + Int",
+        "classSkills": ["Climb (Str)", "Craft (Int)", "Handle Animal (Cha)", "Intimidate (Cha)", "Jump (Str)", "Listen (Wis)", "Ride (Dex)", "Survival (Wis)", "Swim (Str)"],
+        "proficiencies": {
+          "weapons": "All simple and martial weapons.",
+          "armor": "Light and medium armor.",
+          "shields": "Shields (except tower shields)."
+        },
+        "features": [
+          { "level": 1, "name": "Fast Movement", "summary": "A barbarian's land speed is faster than the norm for his race by +10 feet, when wearing no/light/medium armor and not carrying a heavy load." },
+          { "level": 1, "name": "Illiteracy", "summary": "Barbarians are the only characters who do not automatically know how to read and write; a barbarian may spend 2 skill points to gain literacy." },
+          { "level": 1, "name": "Rage", "summary": "A barbarian can fly into a rage (1/day at 1st, +1 per four levels to 6/day at 20th), gaining +4 Str, +4 Con, +2 morale on Will saves and -2 AC; lasts 3 + newly-improved Con mod rounds, then fatigued." },
+          { "level": 2, "name": "Uncanny Dodge", "summary": "A barbarian retains his Dexterity bonus to AC even if caught flat-footed or struck by an invisible attacker (but not if immobilized)." },
+          { "level": 3, "name": "Trap Sense", "summary": "+1 bonus on Reflex saves to avoid traps and +1 dodge bonus to AC against traps; rises +1 every three levels (6th, 9th, 12th, 15th, 18th)." },
+          { "level": 5, "name": "Improved Uncanny Dodge", "summary": "A barbarian can no longer be flanked (denying a rogue the flanking sneak attack unless the attacker has four+ more rogue levels)." },
+          { "level": 7, "name": "Damage Reduction", "summary": "Gains DR 1/—, subtracting from each instance of weapon/natural-attack damage; rises +1 at 10th and every three levels (13th, 16th, 19th)." },
+          { "level": 11, "name": "Greater Rage", "summary": "Rage bonuses to Str and Con increase to +6 and the morale bonus on Will saves to +3 (AC penalty stays -2)." },
+          { "level": 14, "name": "Indomitable Will", "summary": "While raging, gains +4 on Will saves to resist enchantment spells, stacking with the rage morale bonus." },
+          { "level": 17, "name": "Tireless Rage", "summary": "A barbarian no longer becomes fatigued at the end of his rage." },
+          { "level": 20, "name": "Mighty Rage", "summary": "Rage bonuses to Str and Con increase to +8 and the morale bonus on Will saves to +4 (AC penalty stays -2)." }
+        ],
+        "source": "d20srd.org/srd/classes/barbarian.htm"
+      },
+      "regauntless": {
+        "note": "CLEAN: d12 (biggest pool slice), full BAB (fastest fire-rate cadence), martial+medium proficiencies. REINTERPRET: Rage = a timed buff stance (burst Str/Con up = shot-damage up + pool up, AC down) with a per-encounter cooldown and a fatigue debuff tail — maps onto combat-model ability FEEL as an activated window. Fast Movement = flat +move. DR = flat subtract from incoming damage (clean). Uncanny/Improved Uncanny Dodge & Trap Sense partly no-op (no flat-footed/flanking/AoO/trap-save subsystem yet) — reinterpret as don't-lose-Dex-dodge / can't-be-surrounded-bonus if ever surfaced. Not a Regauntless hero but the rage-berserker flavor could tint a Warrior background."
+      }
+    },
+    {
+      "name": "Bard",
+      "srd": {
+        "hitDie": "d6",
+        "babProgression": "3/4",
+        "saves": { "fort": "poor", "ref": "good", "will": "good" },
+        "skillPointsPerLevel": "6 + Int",
+        "classSkills": ["Appraise (Int)", "Balance (Dex)", "Bluff (Cha)", "Climb (Str)", "Concentration (Con)", "Craft (Int)", "Decipher Script (Int)", "Diplomacy (Cha)", "Disguise (Cha)", "Escape Artist (Dex)", "Gather Information (Cha)", "Hide (Dex)", "Jump (Str)", "Knowledge (all, individually) (Int)", "Listen (Wis)", "Move Silently (Dex)", "Perform (Cha)", "Profession (Wis)", "Sense Motive (Wis)", "Sleight of Hand (Dex)", "Speak Language (None)", "Spellcraft (Int)", "Swim (Str)", "Tumble (Dex)", "Use Magic Device (Cha)"],
+        "proficiencies": {
+          "weapons": "All simple weapons, plus longsword, rapier, sap, short sword, shortbow, and whip.",
+          "armor": "Light armor (can cast bard spells in light armor without arcane spell failure).",
+          "shields": "Shields (except tower shields), but shields incur arcane spell failure."
+        },
+        "features": [
+          { "level": 1, "name": "Spells", "summary": "A bard casts arcane spells (Cha-based) from the bard list spontaneously, without preparation; limited spells known; save DC = 10 + spell level + Cha mod." },
+          { "level": 1, "name": "Bardic Knowledge", "summary": "A special check (bard level + Int mod) to know relevant information about notable people, legendary items, or noteworthy places." },
+          { "level": 1, "name": "Bardic Music", "summary": "Once per day per bard level, a bard uses song/poetics to produce magical effects on those around him; each ability needs a minimum level and Perform ranks." },
+          { "level": 1, "name": "Countersong", "summary": "With 3+ Perform ranks, a bard can counter magical effects that depend on sound; allies within 30 ft may use his Perform check in place of their save." },
+          { "level": 1, "name": "Fascinate", "summary": "With 3+ Perform ranks, a bard fascinates one creature (plus one more per three levels past 1st) within 90 ft, holding it quiet and attentive (Will save negates)." },
+          { "level": 1, "name": "Inspire Courage", "summary": "With 3+ Perform ranks, allies who hear him gain a +1 morale bonus against charm/fear and +1 on attack and weapon damage rolls (+2 at 8th, +3 at 14th, +4 at 20th)." },
+          { "level": 3, "name": "Inspire Competence", "summary": "With 6+ Perform ranks, grants an ally within 30 ft a +2 competence bonus on skill checks while he keeps performing." },
+          { "level": 6, "name": "Suggestion", "summary": "With 9+ Perform ranks, a bard can make a suggestion (as the spell) to a creature he has already fascinated (Will save negates)." },
+          { "level": 9, "name": "Inspire Greatness", "summary": "With 12+ Perform ranks, grants an ally (plus one more per three levels past 9th) 2 bonus Hit Dice, +2 attack, and +1 on Fortitude saves." },
+          { "level": 12, "name": "Song of Freedom", "summary": "With 15+ Perform ranks, a bard can create a break enchantment effect on a single target within 30 ft (1 minute of performance)." },
+          { "level": 15, "name": "Inspire Heroics", "summary": "With 18+ Perform ranks, inspires himself or an ally (plus one more per three levels past 15th) with a +4 morale bonus on saves and +4 dodge bonus to AC." },
+          { "level": 18, "name": "Mass Suggestion", "summary": "With 21+ Perform ranks, makes a suggestion simultaneously to any number of creatures he has already fascinated." }
+        ],
+        "source": "d20srd.org/srd/classes/bard.htm"
+      },
+      "regauntless": {
+        "note": "CLEAN: d6 (small pool), 3/4 BAB, light-armor proficiency. CASTER-LAYER: arcane spells (Cha) spontaneous, full-known-but-limited progression -> defer to caster layer (envelope: a 'secondary'/support arcane caster). REINTERPRET: the bardic-music family = aura buffs (Inspire Courage -> party +dmg/+save aura; Inspire Competence/Greatness -> ally buffs; Fascinate/Suggestion -> crowd-control debuffs on enemies) — high-value for a horde battler if we ever add a buff/aura system. Not one of the 4 heroes, but a natural support-background flavor."
+      }
+    },
+    {
+      "name": "Cleric",
+      "srd": {
+        "hitDie": "d8",
+        "babProgression": "3/4",
+        "saves": { "fort": "good", "ref": "poor", "will": "good" },
+        "skillPointsPerLevel": "2 + Int",
+        "classSkills": ["Concentration (Con)", "Craft (Int)", "Diplomacy (Cha)", "Heal (Wis)", "Knowledge (arcana) (Int)", "Knowledge (history) (Int)", "Knowledge (religion) (Int)", "Knowledge (the planes) (Int)", "Profession (Wis)", "Spellcraft (Int)"],
+        "proficiencies": {
+          "weapons": "All simple weapons.",
+          "armor": "All armor (light, medium, and heavy).",
+          "shields": "Shields (except tower shields)."
+        },
+        "features": [
+          { "level": 1, "name": "Spells", "summary": "A cleric casts divine spells (Wis-based), prepared in advance from the cleric list, plus one domain spell per spell level; save DC = 10 + spell level + Wis mod." },
+          { "level": 1, "name": "Aura", "summary": "A cleric of a chaotic/evil/good/lawful deity (or alignment domain) has a particularly powerful aura of that alignment." },
+          { "level": 1, "name": "Deity, Domains, and Domain Spells", "summary": "A cleric chooses two domains, each granting a domain spell per castable level and a granted power." },
+          { "level": 1, "name": "Spontaneous Casting", "summary": "A good cleric can lose a prepared (non-domain) spell to spontaneously cast a cure spell of the same level or lower; an evil cleric casts inflict spells instead." },
+          { "level": 1, "name": "Turn or Rebuke Undead", "summary": "Channels faith through a holy symbol to turn/destroy (good) or rebuke/command (evil) undead, a number of times per day equal to 3 + Cha modifier." }
+        ],
+        "source": "d20srd.org/srd/classes/cleric.htm"
+      },
+      "regauntless": {
+        "note": "CLEAN: d8 (mid pool), 3/4 BAB, FULL armor+shield proficiency (surprisingly tanky), Heal is a class skill (the revive role, skills.json). CASTER-LAYER: divine spells (Wis), full prepared progression + domains + spontaneous cure/inflict -> defer; this is the FULL divine envelope (the 'devotee' in character-creation.md's three-ways-to-cast example; cf. background 'dabbler' and rogue UMD). REINTERPRET: Turn Undead = an anti-undead channel burst (3+Cha/day) — maps to a limited-use AoE vs the undead enemy family (bestiary.json). Referenced hero: the party's healer/divine-caster slot."
+      }
+    },
+    {
+      "name": "Druid",
+      "srd": {
+        "hitDie": "d8",
+        "babProgression": "3/4",
+        "saves": { "fort": "good", "ref": "poor", "will": "good" },
+        "skillPointsPerLevel": "4 + Int",
+        "classSkills": ["Concentration (Con)", "Craft (Int)", "Diplomacy (Cha)", "Handle Animal (Cha)", "Heal (Wis)", "Knowledge (nature) (Int)", "Listen (Wis)", "Profession (Wis)", "Ride (Dex)", "Spellcraft (Int)", "Spot (Wis)", "Survival (Wis)", "Swim (Str)"],
+        "proficiencies": {
+          "weapons": "Club, dagger, dart, quarterstaff, scimitar, sickle, shortspear, sling, and spear (plus natural attacks of wild-shape forms).",
+          "armor": "Light and medium armor, but no metal armor (padded, leather, or hide only). Prohibited gear disables spells/abilities for 24 hours.",
+          "shields": "Shields (except tower shields), wooden only."
+        },
+        "features": [
+          { "level": 1, "name": "Spells", "summary": "A druid casts divine spells (Wis-based), prepared in advance from the druid list; no domains; save DC = 10 + spell level + Wis mod." },
+          { "level": 1, "name": "Spontaneous Casting", "summary": "A druid can lose a prepared spell to spontaneously cast any summon nature's ally spell of the same level or lower." },
+          { "level": 1, "name": "Animal Companion", "summary": "A druid gains a loyal animal companion that gains power as she advances; higher-level lists available from 4th on with a level adjustment." },
+          { "level": 1, "name": "Nature Sense", "summary": "A druid gains a +2 bonus on Knowledge (nature) and Survival checks." },
+          { "level": 1, "name": "Wild Empathy", "summary": "A druid can improve an animal's attitude (1d20 + druid level + Cha mod), functioning like a Diplomacy check to influence a person." },
+          { "level": 2, "name": "Woodland Stride", "summary": "A druid may move through natural undergrowth at normal speed without damage or impairment (magically manipulated growth still affects her)." },
+          { "level": 3, "name": "Trackless Step", "summary": "A druid leaves no trail in natural surroundings and cannot be tracked (unless she chooses to leave a trail)." },
+          { "level": 4, "name": "Resist Nature's Lure", "summary": "A druid gains a +4 bonus on saving throws against the spell-like abilities of fey." },
+          { "level": 5, "name": "Wild Shape", "summary": "A druid can turn into a Small/Medium animal (then larger/other types and more uses as she levels), healing as if rested each time she changes; gear melds into the form." },
+          { "level": 9, "name": "Venom Immunity", "summary": "A druid gains immunity to all poisons." },
+          { "level": 13, "name": "A Thousand Faces", "summary": "A druid can change her appearance at will (as disguise self) while in her normal form." },
+          { "level": 15, "name": "Timeless Body", "summary": "A druid no longer takes ability penalties for aging and cannot be magically aged (prior penalties remain)." }
+        ],
+        "source": "d20srd.org/srd/classes/druid.htm"
+      },
+      "regauntless": {
+        "note": "CLEAN: d8 (mid pool), 3/4 BAB, light/medium (non-metal) + wooden-shield proficiency. CASTER-LAYER: divine spells (Wis), full prepared progression + spontaneous summon -> defer (FULL divine envelope). REINTERPRET: Wild Shape = a form-swap mechanic (heavy to implement; defer — would swap the HeroStats data object for a beast stat block); Animal Companion = a persistent summoned ally (a second controllable unit). Venom Immunity/Resist Nature's Lure = flat resist flags. Woodland Stride = ignore terrain-slow (maps to the move-through-clutter idea, cf. Tumble in skills.json). Not a Regauntless hero."
+      }
+    },
+    {
+      "name": "Fighter",
+      "srd": {
+        "hitDie": "d10",
+        "babProgression": "full",
+        "saves": { "fort": "good", "ref": "poor", "will": "poor" },
+        "skillPointsPerLevel": "2 + Int",
+        "classSkills": ["Climb (Str)", "Craft (Int)", "Handle Animal (Cha)", "Intimidate (Cha)", "Jump (Str)", "Ride (Dex)", "Swim (Str)"],
+        "proficiencies": {
+          "weapons": "All simple and martial weapons.",
+          "armor": "All armor (heavy, medium, and light).",
+          "shields": "All shields (including tower shields)."
+        },
+        "features": [
+          { "level": 1, "name": "Bonus Feat", "summary": "At 1st level a fighter gets a bonus combat-oriented feat, and an additional bonus feat at 2nd and every two levels thereafter (4th, 6th, 8th, 10th, 12th, 14th, 16th, 18th, 20th), drawn from the fighter bonus feat list; prerequisites still apply." }
+        ],
+        "source": "d20srd.org/srd/classes/fighter.htm"
+      },
+      "regauntless": {
+        "note": "CLEANEST mapping — this is the WARRIOR hero. d10 (big pool), full BAB (fast fire-rate cadence per combat.md), full armor+shield proficiency (heavy armor = best mitigation). The only 'class feature' is Bonus Feats = a pile of extra combat FEATS, which is EXACTLY the character-creation.md primitive: a fighter is literally 'a grant source that grants many combat feats' — nothing to reinterpret, it ports as 'gets more feat picks' (fighterBonus tag already in feats.json). The purest grant-bundle. Warrior=Fighter; Valkyrie leans Fighter-ish too (best armor, balanced)."
+      }
+    },
+    {
+      "name": "Monk",
+      "srd": {
+        "hitDie": "d8",
+        "babProgression": "3/4",
+        "saves": { "fort": "good", "ref": "good", "will": "good" },
+        "skillPointsPerLevel": "4 + Int",
+        "classSkills": ["Balance (Dex)", "Climb (Str)", "Concentration (Con)", "Craft (Int)", "Diplomacy (Cha)", "Escape Artist (Dex)", "Hide (Dex)", "Jump (Str)", "Knowledge (arcana) (Int)", "Knowledge (religion) (Int)", "Listen (Wis)", "Move Silently (Dex)", "Perform (Cha)", "Profession (Wis)", "Sense Motive (Wis)", "Spot (Wis)", "Swim (Str)", "Tumble (Dex)"],
+        "proficiencies": {
+          "weapons": "Club, crossbow (light or heavy), dagger, handaxe, javelin, kama, nunchaku, quarterstaff, sai, shuriken, siangham, and sling.",
+          "armor": "None (wearing armor/shield or a medium-or-heavy load loses AC bonus, fast movement, and flurry of blows).",
+          "shields": "None."
+        },
+        "features": [
+          { "level": 1, "name": "AC Bonus", "summary": "When unarmored and unencumbered, the monk adds her Wisdom bonus to AC, plus +1 at 5th level rising by +1 per five levels (to +4 at 20th)." },
+          { "level": 1, "name": "Flurry of Blows", "summary": "When unarmored, the monk may make one extra attack per round at her highest BAB (and a second extra at 11th via Greater Flurry), but all attacks that round take a penalty (-2, lessening to -1 at 5th, gone at 9th)." },
+          { "level": 1, "name": "Unarmed Strike", "summary": "A monk gains Improved Unarmed Strike as a bonus feat, deals escalating unarmed damage (1d6 up to 2d10), applies full Str to all unarmed strikes, and may deal lethal or nonlethal at will." },
+          { "level": 1, "name": "Bonus Feat", "summary": "At 1st level choose Improved Grapple or Stunning Fist; at 2nd Combat Reflexes or Deflect Arrows; at 6th Improved Disarm or Improved Trip (no prerequisites needed)." },
+          { "level": 2, "name": "Evasion", "summary": "On a successful Reflex save against an attack that normally deals half damage on a save, the monk instead takes no damage (light/no armor only)." },
+          { "level": 3, "name": "Fast Movement", "summary": "A monk gains an enhancement bonus to speed (+10 ft up to +60 ft) when unarmored and not carrying a medium/heavy load." },
+          { "level": 3, "name": "Still Mind", "summary": "A monk gains a +2 bonus on saving throws against enchantment spells and effects." },
+          { "level": 4, "name": "Ki Strike", "summary": "A monk's unarmed attacks count as magic weapons for overcoming DR (then lawful at 10th, adamantine at 16th)." },
+          { "level": 4, "name": "Slow Fall", "summary": "Within arm's reach of a wall, a monk treats a fall as shorter (20 ft at 4th, improving to any distance at 20th)." },
+          { "level": 5, "name": "Purity of Body", "summary": "A monk gains immunity to all diseases except supernatural and magical ones." },
+          { "level": 7, "name": "Wholeness of Body", "summary": "A monk can heal her own wounds, up to twice her monk level in hit points per day, spread among several uses." },
+          { "level": 9, "name": "Improved Evasion", "summary": "Evasion improves — the monk still takes no damage on a successful Reflex save and only half damage on a failed save." },
+          { "level": 11, "name": "Diamond Body", "summary": "A monk gains immunity to poisons of all kinds." },
+          { "level": 12, "name": "Abundant Step", "summary": "Once per day a monk can slip between spaces as dimension door (caster level one-half her monk level)." },
+          { "level": 13, "name": "Diamond Soul", "summary": "A monk gains spell resistance equal to her monk level + 10." },
+          { "level": 15, "name": "Quivering Palm", "summary": "Once per week, after damaging a target with an announced attack, the monk can later will it to die (Fortitude save negates) within monk-level days." },
+          { "level": 17, "name": "Timeless Body", "summary": "A monk no longer takes ability penalties for aging and cannot be magically aged (prior penalties remain)." },
+          { "level": 17, "name": "Tongue of the Sun and Moon", "summary": "A monk can speak with any living creature." },
+          { "level": 19, "name": "Empty Body", "summary": "A monk can become ethereal (as etherealness) for 1 round per monk level per day, split across occasions." },
+          { "level": 20, "name": "Perfect Self", "summary": "A monk becomes an outsider and gains damage reduction 10/magic." }
+        ],
+        "source": "d20srd.org/srd/classes/monk.htm"
+      },
+      "regauntless": {
+        "note": "CLEAN: d8 (mid pool), 3/4 BAB, ALL-GOOD saves (best resist profile), no-armor (relies on Wis-to-AC). REINTERPRET: Flurry = extra fire-rate at an accuracy cost (ties to combat.md's fire-rate model — more attacks/cadence); Unarmed Strike escalating damage = a built-in weapon damage table; AC Bonus (Wis->AC) = a Wis-driven mitigation. Fast Movement = flat +move. Evasion/Improved Evasion, Still Mind, Diamond Body/Soul, Ki Strike, DR = resist/mitigation flags. Wholeness of Body = self-heal. Several high-level (Quivering Palm, Abundant Step, Empty Body) are exotic — defer. Referenced hero slot: the martial-artist."
+      }
+    },
+    {
+      "name": "Paladin",
+      "srd": {
+        "hitDie": "d10",
+        "babProgression": "full",
+        "saves": { "fort": "good", "ref": "poor", "will": "poor" },
+        "skillPointsPerLevel": "2 + Int",
+        "classSkills": ["Concentration (Con)", "Craft (Int)", "Diplomacy (Cha)", "Handle Animal (Cha)", "Heal (Wis)", "Knowledge (nobility and royalty) (Int)", "Knowledge (religion) (Int)", "Profession (Wis)", "Ride (Dex)", "Sense Motive (Wis)"],
+        "proficiencies": {
+          "weapons": "All simple and martial weapons.",
+          "armor": "All armor (heavy, medium, and light).",
+          "shields": "Shields (except tower shields)."
+        },
+        "features": [
+          { "level": 1, "name": "Aura of Good", "summary": "The power of a paladin's aura of good equals her paladin level." },
+          { "level": 1, "name": "Detect Evil", "summary": "At will, a paladin can use detect evil as the spell." },
+          { "level": 1, "name": "Smite Evil", "summary": "Once per day (more as she levels, to 5/day at 20th) a paladin adds her Cha bonus to an attack roll and 1 extra damage per paladin level against an evil foe." },
+          { "level": 2, "name": "Divine Grace", "summary": "A paladin gains a bonus equal to her Charisma bonus on all saving throws." },
+          { "level": 2, "name": "Lay on Hands", "summary": "A paladin with Cha 12+ heals (paladin level x Cha bonus) hit points per day by touch, dividable among recipients, or deals that as damage to undead." },
+          { "level": 3, "name": "Aura of Courage", "summary": "A paladin is immune to fear; allies within 10 ft gain a +4 morale bonus on saves against fear while she is conscious." },
+          { "level": 3, "name": "Divine Health", "summary": "A paladin gains immunity to all diseases, including supernatural and magical diseases." },
+          { "level": 4, "name": "Turn Undead", "summary": "A paladin turns undead as a cleric three levels lower, usable 3 + Cha modifier times per day." },
+          { "level": 4, "name": "Spells", "summary": "A paladin gains a small number of prepared divine spells (Wis-based) from the paladin list; caster level is one-half her paladin level (none before 4th)." },
+          { "level": 5, "name": "Special Mount", "summary": "A paladin can call a loyal, intelligent celestial steed once per day for 2 hours per paladin level." },
+          { "level": 6, "name": "Remove Disease", "summary": "A paladin can produce a remove disease effect once per week, plus one more use per week per three levels past 6th." }
+        ],
+        "source": "d20srd.org/srd/classes/paladin.htm"
+      },
+      "regauntless": {
+        "note": "CLEAN: d10 (big pool), full BAB (fast cadence), full armor + shield (tanky). REINTERPRET: Smite Evil = a limited-use burst damage button vs evil enemies; Lay on Hands = a touch self/ally heal pool (ties to the revive/heal role, Heal is a class skill); Divine Grace = flat Cha-to-all-saves (sheet-level); Aura of Courage = party fear-immunity aura; Divine Health = disease-immune flag. CASTER-LAYER: paladin spells = the HALF/PARTIAL divine envelope per character-creation.md (starts L4, caster level = 1/2 class level) — the SRD-grounded 'dabbler-adjacent' progression; defer slot table. Special Mount = summoned ally (defer). Maps to Valkyrie's tanky-holy-warrior flavor; Paladin explicitly referenced as a hero archetype."
+      }
+    },
+    {
+      "name": "Ranger",
+      "srd": {
+        "hitDie": "d8",
+        "babProgression": "full",
+        "saves": { "fort": "good", "ref": "good", "will": "poor" },
+        "skillPointsPerLevel": "6 + Int",
+        "classSkills": ["Climb (Str)", "Concentration (Con)", "Craft (Int)", "Handle Animal (Cha)", "Heal (Wis)", "Hide (Dex)", "Jump (Str)", "Knowledge (dungeoneering) (Int)", "Knowledge (geography) (Int)", "Knowledge (nature) (Int)", "Listen (Wis)", "Move Silently (Dex)", "Profession (Wis)", "Ride (Dex)", "Search (Int)", "Spot (Wis)", "Survival (Wis)", "Swim (Str)", "Use Rope (Dex)"],
+        "proficiencies": {
+          "weapons": "All simple and martial weapons.",
+          "armor": "Light armor.",
+          "shields": "Shields (except tower shields)."
+        },
+        "features": [
+          { "level": 1, "name": "Favored Enemy", "summary": "A ranger selects a creature type, gaining +2 on Bluff/Listen/Sense Motive/Spot/Survival and +2 weapon damage against it; another favored enemy and a +2 increase every five levels." },
+          { "level": 1, "name": "Track", "summary": "A ranger gains Track as a bonus feat." },
+          { "level": 1, "name": "Wild Empathy", "summary": "A ranger can improve an animal's attitude (1d20 + ranger level + Cha mod), functioning like a Diplomacy check to influence a person." },
+          { "level": 2, "name": "Combat Style", "summary": "A ranger chooses archery (treated as having Rapid Shot) or two-weapon combat (treated as having Two-Weapon Fighting), benefits only in light/no armor." },
+          { "level": 3, "name": "Endurance", "summary": "A ranger gains Endurance as a bonus feat." },
+          { "level": 4, "name": "Animal Companion", "summary": "A ranger gains an animal companion (as the druid ability) with an effective druid level equal to one-half his ranger level." },
+          { "level": 4, "name": "Spells", "summary": "A ranger gains a small number of prepared divine spells (Wis-based) from the ranger list; caster level is one-half his ranger level (none before 4th)." },
+          { "level": 6, "name": "Improved Combat Style", "summary": "A ranger's style improves: archery is treated as having Manyshot, two-weapon combat as having Improved Two-Weapon Fighting (light/no armor only)." },
+          { "level": 7, "name": "Woodland Stride", "summary": "A ranger may move through natural undergrowth at normal speed without damage or impairment (magically manipulated growth still affects him)." },
+          { "level": 8, "name": "Swift Tracker", "summary": "A ranger can move at normal speed while tracking without the normal -5 penalty (only -10 at up to double speed)." },
+          { "level": 9, "name": "Evasion", "summary": "On a successful Reflex save against an attack that normally deals half damage on a save, the ranger instead takes no damage (light/no armor only)." },
+          { "level": 11, "name": "Combat Style Mastery", "summary": "A ranger's style improves again: archery is treated as having Improved Precise Shot, two-weapon combat as having Greater Two-Weapon Fighting (light/no armor only)." },
+          { "level": 13, "name": "Camouflage", "summary": "A ranger can use Hide in any natural terrain, even without cover or concealment." },
+          { "level": 17, "name": "Hide in Plain Sight", "summary": "In natural terrain, a ranger can use Hide even while being observed." }
+        ],
+        "source": "d20srd.org/srd/classes/ranger.htm"
+      },
+      "regauntless": {
+        "note": "CLEAN: d8 (mid pool), full BAB (fast cadence — fits a fast ranged hero), light-armor, two good saves (Fort+Ref). REINTERPRET: Combat Style archery chain (Rapid Shot -> Manyshot -> Improved Precise Shot) = fire-rate / multi-shot upgrades (clean fit to combat.md fire-rate and to the Elf's 'fastest fire-rate' flavor); Favored Enemy = conditional +damage vs an enemy type (the ±5/damage circumstance pile vs bestiary families); Evasion = Reflex-save mitigation. CASTER-LAYER: ranger spells = HALF/PARTIAL divine envelope (L4, caster level = 1/2) — defer. Animal Companion = summoned ally (defer). The ranged-martial fits ELF; archery combat-style is the Elf's bow fantasy."
+      }
+    },
+    {
+      "name": "Rogue",
+      "srd": {
+        "hitDie": "d6",
+        "babProgression": "3/4",
+        "saves": { "fort": "poor", "ref": "good", "will": "poor" },
+        "skillPointsPerLevel": "8 + Int",
+        "classSkills": ["Appraise (Int)", "Balance (Dex)", "Bluff (Cha)", "Climb (Str)", "Craft (Int)", "Decipher Script (Int)", "Diplomacy (Cha)", "Disable Device (Int)", "Disguise (Cha)", "Escape Artist (Dex)", "Forgery (Int)", "Gather Information (Cha)", "Hide (Dex)", "Intimidate (Cha)", "Jump (Str)", "Knowledge (local) (Int)", "Listen (Wis)", "Move Silently (Dex)", "Open Lock (Dex)", "Perform (Cha)", "Profession (Wis)", "Search (Int)", "Sense Motive (Wis)", "Sleight of Hand (Dex)", "Spot (Wis)", "Swim (Str)", "Tumble (Dex)", "Use Magic Device (Cha)", "Use Rope (Dex)"],
+        "proficiencies": {
+          "weapons": "All simple weapons, plus hand crossbow, rapier, sap, shortbow, and short sword.",
+          "armor": "Light armor.",
+          "shields": "None."
+        },
+        "features": [
+          { "level": 1, "name": "Sneak Attack", "summary": "When a target is denied its Dex bonus to AC or the rogue flanks it, the rogue deals +1d6 extra damage, increasing by +1d6 every two rogue levels (to +10d6 at 19th); ranged only within 30 ft; not vs crit-immune foes." },
+          { "level": 1, "name": "Trapfinding", "summary": "Rogues (and only rogues) can use Search to find traps with DC higher than 20 and use Disable Device to disarm magic traps." },
+          { "level": 2, "name": "Evasion", "summary": "On a successful Reflex save against an attack that normally deals half damage on a save, the rogue instead takes no damage (light/no armor only)." },
+          { "level": 3, "name": "Trap Sense", "summary": "+1 bonus on Reflex saves and +1 dodge bonus to AC against traps; rises +1 at 6th, 9th, 12th, 15th, and 18th." },
+          { "level": 4, "name": "Uncanny Dodge", "summary": "A rogue retains her Dexterity bonus to AC even if caught flat-footed or struck by an invisible attacker (but not if immobilized)." },
+          { "level": 8, "name": "Improved Uncanny Dodge", "summary": "A rogue can no longer be flanked (denying another rogue the flanking sneak attack unless the attacker has four+ more rogue levels)." },
+          { "level": 10, "name": "Special Ability", "summary": "At 10th level and every three levels thereafter (13th, 16th, 19th) a rogue gains a special ability of her choice: Crippling Strike, Defensive Roll, Improved Evasion, Opportunist, Skill Mastery, Slippery Mind, or a bonus feat." }
+        ],
+        "source": "d20srd.org/srd/classes/rogue.htm"
+      },
+      "regauntless": {
+        "note": "CLEAN: d6 (small pool), 3/4 BAB, light armor, HUGE skill-points (8+Int — the skill class), Use Magic Device is a class skill. REINTERPRET: Sneak Attack = conditional burst damage (positional: flanking / target-denied-Dex) — scales via a dice table (character-creation.md's 'grant references a scaling table'); in our model, likely a backstab/positional damage bonus. Evasion/Improved Evasion/Uncanny Dodge = Reflex/positional mitigation. NO-OP-ish: Trapfinding/Trap Sense (no trap subsystem yet). KEY to character-creation.md: the Rogue is the 'fake-a-caster via UMD + item' path (capability-as-outcome, third way to cast). Rogue explicitly referenced as a hero archetype; fits the Elf's fast-squishy-skirmisher side too."
+      }
+    },
+    {
+      "name": "Sorcerer",
+      "srd": {
+        "hitDie": "d4",
+        "babProgression": "1/2",
+        "saves": { "fort": "poor", "ref": "poor", "will": "good" },
+        "skillPointsPerLevel": "2 + Int",
+        "classSkills": ["Bluff (Cha)", "Concentration (Con)", "Craft (Int)", "Knowledge (arcana) (Int)", "Profession (Wis)", "Spellcraft (Int)"],
+        "proficiencies": {
+          "weapons": "All simple weapons.",
+          "armor": "None (armor can cause arcane spell failure for spells with somatic components).",
+          "shields": "None."
+        },
+        "features": [
+          { "level": 1, "name": "Spells", "summary": "A sorcerer casts arcane spells (Cha-based) from the sorcerer/wizard list spontaneously, without preparation; a limited, fixed number of spells known; save DC = 10 + spell level + Cha mod." },
+          { "level": 1, "name": "Summon Familiar", "summary": "A sorcerer can obtain a familiar — a magical beast companion that grants its master special abilities scaling with level." }
+        ],
+        "source": "d20srd.org/srd/classes/sorcererWizard.htm"
+      },
+      "regauntless": {
+        "note": "CLEAN: d4 (smallest pool — squishiest), 1/2 BAB (slowest cadence — a caster, not a shooter in the martial sense), no armor. CASTER-LAYER: arcane spells (Cha) spontaneous, FULL arcane envelope (max slots/day, fixed limited spells-known) -> defer to caster layer; the spontaneous-Cha caster is the character-creation.md note on Cha->spontaneous arcane. REINTERPRET: Familiar = a persistent companion granting a passive buff (defer). Maps to the WIZARD hero's 'strong magic, weak shot/armor' profile (Sorcerer = the spontaneous-casting variant of that fantasy)."
+      }
+    },
+    {
+      "name": "Wizard",
+      "srd": {
+        "hitDie": "d4",
+        "babProgression": "1/2",
+        "saves": { "fort": "poor", "ref": "poor", "will": "good" },
+        "skillPointsPerLevel": "2 + Int",
+        "classSkills": ["Concentration (Con)", "Craft (Int)", "Decipher Script (Int)", "Knowledge (all, individually) (Int)", "Profession (Wis)", "Spellcraft (Int)"],
+        "proficiencies": {
+          "weapons": "Club, dagger, heavy crossbow, light crossbow, and quarterstaff.",
+          "armor": "None (armor can cause arcane spell failure for spells with somatic components).",
+          "shields": "None."
+        },
+        "features": [
+          { "level": 1, "name": "Spells", "summary": "A wizard casts arcane spells (Int-based), prepared in advance from her spellbook; save DC = 10 + spell level + Int mod; may know any number of spells recorded in her spellbook." },
+          { "level": 1, "name": "Summon Familiar", "summary": "A wizard can obtain a familiar in the same manner as a sorcerer — a magical beast companion granting scaling abilities." },
+          { "level": 1, "name": "Scribe Scroll", "summary": "A wizard gains Scribe Scroll as a bonus feat at 1st level." },
+          { "level": 1, "name": "Spellbooks", "summary": "A wizard must study her spellbook daily to prepare spells and cannot prepare spells not recorded in it (except read magic); she adds two new spells per level." },
+          { "level": 1, "name": "School Specialization", "summary": "A wizard may specialize in one of eight schools, gaining an extra spell of that school per level and +2 Spellcraft to learn its spells, but giving up two (or one, for divination) prohibited schools." },
+          { "level": 5, "name": "Bonus Feat", "summary": "At 5th, 10th, 15th, and 20th level a wizard gains a bonus feat chosen from metamagic feats, item creation feats, or Spell Mastery (prerequisites still apply)." }
+        ],
+        "source": "d20srd.org/srd/classes/sorcererWizard.htm"
+      },
+      "regauntless": {
+        "note": "The WIZARD hero. CLEAN: d4 (smallest pool — 'weak shot/armor'), 1/2 BAB (slowest martial cadence; damage comes from spells not swings), no armor. CASTER-LAYER: arcane spells (Int), FULL arcane envelope, prepared from a spellbook + school specialization -> defer to caster layer (Int->arcane per character-creation.md/abilities.json). REINTERPRET: Scribe Scroll/Bonus metamagic+item feats = feat grants into the pile (clean, character-creation.md primitive) + the item-economy layer (defer). Familiar = passive-buff companion (defer). Wizard=Wizard; the archetypal glass-cannon ranged-magic hero ('strong magic, weak shot/armor')."
+      }
+    }
+  ]
+}
