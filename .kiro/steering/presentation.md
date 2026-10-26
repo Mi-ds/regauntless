@@ -88,6 +88,26 @@ board."** Legible, whimsical (whimsy = signal), on-theme, and fully Mids-executa
   inconsistent), on-theme for the game-show/tabletop framing, and it does double duty as the
   genre's legibility requirement (always pick the heroes/mobs out of the scene).
 
+### Opportunistic mob skins (for whoever maintains this later)
+
+*Written for a future maintainer with no context: here's the intent, so you don't undo it.*
+A mob is **data + behavior** (bestiary.json + archetype), DECOUPLED from its visual. The game is
+designed to be fully playable with mobs as bare crosshatched primitives — that is the baseline, on
+purpose (art-survival.md: nothing load-bearing may depend on art arriving on a schedule).
+
+- **Mobs MAY receive hi-rez / rigged / animated asset-pack skins, per-mob, opportunistically** —
+  humanoid mobs especially (goblins, kobolds, skeletons, orcs) are the cheapest, most abundant
+  asset category (Synty/Mixamo-style), so e.g. "hi-rez animated goblins" is realistic and welcome.
+- **Rule that must survive the original author:** such a skin is ONLY ever a **drop-in enhancement
+  layered on a primitive that already works** — never a dependency. If the asset never arrives, or
+  you can't find a good one for a given mob, that mob **stays a primitive and the game is complete.**
+  Mixed fidelity across mobs is FINE (boardgame-honest; some pieces are fancier). Hi-rez mob skins
+  can also serve as live-service visual tiers later (vision.md).
+- **Heroes do NOT follow this** — they stay bespoke block-and-hat (identity-critical, silhouette-
+  readable, Mids-authored). The hero look is a design choice, not a placeholder to upgrade away.
+
+The moment ANY mob can't be played as a primitive, the art-survival invariant is broken — revert.
+
 We have the resolution to put real, legible meaning into the visuals. Use it. But —
 
 ## Legible through *feel*, not readouts
