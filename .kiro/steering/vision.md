@@ -188,6 +188,42 @@ simultaneously the battle pass *and* the narrative frame.
   earn-rate / pass difficulty is tuned to *feel fair*, **NEVER as a conversion lever.** This
   is the exact line between early-DDO (good) and modern-DDO (extractive). State it with teeth.
 
+## Playlistable music + themed-IP packs (the "cool shit" licensed content enables)
+
+*Written inherit-safe (intent + rationale, for whoever maintains this after the original author).*
+The deep, Fortnite-style IP integration we want (equippable victory music, themed dances, a disco)
+all rides on ONE clean primitive — build the primitive, layer the fancy:
+
+- **PRIMITIVE — playlistable background music.** The player curates a **playlist from owned
+  tracks**; the game plays it during runs. Ships day-one with default tracks, **zero IP, zero
+  licensing** — a good, universal feature on its own. Tracks all come from **one pool** regardless
+  of source (defaults / earned-unlock / purchased pack / licensed pack).
+- **LAYER — event-bound cue slots.** Some entries are assignable to *game moments* instead of
+  ambient rotation: **victory / run-clear fanfare, boss-kill sting, contestant ENTRANCE theme,
+  disco-venue ambiance.** This is game-show-native (walk-on music + victory jingle are core
+  game-show furniture — ties to `announcer.md`). It's an **event→cue binding** (owned item bound
+  to a trigger) — same "owned thing bound to a trigger" shape as the ±5 circumstance pile.
+- **LAYER — themed-IP packs (Fortnite-model, post-traction premium tier).** A licensed bundle is
+  just **more tracks/skins/emotes dropped into the existing pools** — it needs no bespoke system.
+  Deal shape = **rev-share + a SCOPED grant** (specific uses, not "unlimited use of X"), which is
+  what rights-holders want to see and how Fortnite actually does it (it's a licensing DEAL, not a
+  legal risk).
+  - **Worked example — "Re-Live the King" ($5):** Thriller dance (emote) + MJ-outfit moonwalking-
+    **zombie skin** (= our existing zombie mob chassis + a moonwalk anim + licensed outfit) + the
+    **song** (for the disco + equippable as victory/entrance cue) + a couple MJ-flavored emotes
+    (rigging WE author). **Licensed slice = likeness + song + signature dance ONLY; everything else
+    is ours** → low cost-to-produce, clean estate cut, high perceived value (the IP threads through
+    disco + victory + entrance + skin from a single license).
+
+- **Architectural hooks to keep DEAL-READY** (build the slots now, strike deals after traction):
+  mob-skin slot (done, see presentation.md) · avatar **emote/anim slot** · the **playlist + event-
+  cue audio system** · a **"disco"/venue** music context · **themed-bundle pricing + rev-share** in
+  the cosmetic economy.
+- **SEQUENCING:** the licensing mechanism is proven (Fortnite) but it's a **success-state move** —
+  an estate says yes when there's an audience to monetize. Build the generic hooks now; the pack is
+  then a content-assembly job, not an engineering project. (Subordinate to the Core-loop-first rule
+  below — none of this is built ahead of a proven loop.)
+
 ## Anti-cheat posture: structural immunity, not enforcement
 
 Learned from Fortnite's relaxed stance on Creative/AFK XP farms: **don't police HOW players
