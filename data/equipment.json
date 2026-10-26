@@ -1,0 +1,1868 @@
+{
+  "_comment": "Regauntless equipment — weapons & armor transcribed VERBATIM from SRD 3.5 (OGL). Like feats/skills/bestiary: each entry has an 'srd' block (verbatim table row: cost/damage/crit/range/weight/type/special for weapons; cost/AC/maxDex/ACP/ASF/speed/weight for armor) + a 'regauntless' interpretation layer. WIRING: weapon damage dice + crit feed combat.md DETERMINISTIC damage (take-10 / max / min resolution) and the hero shot/melee swing; crit range/multiplier is relevant only in Gremlin mode (the optional d20 roll-to-hit variant). Armor rows feed the AC / armor-mitigation model (combat-model.md) — armor bonus, maxDex cap, and the speed penalty are the knobs; arcane-spell-failure/armor-check-penalty are sheet-level numbers that mostly tie to skills.json. Thrown/ranged weapons feed the projectile/shot system; melee feeds the swing. Transcribed faithfully, every row (incl. ammunition lines, shields, and armor 'Extras'). Validate JSON after every edit.",
+  "_schema": {
+    "weapons": {
+      "name": "string",
+      "category": "simple | martial | exotic",
+      "kind": "melee | ranged | thrown (ranged = projectile/bow/crossbow; thrown = has a thrown range increment; ammunition is tagged kind:'ranged')",
+      "srd": {
+        "cost": "string (verbatim, e.g. '2 gp', '5 sp', '\u2014', 'special', '1 gp (per 10/20/5)')",
+        "damageSmall": "string (verbatim Dmg (S); double weapons use 'X/Y'; '\u2014' if none)",
+        "damageMedium": "string (verbatim Dmg (M))",
+        "critical": "string (verbatim, e.g. '\u00d72', '19-20/\u00d72', '\u00d73/\u00d74', '\u2014')",
+        "rangeIncrement": "string | null (verbatim, e.g. '10 ft.', '120 ft.'; null if melee-only '\u2014')",
+        "weight": "string (verbatim Medium weight, e.g. '4 lb.', '\u00bd lb.', 'special')",
+        "damageType": "string (verbatim, e.g. 'Bludgeoning', 'Piercing or slashing', '\u2014')",
+        "special": "string | null (short note of the weapon's special feature, or null)",
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "string — how it maps to our model"
+      }
+    },
+    "armor": {
+      "name": "string",
+      "type": "light | medium | heavy | shield | extra",
+      "srd": {
+        "cost": "string (verbatim, e.g. '5 gp', '1,500 gp', '+50 gp', 'special')",
+        "acBonus": "int (armor or shield bonus; tower shield is 4)",
+        "maxDex": "int | null (null for '\u2014' / no cap, i.e. shields & extras)",
+        "armorCheckPenalty": "int (0 or negative; extras may use a string 'Special')",
+        "arcaneSpellFailure": "string (verbatim %, e.g. '5%', '\u2014')",
+        "speed30": "string (verbatim 30-ft column, e.g. '30 ft.', '20 ft.', '\u2014')",
+        "speed20": "string (verbatim 20-ft column)",
+        "weight": "string (verbatim, e.g. '10 lb.', '+10 lb.')",
+        "source": "d20srd.org/srd/equipment/armor.htm"
+      },
+      "regauntless": {
+        "note": "string — how it maps to our model"
+      }
+    }
+  },
+  "weapons": [
+    {
+      "name": "Gauntlet",
+      "category": "simple",
+      "kind": "melee",
+      "srd": {
+        "cost": "2 gp",
+        "damageSmall": "1d2",
+        "damageMedium": "1d3",
+        "critical": "\u00d72",
+        "rangeIncrement": null,
+        "weight": "1 lb.",
+        "damageType": "Bludgeoning",
+        "special": "Lets you deal lethal damage with unarmed strikes; medium/heavy armor (except breastplate) comes with gauntlets.",
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "Baseline fist weapon; deterministic damage per combat.md (take-10/max/min); crit relevant only in Gremlin mode."
+      }
+    },
+    {
+      "name": "Unarmed strike",
+      "category": "simple",
+      "kind": "melee",
+      "srd": {
+        "cost": "\u2014",
+        "damageSmall": "1d2",
+        "damageMedium": "1d3",
+        "critical": "\u00d72",
+        "rangeIncrement": null,
+        "weight": "\u2014",
+        "damageType": "Bludgeoning",
+        "special": "Nonlethal by default; always a light weapon; usable with Weapon Finesse. Small deals 1d2, Medium 1d3.",
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "The fallback/no-weapon swing; deterministic damage per combat.md (take-10/max/min); crit relevant only in Gremlin mode."
+      }
+    },
+    {
+      "name": "Dagger",
+      "category": "simple",
+      "kind": "thrown",
+      "srd": {
+        "cost": "2 gp",
+        "damageSmall": "1d3",
+        "damageMedium": "1d4",
+        "critical": "19-20/\u00d72",
+        "rangeIncrement": "10 ft.",
+        "weight": "1 lb.",
+        "damageType": "Piercing or slashing",
+        "special": "+2 on Sleight of Hand to conceal it; melee or thrown.",
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "Light melee + throwable; deterministic damage per combat.md (take-10/max/min); wide crit range matters only in Gremlin mode."
+      }
+    },
+    {
+      "name": "Dagger, punching",
+      "category": "simple",
+      "kind": "melee",
+      "srd": {
+        "cost": "2 gp",
+        "damageSmall": "1d3",
+        "damageMedium": "1d4",
+        "critical": "\u00d73",
+        "rangeIncrement": null,
+        "weight": "1 lb.",
+        "damageType": "Piercing",
+        "special": null,
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "Light melee; deterministic damage per combat.md (take-10/max/min); crit multiplier relevant only in Gremlin mode."
+      }
+    },
+    {
+      "name": "Gauntlet, spiked",
+      "category": "simple",
+      "kind": "melee",
+      "srd": {
+        "cost": "5 gp",
+        "damageSmall": "1d3",
+        "damageMedium": "1d4",
+        "critical": "\u00d72",
+        "rangeIncrement": null,
+        "weight": "1 lb.",
+        "damageType": "Piercing",
+        "special": "Can't be disarmed; counts as an armed attack. Cost/weight are for a single gauntlet.",
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "Light melee; deterministic damage per combat.md (take-10/max/min); crit relevant only in Gremlin mode."
+      }
+    },
+    {
+      "name": "Mace, light",
+      "category": "simple",
+      "kind": "melee",
+      "srd": {
+        "cost": "5 gp",
+        "damageSmall": "1d4",
+        "damageMedium": "1d6",
+        "critical": "\u00d72",
+        "rangeIncrement": null,
+        "weight": "4 lb.",
+        "damageType": "Bludgeoning",
+        "special": null,
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "Light melee; deterministic damage per combat.md (take-10/max/min); crit relevant only in Gremlin mode."
+      }
+    },
+    {
+      "name": "Sickle",
+      "category": "simple",
+      "kind": "melee",
+      "srd": {
+        "cost": "6 gp",
+        "damageSmall": "1d4",
+        "damageMedium": "1d6",
+        "critical": "\u00d72",
+        "rangeIncrement": null,
+        "weight": "2 lb.",
+        "damageType": "Slashing",
+        "special": "Can make trip attacks.",
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "Light melee; deterministic damage per combat.md (take-10/max/min); trip = no-op unless a knockdown primitive exists; crit relevant only in Gremlin mode."
+      }
+    },
+    {
+      "name": "Club",
+      "category": "simple",
+      "kind": "thrown",
+      "srd": {
+        "cost": "\u2014",
+        "damageSmall": "1d4",
+        "damageMedium": "1d6",
+        "critical": "\u00d72",
+        "rangeIncrement": "10 ft.",
+        "weight": "3 lb.",
+        "damageType": "Bludgeoning",
+        "special": "Can be thrown.",
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "One-handed melee + throwable; deterministic damage per combat.md (take-10/max/min); crit relevant only in Gremlin mode."
+      }
+    },
+    {
+      "name": "Mace, heavy",
+      "category": "simple",
+      "kind": "melee",
+      "srd": {
+        "cost": "12 gp",
+        "damageSmall": "1d6",
+        "damageMedium": "1d8",
+        "critical": "\u00d72",
+        "rangeIncrement": null,
+        "weight": "8 lb.",
+        "damageType": "Bludgeoning",
+        "special": null,
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "One-handed melee; deterministic damage per combat.md (take-10/max/min); crit relevant only in Gremlin mode."
+      }
+    },
+    {
+      "name": "Morningstar",
+      "category": "simple",
+      "kind": "melee",
+      "srd": {
+        "cost": "8 gp",
+        "damageSmall": "1d6",
+        "damageMedium": "1d8",
+        "critical": "\u00d72",
+        "rangeIncrement": null,
+        "weight": "6 lb.",
+        "damageType": "Bludgeoning and piercing",
+        "special": "Deals both bludgeoning and piercing (all of it is both types).",
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "One-handed melee; deterministic damage per combat.md (take-10/max/min); dual damage type matters only if resist/immunity is modeled; crit relevant only in Gremlin mode."
+      }
+    },
+    {
+      "name": "Shortspear",
+      "category": "simple",
+      "kind": "thrown",
+      "srd": {
+        "cost": "1 gp",
+        "damageSmall": "1d4",
+        "damageMedium": "1d6",
+        "critical": "\u00d72",
+        "rangeIncrement": "20 ft.",
+        "weight": "3 lb.",
+        "damageType": "Piercing",
+        "special": "One-handed; can be thrown.",
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "One-handed melee + throwable; deterministic damage per combat.md (take-10/max/min); crit relevant only in Gremlin mode."
+      }
+    },
+    {
+      "name": "Longspear",
+      "category": "simple",
+      "kind": "melee",
+      "srd": {
+        "cost": "5 gp",
+        "damageSmall": "1d6",
+        "damageMedium": "1d8",
+        "critical": "\u00d73",
+        "rangeIncrement": null,
+        "weight": "9 lb.",
+        "damageType": "Piercing",
+        "special": "Reach weapon (strike 10 ft away, not adjacent); double damage vs charge when set.",
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "Two-handed reach melee; reach -> longer swing hitbox; deterministic damage per combat.md (take-10/max/min); crit relevant only in Gremlin mode."
+      }
+    },
+    {
+      "name": "Quarterstaff",
+      "category": "simple",
+      "kind": "melee",
+      "srd": {
+        "cost": "\u2014",
+        "damageSmall": "1d4/1d4",
+        "damageMedium": "1d6/1d6",
+        "critical": "\u00d72",
+        "rangeIncrement": null,
+        "weight": "4 lb.",
+        "damageType": "Bludgeoning",
+        "special": "Double weapon (fight as two weapons); special monk weapon.",
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "Two-handed double weapon; double entry feeds a two-hit flurry if dual-wield is modeled, else use first figure; deterministic damage per combat.md; crit relevant only in Gremlin mode."
+      }
+    },
+    {
+      "name": "Spear",
+      "category": "simple",
+      "kind": "thrown",
+      "srd": {
+        "cost": "2 gp",
+        "damageSmall": "1d6",
+        "damageMedium": "1d8",
+        "critical": "\u00d73",
+        "rangeIncrement": "20 ft.",
+        "weight": "6 lb.",
+        "damageType": "Piercing",
+        "special": "Can be thrown; double damage vs charge when set.",
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "Two-handed melee + throwable; deterministic damage per combat.md (take-10/max/min); crit relevant only in Gremlin mode."
+      }
+    },
+    {
+      "name": "Crossbow, heavy",
+      "category": "simple",
+      "kind": "ranged",
+      "srd": {
+        "cost": "50 gp",
+        "damageSmall": "1d8",
+        "damageMedium": "1d10",
+        "critical": "19-20/\u00d72",
+        "rangeIncrement": "120 ft.",
+        "weight": "8 lb.",
+        "damageType": "Piercing",
+        "special": "Full-round action to load (provokes); no Str bonus to damage.",
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "Projectile; feeds the shot system (range increment -> falloff); slow reload = low fire-rate; deterministic damage per combat.md; crit relevant only in Gremlin mode."
+      }
+    },
+    {
+      "name": "Bolts, crossbow (10)",
+      "category": "simple",
+      "kind": "ranged",
+      "srd": {
+        "cost": "1 gp",
+        "damageSmall": "\u2014",
+        "damageMedium": "\u2014",
+        "critical": "\u2014",
+        "rangeIncrement": null,
+        "weight": "1 lb.",
+        "damageType": "\u2014",
+        "special": "Ammunition for crossbows; case of 10. Destroyed on hit, 50% lost on miss.",
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "Ammunition line; only matters if an ammo-economy is modeled, else a no-op cosmetic item."
+      }
+    },
+    {
+      "name": "Crossbow, light",
+      "category": "simple",
+      "kind": "ranged",
+      "srd": {
+        "cost": "35 gp",
+        "damageSmall": "1d6",
+        "damageMedium": "1d8",
+        "critical": "19-20/\u00d72",
+        "rangeIncrement": "80 ft.",
+        "weight": "4 lb.",
+        "damageType": "Piercing",
+        "special": "Move action to load (provokes); no Str bonus to damage.",
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "Projectile; feeds the shot system; deterministic damage per combat.md; crit relevant only in Gremlin mode."
+      }
+    },
+    {
+      "name": "Dart",
+      "category": "simple",
+      "kind": "thrown",
+      "srd": {
+        "cost": "5 sp",
+        "damageSmall": "1d3",
+        "damageMedium": "1d4",
+        "critical": "\u00d72",
+        "rangeIncrement": "20 ft.",
+        "weight": "\u00bd lb.",
+        "damageType": "Piercing",
+        "special": "Thrown weapon (Str bonus to damage).",
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "Thrown; feeds the shot system; deterministic damage per combat.md; crit relevant only in Gremlin mode."
+      }
+    },
+    {
+      "name": "Javelin",
+      "category": "simple",
+      "kind": "thrown",
+      "srd": {
+        "cost": "1 gp",
+        "damageSmall": "1d4",
+        "damageMedium": "1d6",
+        "critical": "\u00d72",
+        "rangeIncrement": "30 ft.",
+        "weight": "2 lb.",
+        "damageType": "Piercing",
+        "special": "Not designed for melee (-4 if used in melee).",
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "Thrown; feeds the shot system; deterministic damage per combat.md; crit relevant only in Gremlin mode."
+      }
+    },
+    {
+      "name": "Sling",
+      "category": "simple",
+      "kind": "ranged",
+      "srd": {
+        "cost": "\u2014",
+        "damageSmall": "1d3",
+        "damageMedium": "1d4",
+        "critical": "\u00d72",
+        "rangeIncrement": "50 ft.",
+        "weight": "0 lb.",
+        "damageType": "Bludgeoning",
+        "special": "Str bonus to damage; fire one-handed, load two-handed (provokes).",
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "Projectile; feeds the shot system; deterministic damage per combat.md; crit relevant only in Gremlin mode."
+      }
+    },
+    {
+      "name": "Bullets, sling (10)",
+      "category": "simple",
+      "kind": "ranged",
+      "srd": {
+        "cost": "1 sp",
+        "damageSmall": "\u2014",
+        "damageMedium": "\u2014",
+        "critical": "\u2014",
+        "rangeIncrement": null,
+        "weight": "5 lb.",
+        "damageType": "\u2014",
+        "special": "Ammunition for slings; pouch of 10. Destroyed on hit, 50% lost on miss.",
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "Ammunition line; only matters if an ammo-economy is modeled, else a no-op cosmetic item."
+      }
+    },
+    {
+      "name": "Axe, throwing",
+      "category": "martial",
+      "kind": "thrown",
+      "srd": {
+        "cost": "8 gp",
+        "damageSmall": "1d4",
+        "damageMedium": "1d6",
+        "critical": "\u00d72",
+        "rangeIncrement": "10 ft.",
+        "weight": "2 lb.",
+        "damageType": "Slashing",
+        "special": "Thrown weapon.",
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "Light melee + throwable; deterministic damage per combat.md; crit relevant only in Gremlin mode."
+      }
+    },
+    {
+      "name": "Hammer, light",
+      "category": "martial",
+      "kind": "thrown",
+      "srd": {
+        "cost": "1 gp",
+        "damageSmall": "1d3",
+        "damageMedium": "1d4",
+        "critical": "\u00d72",
+        "rangeIncrement": "20 ft.",
+        "weight": "2 lb.",
+        "damageType": "Bludgeoning",
+        "special": "Thrown weapon.",
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "Light melee + throwable; deterministic damage per combat.md; crit relevant only in Gremlin mode."
+      }
+    },
+    {
+      "name": "Handaxe",
+      "category": "martial",
+      "kind": "melee",
+      "srd": {
+        "cost": "6 gp",
+        "damageSmall": "1d4",
+        "damageMedium": "1d6",
+        "critical": "\u00d73",
+        "rangeIncrement": null,
+        "weight": "3 lb.",
+        "damageType": "Slashing",
+        "special": null,
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "Light melee; deterministic damage per combat.md; crit relevant only in Gremlin mode."
+      }
+    },
+    {
+      "name": "Kukri",
+      "category": "martial",
+      "kind": "melee",
+      "srd": {
+        "cost": "8 gp",
+        "damageSmall": "1d3",
+        "damageMedium": "1d4",
+        "critical": "18-20/\u00d72",
+        "rangeIncrement": null,
+        "weight": "2 lb.",
+        "damageType": "Slashing",
+        "special": "Wide crit threat range (18-20).",
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "Light melee; deterministic damage per combat.md; wide crit range relevant only in Gremlin mode."
+      }
+    },
+    {
+      "name": "Pick, light",
+      "category": "martial",
+      "kind": "melee",
+      "srd": {
+        "cost": "4 gp",
+        "damageSmall": "1d3",
+        "damageMedium": "1d4",
+        "critical": "\u00d74",
+        "rangeIncrement": null,
+        "weight": "3 lb.",
+        "damageType": "Piercing",
+        "special": "High crit multiplier (\u00d74).",
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "Light melee; deterministic damage per combat.md; \u00d74 crit relevant only in Gremlin mode."
+      }
+    },
+    {
+      "name": "Sap",
+      "category": "martial",
+      "kind": "melee",
+      "srd": {
+        "cost": "1 gp",
+        "damageSmall": "1d4",
+        "damageMedium": "1d6",
+        "critical": "\u00d72",
+        "rangeIncrement": null,
+        "weight": "2 lb.",
+        "damageType": "Bludgeoning",
+        "special": "Deals nonlethal damage.",
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "Light melee; nonlethal = no-op unless a subdual/KO track exists; deterministic damage per combat.md; crit relevant only in Gremlin mode."
+      }
+    },
+    {
+      "name": "Shield, light",
+      "category": "martial",
+      "kind": "melee",
+      "srd": {
+        "cost": "special",
+        "damageSmall": "1d2",
+        "damageMedium": "1d3",
+        "critical": "\u00d72",
+        "rangeIncrement": null,
+        "weight": "special",
+        "damageType": "Bludgeoning",
+        "special": "Shield bash; cost/weight per the armor table. Lose AC bonus the round you bash.",
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "Shield-bash weapon profile; deterministic damage per combat.md; crit relevant only in Gremlin mode. Defensive stats live in the armor array."
+      }
+    },
+    {
+      "name": "Spiked armor",
+      "category": "martial",
+      "kind": "melee",
+      "srd": {
+        "cost": "special",
+        "damageSmall": "1d4",
+        "damageMedium": "1d6",
+        "critical": "\u00d72",
+        "rangeIncrement": null,
+        "weight": "special",
+        "damageType": "Piercing",
+        "special": "Armor spikes; cost/weight per the armor table (Extras). Extra piercing on grapple or as a light weapon.",
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "Armor-spike weapon profile; deterministic damage per combat.md; crit relevant only in Gremlin mode. The +50gp/+10lb add-on lives in the armor array."
+      }
+    },
+    {
+      "name": "Spiked shield, light",
+      "category": "martial",
+      "kind": "melee",
+      "srd": {
+        "cost": "special",
+        "damageSmall": "1d3",
+        "damageMedium": "1d4",
+        "critical": "\u00d72",
+        "rangeIncrement": null,
+        "weight": "special",
+        "damageType": "Piercing",
+        "special": "Spiked shield bash; cost/weight per the armor table.",
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "Spiked shield-bash weapon profile; deterministic damage per combat.md; crit relevant only in Gremlin mode. Defensive stats live in the armor array."
+      }
+    },
+    {
+      "name": "Sword, short",
+      "category": "martial",
+      "kind": "melee",
+      "srd": {
+        "cost": "10 gp",
+        "damageSmall": "1d4",
+        "damageMedium": "1d6",
+        "critical": "19-20/\u00d72",
+        "rangeIncrement": null,
+        "weight": "2 lb.",
+        "damageType": "Piercing",
+        "special": null,
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "Light melee; deterministic damage per combat.md; wide crit range relevant only in Gremlin mode."
+      }
+    },
+    {
+      "name": "Battleaxe",
+      "category": "martial",
+      "kind": "melee",
+      "srd": {
+        "cost": "10 gp",
+        "damageSmall": "1d6",
+        "damageMedium": "1d8",
+        "critical": "\u00d73",
+        "rangeIncrement": null,
+        "weight": "6 lb.",
+        "damageType": "Slashing",
+        "special": null,
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "One-handed melee; deterministic damage per combat.md; \u00d73 crit relevant only in Gremlin mode. Good Warrior candidate."
+      }
+    },
+    {
+      "name": "Flail",
+      "category": "martial",
+      "kind": "melee",
+      "srd": {
+        "cost": "8 gp",
+        "damageSmall": "1d6",
+        "damageMedium": "1d8",
+        "critical": "\u00d72",
+        "rangeIncrement": null,
+        "weight": "5 lb.",
+        "damageType": "Bludgeoning",
+        "special": "+2 to disarm; can make trip attacks.",
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "One-handed melee; deterministic damage per combat.md; disarm/trip = no-op unless those primitives exist; crit relevant only in Gremlin mode."
+      }
+    },
+    {
+      "name": "Longsword",
+      "category": "martial",
+      "kind": "melee",
+      "srd": {
+        "cost": "15 gp",
+        "damageSmall": "1d6",
+        "damageMedium": "1d8",
+        "critical": "19-20/\u00d72",
+        "rangeIncrement": null,
+        "weight": "4 lb.",
+        "damageType": "Slashing",
+        "special": null,
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "One-handed melee; the iconic Valkyrie/Warrior blade; deterministic damage per combat.md; wide crit range relevant only in Gremlin mode."
+      }
+    },
+    {
+      "name": "Pick, heavy",
+      "category": "martial",
+      "kind": "melee",
+      "srd": {
+        "cost": "8 gp",
+        "damageSmall": "1d4",
+        "damageMedium": "1d6",
+        "critical": "\u00d74",
+        "rangeIncrement": null,
+        "weight": "6 lb.",
+        "damageType": "Piercing",
+        "special": "High crit multiplier (\u00d74).",
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "One-handed melee; deterministic damage per combat.md; \u00d74 crit relevant only in Gremlin mode."
+      }
+    },
+    {
+      "name": "Rapier",
+      "category": "martial",
+      "kind": "melee",
+      "srd": {
+        "cost": "20 gp",
+        "damageSmall": "1d4",
+        "damageMedium": "1d6",
+        "critical": "18-20/\u00d72",
+        "rangeIncrement": null,
+        "weight": "2 lb.",
+        "damageType": "Piercing",
+        "special": "Weapon Finesse applies (Dex to hit); can't two-hand for 1.5x Str.",
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "One-handed finesse melee; Dex-driven, good for the Elf archetype; deterministic damage per combat.md; wide crit range relevant only in Gremlin mode."
+      }
+    },
+    {
+      "name": "Scimitar",
+      "category": "martial",
+      "kind": "melee",
+      "srd": {
+        "cost": "15 gp",
+        "damageSmall": "1d4",
+        "damageMedium": "1d6",
+        "critical": "18-20/\u00d72",
+        "rangeIncrement": null,
+        "weight": "4 lb.",
+        "damageType": "Slashing",
+        "special": "Wide crit threat range (18-20).",
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "One-handed melee; deterministic damage per combat.md; wide crit range relevant only in Gremlin mode."
+      }
+    },
+    {
+      "name": "Shield, heavy",
+      "category": "martial",
+      "kind": "melee",
+      "srd": {
+        "cost": "special",
+        "damageSmall": "1d3",
+        "damageMedium": "1d4",
+        "critical": "\u00d72",
+        "rangeIncrement": null,
+        "weight": "special",
+        "damageType": "Bludgeoning",
+        "special": "Shield bash; cost/weight per the armor table. Lose AC bonus the round you bash.",
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "Shield-bash weapon profile; deterministic damage per combat.md; crit relevant only in Gremlin mode. Defensive stats live in the armor array."
+      }
+    },
+    {
+      "name": "Spiked shield, heavy",
+      "category": "martial",
+      "kind": "melee",
+      "srd": {
+        "cost": "special",
+        "damageSmall": "1d4",
+        "damageMedium": "1d6",
+        "critical": "\u00d72",
+        "rangeIncrement": null,
+        "weight": "special",
+        "damageType": "Piercing",
+        "special": "Spiked heavy shield bash; cost/weight per the armor table.",
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "Spiked shield-bash weapon profile; deterministic damage per combat.md; crit relevant only in Gremlin mode. Defensive stats live in the armor array."
+      }
+    },
+    {
+      "name": "Trident",
+      "category": "martial",
+      "kind": "thrown",
+      "srd": {
+        "cost": "15 gp",
+        "damageSmall": "1d6",
+        "damageMedium": "1d8",
+        "critical": "\u00d72",
+        "rangeIncrement": "10 ft.",
+        "weight": "4 lb.",
+        "damageType": "Piercing",
+        "special": "Can be thrown; double damage vs charge when set.",
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "One-handed melee + throwable; deterministic damage per combat.md; crit relevant only in Gremlin mode."
+      }
+    },
+    {
+      "name": "Warhammer",
+      "category": "martial",
+      "kind": "melee",
+      "srd": {
+        "cost": "12 gp",
+        "damageSmall": "1d6",
+        "damageMedium": "1d8",
+        "critical": "\u00d73",
+        "rangeIncrement": null,
+        "weight": "5 lb.",
+        "damageType": "Bludgeoning",
+        "special": null,
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "One-handed melee; deterministic damage per combat.md; \u00d73 crit relevant only in Gremlin mode."
+      }
+    },
+    {
+      "name": "Falchion",
+      "category": "martial",
+      "kind": "melee",
+      "srd": {
+        "cost": "75 gp",
+        "damageSmall": "1d6",
+        "damageMedium": "2d4",
+        "critical": "18-20/\u00d72",
+        "rangeIncrement": null,
+        "weight": "8 lb.",
+        "damageType": "Slashing",
+        "special": "Wide crit threat range (18-20).",
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "Two-handed melee; 2d4 = tighter spread than 1d8 for deterministic take-10/max/min; wide crit range relevant only in Gremlin mode."
+      }
+    },
+    {
+      "name": "Glaive",
+      "category": "martial",
+      "kind": "melee",
+      "srd": {
+        "cost": "8 gp",
+        "damageSmall": "1d8",
+        "damageMedium": "1d10",
+        "critical": "\u00d73",
+        "rangeIncrement": null,
+        "weight": "10 lb.",
+        "damageType": "Slashing",
+        "special": "Reach weapon (strike 10 ft away, not adjacent).",
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "Two-handed reach melee; reach -> longer swing hitbox; deterministic damage per combat.md; \u00d73 crit relevant only in Gremlin mode."
+      }
+    },
+    {
+      "name": "Greataxe",
+      "category": "martial",
+      "kind": "melee",
+      "srd": {
+        "cost": "20 gp",
+        "damageSmall": "1d10",
+        "damageMedium": "1d12",
+        "critical": "\u00d73",
+        "rangeIncrement": null,
+        "weight": "12 lb.",
+        "damageType": "Slashing",
+        "special": null,
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "Two-handed melee; biggest single die (1d12); the Warrior's 'strongest hits, slow' fantasy; deterministic damage per combat.md; \u00d73 crit relevant only in Gremlin mode."
+      }
+    },
+    {
+      "name": "Greatclub",
+      "category": "martial",
+      "kind": "melee",
+      "srd": {
+        "cost": "5 gp",
+        "damageSmall": "1d8",
+        "damageMedium": "1d10",
+        "critical": "\u00d72",
+        "rangeIncrement": null,
+        "weight": "8 lb.",
+        "damageType": "Bludgeoning",
+        "special": null,
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "Two-handed melee; deterministic damage per combat.md; crit relevant only in Gremlin mode."
+      }
+    },
+    {
+      "name": "Flail, heavy",
+      "category": "martial",
+      "kind": "melee",
+      "srd": {
+        "cost": "15 gp",
+        "damageSmall": "1d8",
+        "damageMedium": "1d10",
+        "critical": "19-20/\u00d72",
+        "rangeIncrement": null,
+        "weight": "10 lb.",
+        "damageType": "Bludgeoning",
+        "special": "+2 to disarm; can make trip attacks.",
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "Two-handed melee; disarm/trip = no-op unless those primitives exist; deterministic damage per combat.md; wide crit range relevant only in Gremlin mode."
+      }
+    },
+    {
+      "name": "Greatsword",
+      "category": "martial",
+      "kind": "melee",
+      "srd": {
+        "cost": "50 gp",
+        "damageSmall": "1d10",
+        "damageMedium": "2d6",
+        "critical": "19-20/\u00d72",
+        "rangeIncrement": null,
+        "weight": "8 lb.",
+        "damageType": "Slashing",
+        "special": "Wide crit threat range (19-20).",
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "Two-handed melee; 2d6 = high, tight deterministic damage per combat.md; classic Warrior blade; wide crit range relevant only in Gremlin mode."
+      }
+    },
+    {
+      "name": "Guisarme",
+      "category": "martial",
+      "kind": "melee",
+      "srd": {
+        "cost": "9 gp",
+        "damageSmall": "1d6",
+        "damageMedium": "2d4",
+        "critical": "\u00d73",
+        "rangeIncrement": null,
+        "weight": "12 lb.",
+        "damageType": "Slashing",
+        "special": "Reach weapon (strike 10 ft away, not adjacent); can make trip attacks.",
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "Two-handed reach melee; reach -> longer swing hitbox; trip = no-op unless modeled; deterministic damage per combat.md; \u00d73 crit relevant only in Gremlin mode."
+      }
+    },
+    {
+      "name": "Halberd",
+      "category": "martial",
+      "kind": "melee",
+      "srd": {
+        "cost": "10 gp",
+        "damageSmall": "1d8",
+        "damageMedium": "1d10",
+        "critical": "\u00d73",
+        "rangeIncrement": null,
+        "weight": "12 lb.",
+        "damageType": "Piercing or slashing",
+        "special": "Double damage vs charge when set; can make trip attacks.",
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "Two-handed melee; deterministic damage per combat.md; trip/set-vs-charge = no-op unless modeled; \u00d73 crit relevant only in Gremlin mode."
+      }
+    },
+    {
+      "name": "Lance",
+      "category": "martial",
+      "kind": "melee",
+      "srd": {
+        "cost": "10 gp",
+        "damageSmall": "1d6",
+        "damageMedium": "1d8",
+        "critical": "\u00d73",
+        "rangeIncrement": null,
+        "weight": "10 lb.",
+        "damageType": "Piercing",
+        "special": "Reach weapon; double damage from a charging mount; usable one-handed while mounted.",
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "Two-handed reach melee; mounted rules = no-op (no mounts); reach -> longer swing hitbox; deterministic damage per combat.md; \u00d73 crit relevant only in Gremlin mode."
+      }
+    },
+    {
+      "name": "Ranseur",
+      "category": "martial",
+      "kind": "melee",
+      "srd": {
+        "cost": "10 gp",
+        "damageSmall": "1d6",
+        "damageMedium": "2d4",
+        "critical": "\u00d73",
+        "rangeIncrement": null,
+        "weight": "12 lb.",
+        "damageType": "Piercing",
+        "special": "Reach weapon (strike 10 ft away, not adjacent); +2 to disarm.",
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "Two-handed reach melee; reach -> longer swing hitbox; disarm = no-op unless modeled; deterministic damage per combat.md; \u00d73 crit relevant only in Gremlin mode."
+      }
+    },
+    {
+      "name": "Scythe",
+      "category": "martial",
+      "kind": "melee",
+      "srd": {
+        "cost": "18 gp",
+        "damageSmall": "1d6",
+        "damageMedium": "2d4",
+        "critical": "\u00d74",
+        "rangeIncrement": null,
+        "weight": "10 lb.",
+        "damageType": "Piercing or slashing",
+        "special": "High crit multiplier (\u00d74); can make trip attacks.",
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "Two-handed melee; deterministic damage per combat.md; trip = no-op unless modeled; \u00d74 crit relevant only in Gremlin mode."
+      }
+    },
+    {
+      "name": "Longbow",
+      "category": "martial",
+      "kind": "ranged",
+      "srd": {
+        "cost": "75 gp",
+        "damageSmall": "1d6",
+        "damageMedium": "1d8",
+        "critical": "\u00d73",
+        "rangeIncrement": "100 ft.",
+        "weight": "3 lb.",
+        "damageType": "Piercing",
+        "special": "Two hands; no Str bonus to damage (regular); can't use mounted.",
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "Projectile; strong Elf ranged option (long range increment -> gentle falloff); deterministic damage per combat.md; \u00d73 crit relevant only in Gremlin mode."
+      }
+    },
+    {
+      "name": "Arrows (20)",
+      "category": "martial",
+      "kind": "ranged",
+      "srd": {
+        "cost": "1 gp",
+        "damageSmall": "\u2014",
+        "damageMedium": "\u2014",
+        "critical": "\u2014",
+        "rangeIncrement": null,
+        "weight": "3 lb.",
+        "damageType": "\u2014",
+        "special": "Ammunition for bows; quiver of 20. Destroyed on hit, 50% lost on miss.",
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "Ammunition line; only matters if an ammo-economy is modeled, else a no-op cosmetic item."
+      }
+    },
+    {
+      "name": "Longbow, composite",
+      "category": "martial",
+      "kind": "ranged",
+      "srd": {
+        "cost": "100 gp",
+        "damageSmall": "1d6",
+        "damageMedium": "1d8",
+        "critical": "\u00d73",
+        "rangeIncrement": "110 ft.",
+        "weight": "3 lb.",
+        "damageType": "Piercing",
+        "special": "Two hands; usable mounted; can add Str bonus to damage (per strength rating, +100gp/point).",
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "Projectile; Str-scaling bow (feeds damage via the real stat); deterministic damage per combat.md; \u00d73 crit relevant only in Gremlin mode."
+      }
+    },
+    {
+      "name": "Shortbow",
+      "category": "martial",
+      "kind": "ranged",
+      "srd": {
+        "cost": "30 gp",
+        "damageSmall": "1d4",
+        "damageMedium": "1d6",
+        "critical": "\u00d73",
+        "rangeIncrement": "60 ft.",
+        "weight": "2 lb.",
+        "damageType": "Piercing",
+        "special": "Two hands; usable mounted; no Str bonus to damage (regular).",
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "Projectile; the default Elf bow; deterministic damage per combat.md; \u00d73 crit relevant only in Gremlin mode."
+      }
+    },
+    {
+      "name": "Shortbow, composite",
+      "category": "martial",
+      "kind": "ranged",
+      "srd": {
+        "cost": "75 gp",
+        "damageSmall": "1d4",
+        "damageMedium": "1d6",
+        "critical": "\u00d73",
+        "rangeIncrement": "70 ft.",
+        "weight": "2 lb.",
+        "damageType": "Piercing",
+        "special": "Two hands; usable mounted; can add Str bonus to damage (per strength rating, +75gp/point).",
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "Projectile; Str-scaling shortbow; deterministic damage per combat.md; \u00d73 crit relevant only in Gremlin mode."
+      }
+    },
+    {
+      "name": "Kama",
+      "category": "exotic",
+      "kind": "melee",
+      "srd": {
+        "cost": "2 gp",
+        "damageSmall": "1d4",
+        "damageMedium": "1d6",
+        "critical": "\u00d72",
+        "rangeIncrement": null,
+        "weight": "2 lb.",
+        "damageType": "Slashing",
+        "special": "Special monk weapon; can make trip attacks.",
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "Light melee; deterministic damage per combat.md; trip = no-op unless modeled; crit relevant only in Gremlin mode."
+      }
+    },
+    {
+      "name": "Nunchaku",
+      "category": "exotic",
+      "kind": "melee",
+      "srd": {
+        "cost": "2 gp",
+        "damageSmall": "1d4",
+        "damageMedium": "1d6",
+        "critical": "\u00d72",
+        "rangeIncrement": null,
+        "weight": "2 lb.",
+        "damageType": "Bludgeoning",
+        "special": "Special monk weapon; +2 to disarm.",
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "Light melee; deterministic damage per combat.md; disarm = no-op unless modeled; crit relevant only in Gremlin mode."
+      }
+    },
+    {
+      "name": "Sai",
+      "category": "exotic",
+      "kind": "thrown",
+      "srd": {
+        "cost": "1 gp",
+        "damageSmall": "1d3",
+        "damageMedium": "1d4",
+        "critical": "\u00d72",
+        "rangeIncrement": "10 ft.",
+        "weight": "1 lb.",
+        "damageType": "Bludgeoning",
+        "special": "Special monk weapon; +4 to disarm; can be thrown.",
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "Light melee + throwable; deterministic damage per combat.md; disarm = no-op unless modeled; crit relevant only in Gremlin mode."
+      }
+    },
+    {
+      "name": "Siangham",
+      "category": "exotic",
+      "kind": "melee",
+      "srd": {
+        "cost": "3 gp",
+        "damageSmall": "1d4",
+        "damageMedium": "1d6",
+        "critical": "\u00d72",
+        "rangeIncrement": null,
+        "weight": "1 lb.",
+        "damageType": "Piercing",
+        "special": "Special monk weapon.",
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "Light melee; deterministic damage per combat.md; crit relevant only in Gremlin mode."
+      }
+    },
+    {
+      "name": "Sword, bastard",
+      "category": "exotic",
+      "kind": "melee",
+      "srd": {
+        "cost": "35 gp",
+        "damageSmall": "1d8",
+        "damageMedium": "1d10",
+        "critical": "19-20/\u00d72",
+        "rangeIncrement": null,
+        "weight": "6 lb.",
+        "damageType": "Slashing",
+        "special": "Exotic one-handed (needs Exotic Weapon Proficiency); usable two-handed as a martial weapon.",
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "One-handed exotic melee; strong 1d10 one-hander; deterministic damage per combat.md; wide crit range relevant only in Gremlin mode."
+      }
+    },
+    {
+      "name": "Waraxe, dwarven",
+      "category": "exotic",
+      "kind": "melee",
+      "srd": {
+        "cost": "30 gp",
+        "damageSmall": "1d8",
+        "damageMedium": "1d10",
+        "critical": "\u00d73",
+        "rangeIncrement": null,
+        "weight": "8 lb.",
+        "damageType": "Slashing",
+        "special": "Exotic one-handed; usable two-handed as a martial weapon; dwarves treat as martial.",
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "One-handed exotic melee; deterministic damage per combat.md; \u00d73 crit relevant only in Gremlin mode."
+      }
+    },
+    {
+      "name": "Whip",
+      "category": "exotic",
+      "kind": "melee",
+      "srd": {
+        "cost": "1 gp",
+        "damageSmall": "1d2",
+        "damageMedium": "1d3",
+        "critical": "\u00d72",
+        "rangeIncrement": null,
+        "weight": "2 lb.",
+        "damageType": "Slashing",
+        "special": "Nonlethal; 15-ft reach (incl. adjacent); no damage vs armor bonus +1 / natural armor +3; +2 to disarm; trip; Weapon Finesse applies.",
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "Reach melee; reach -> long swing hitbox; nonlethal + armor-immunity caveats mostly no-op; deterministic damage per combat.md; crit relevant only in Gremlin mode."
+      }
+    },
+    {
+      "name": "Axe, orc double",
+      "category": "exotic",
+      "kind": "melee",
+      "srd": {
+        "cost": "60 gp",
+        "damageSmall": "1d6/1d6",
+        "damageMedium": "1d8/1d8",
+        "critical": "\u00d73",
+        "rangeIncrement": null,
+        "weight": "15 lb.",
+        "damageType": "Slashing",
+        "special": "Double weapon (fight as two weapons).",
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "Two-handed double weapon; double entry feeds a two-hit flurry if dual-wield is modeled, else use first figure; deterministic damage per combat.md; \u00d73 crit relevant only in Gremlin mode."
+      }
+    },
+    {
+      "name": "Chain, spiked",
+      "category": "exotic",
+      "kind": "melee",
+      "srd": {
+        "cost": "25 gp",
+        "damageSmall": "1d6",
+        "damageMedium": "2d4",
+        "critical": "\u00d72",
+        "rangeIncrement": null,
+        "weight": "10 lb.",
+        "damageType": "Piercing",
+        "special": "Reach (incl. adjacent); +2 to disarm; trip; Weapon Finesse applies.",
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "Two-handed reach melee; reach -> long swing hitbox; disarm/trip = no-op unless modeled; deterministic damage per combat.md; crit relevant only in Gremlin mode."
+      }
+    },
+    {
+      "name": "Flail, dire",
+      "category": "exotic",
+      "kind": "melee",
+      "srd": {
+        "cost": "90 gp",
+        "damageSmall": "1d6/1d6",
+        "damageMedium": "1d8/1d8",
+        "critical": "\u00d72",
+        "rangeIncrement": null,
+        "weight": "10 lb.",
+        "damageType": "Bludgeoning",
+        "special": "Double weapon; +2 to disarm; trip.",
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "Two-handed double weapon; double entry feeds a two-hit flurry if dual-wield is modeled, else use first figure; disarm/trip = no-op unless modeled; deterministic damage per combat.md; crit relevant only in Gremlin mode."
+      }
+    },
+    {
+      "name": "Hammer, gnome hooked",
+      "category": "exotic",
+      "kind": "melee",
+      "srd": {
+        "cost": "20 gp",
+        "damageSmall": "1d6/1d4",
+        "damageMedium": "1d8/1d6",
+        "critical": "\u00d73/\u00d74",
+        "rangeIncrement": null,
+        "weight": "6 lb.",
+        "damageType": "Bludgeoning/Piercing",
+        "special": "Double weapon: hammer head bludgeoning (\u00d73), hook piercing (\u00d74); trip; gnomes treat as martial.",
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "Two-handed double weapon with split damage/crit per head; feeds a two-hit flurry if dual-wield is modeled; deterministic damage per combat.md; split crit relevant only in Gremlin mode."
+      }
+    },
+    {
+      "name": "Sword, two-bladed",
+      "category": "exotic",
+      "kind": "melee",
+      "srd": {
+        "cost": "100 gp",
+        "damageSmall": "1d6/1d6",
+        "damageMedium": "1d8/1d8",
+        "critical": "19-20/\u00d72",
+        "rangeIncrement": null,
+        "weight": "10 lb.",
+        "damageType": "Slashing",
+        "special": "Double weapon (fight as two weapons).",
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "Two-handed double weapon; double entry feeds a two-hit flurry if dual-wield is modeled, else use first figure; deterministic damage per combat.md; wide crit range relevant only in Gremlin mode."
+      }
+    },
+    {
+      "name": "Urgrosh, dwarven",
+      "category": "exotic",
+      "kind": "melee",
+      "srd": {
+        "cost": "50 gp",
+        "damageSmall": "1d6/1d4",
+        "damageMedium": "1d8/1d6",
+        "critical": "\u00d73",
+        "rangeIncrement": null,
+        "weight": "12 lb.",
+        "damageType": "Slashing or piercing",
+        "special": "Double weapon: axe head slashing (1d8), spear head piercing (1d6); double dmg vs charge (spear head); dwarves treat as martial.",
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "Two-handed double weapon with split damage type per head; feeds a two-hit flurry if dual-wield is modeled; deterministic damage per combat.md; \u00d73 crit relevant only in Gremlin mode."
+      }
+    },
+    {
+      "name": "Bolas",
+      "category": "exotic",
+      "kind": "thrown",
+      "srd": {
+        "cost": "5 gp",
+        "damageSmall": "1d3",
+        "damageMedium": "1d4",
+        "critical": "\u00d72",
+        "rangeIncrement": "10 ft.",
+        "weight": "2 lb.",
+        "damageType": "Bludgeoning",
+        "special": "Ranged trip attack; nonlethal.",
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "Thrown; ranged-trip = no-op unless a knockdown/snare primitive exists; deterministic damage per combat.md; crit relevant only in Gremlin mode."
+      }
+    },
+    {
+      "name": "Crossbow, hand",
+      "category": "exotic",
+      "kind": "ranged",
+      "srd": {
+        "cost": "100 gp",
+        "damageSmall": "1d3",
+        "damageMedium": "1d4",
+        "critical": "19-20/\u00d72",
+        "rangeIncrement": "30 ft.",
+        "weight": "2 lb.",
+        "damageType": "Piercing",
+        "special": "One-handed; load is a move action (provokes).",
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "Projectile; one-handed sidearm; deterministic damage per combat.md; wide crit range relevant only in Gremlin mode."
+      }
+    },
+    {
+      "name": "Crossbow, repeating heavy",
+      "category": "exotic",
+      "kind": "ranged",
+      "srd": {
+        "cost": "400 gp",
+        "damageSmall": "1d8",
+        "damageMedium": "1d10",
+        "critical": "19-20/\u00d72",
+        "rangeIncrement": "120 ft.",
+        "weight": "12 lb.",
+        "damageType": "Piercing",
+        "special": "Holds 5 bolts; reload lever is a free action until empty; reloading case is a full-round action.",
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "Projectile; magazine reload -> burst fire-rate then a reload gap; deterministic damage per combat.md; wide crit range relevant only in Gremlin mode."
+      }
+    },
+    {
+      "name": "Crossbow, repeating light",
+      "category": "exotic",
+      "kind": "ranged",
+      "srd": {
+        "cost": "250 gp",
+        "damageSmall": "1d6",
+        "damageMedium": "1d8",
+        "critical": "19-20/\u00d72",
+        "rangeIncrement": "80 ft.",
+        "weight": "6 lb.",
+        "damageType": "Piercing",
+        "special": "Holds 5 bolts; reload lever is a free action until empty; reloading case is a full-round action.",
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "Projectile; magazine reload -> burst fire-rate then a reload gap; deterministic damage per combat.md; wide crit range relevant only in Gremlin mode."
+      }
+    },
+    {
+      "name": "Net",
+      "category": "exotic",
+      "kind": "thrown",
+      "srd": {
+        "cost": "20 gp",
+        "damageSmall": "\u2014",
+        "damageMedium": "\u2014",
+        "critical": "\u2014",
+        "rangeIncrement": "10 ft.",
+        "weight": "6 lb.",
+        "damageType": "\u2014",
+        "special": "Ranged touch attack to entangle; max range 10 ft; target entangled on hit.",
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "Thrown control weapon; no damage — entangle = a snare/slow debuff primitive if we model control; otherwise a no-op."
+      }
+    },
+    {
+      "name": "Shuriken (5)",
+      "category": "exotic",
+      "kind": "thrown",
+      "srd": {
+        "cost": "1 gp",
+        "damageSmall": "1",
+        "damageMedium": "1d2",
+        "critical": "\u00d72",
+        "rangeIncrement": "10 ft.",
+        "weight": "\u00bd lb.",
+        "damageType": "Piercing",
+        "special": "Special monk weapon; treated as ammunition; can't be used in melee. Sold in bundles of 5.",
+        "source": "d20srd.org/srd/equipment/weapons.htm"
+      },
+      "regauntless": {
+        "note": "Thrown; feeds the shot system (fast, low damage); deterministic damage per combat.md (Dmg S is a flat '1'); crit relevant only in Gremlin mode."
+      }
+    }
+  ],
+  "armor": [
+    {
+      "name": "Padded",
+      "type": "light",
+      "srd": {
+        "cost": "5 gp",
+        "acBonus": 1,
+        "maxDex": 8,
+        "armorCheckPenalty": 0,
+        "arcaneSpellFailure": "5%",
+        "speed30": "30 ft.",
+        "speed20": "20 ft.",
+        "weight": "10 lb.",
+        "source": "d20srd.org/srd/equipment/armor.htm"
+      },
+      "regauntless": {
+        "note": "Light armor; +1 AC, high maxDex -> good for Dex builds (Elf). Feeds the AC/armor-mitigation model; no speed penalty."
+      }
+    },
+    {
+      "name": "Leather",
+      "type": "light",
+      "srd": {
+        "cost": "10 gp",
+        "acBonus": 2,
+        "maxDex": 6,
+        "armorCheckPenalty": 0,
+        "arcaneSpellFailure": "10%",
+        "speed30": "30 ft.",
+        "speed20": "20 ft.",
+        "weight": "15 lb.",
+        "source": "d20srd.org/srd/equipment/armor.htm"
+      },
+      "regauntless": {
+        "note": "Light armor; +2 AC, no check penalty. Feeds the AC/armor-mitigation model; no speed penalty."
+      }
+    },
+    {
+      "name": "Studded leather",
+      "type": "light",
+      "srd": {
+        "cost": "25 gp",
+        "acBonus": 3,
+        "maxDex": 5,
+        "armorCheckPenalty": -1,
+        "arcaneSpellFailure": "15%",
+        "speed30": "30 ft.",
+        "speed20": "20 ft.",
+        "weight": "20 lb.",
+        "source": "d20srd.org/srd/equipment/armor.htm"
+      },
+      "regauntless": {
+        "note": "Light armor; +3 AC. Feeds the AC/armor-mitigation model; ACP ties to skills.json; no speed penalty."
+      }
+    },
+    {
+      "name": "Chain shirt",
+      "type": "light",
+      "srd": {
+        "cost": "100 gp",
+        "acBonus": 4,
+        "maxDex": 4,
+        "armorCheckPenalty": -2,
+        "arcaneSpellFailure": "20%",
+        "speed30": "30 ft.",
+        "speed20": "20 ft.",
+        "weight": "25 lb.",
+        "source": "d20srd.org/srd/equipment/armor.htm"
+      },
+      "regauntless": {
+        "note": "Light armor; best light AC (+4). Feeds the AC/armor-mitigation model; no speed penalty."
+      }
+    },
+    {
+      "name": "Hide",
+      "type": "medium",
+      "srd": {
+        "cost": "15 gp",
+        "acBonus": 3,
+        "maxDex": 4,
+        "armorCheckPenalty": -3,
+        "arcaneSpellFailure": "20%",
+        "speed30": "20 ft.",
+        "speed20": "15 ft.",
+        "weight": "25 lb.",
+        "source": "d20srd.org/srd/equipment/armor.htm"
+      },
+      "regauntless": {
+        "note": "Medium armor; +3 AC, speed penalty kicks in (30->20 / 20->15). Feeds the AC + move-speed model."
+      }
+    },
+    {
+      "name": "Scale mail",
+      "type": "medium",
+      "srd": {
+        "cost": "50 gp",
+        "acBonus": 4,
+        "maxDex": 3,
+        "armorCheckPenalty": -4,
+        "arcaneSpellFailure": "25%",
+        "speed30": "20 ft.",
+        "speed20": "15 ft.",
+        "weight": "30 lb.",
+        "source": "d20srd.org/srd/equipment/armor.htm"
+      },
+      "regauntless": {
+        "note": "Medium armor; +4 AC. Feeds the AC + move-speed model (speed penalty applies)."
+      }
+    },
+    {
+      "name": "Chainmail",
+      "type": "medium",
+      "srd": {
+        "cost": "150 gp",
+        "acBonus": 5,
+        "maxDex": 2,
+        "armorCheckPenalty": -5,
+        "arcaneSpellFailure": "30%",
+        "speed30": "20 ft.",
+        "speed20": "15 ft.",
+        "weight": "40 lb.",
+        "source": "d20srd.org/srd/equipment/armor.htm"
+      },
+      "regauntless": {
+        "note": "Medium armor; +5 AC, low maxDex. Feeds the AC + move-speed model; good Valkyrie tank option."
+      }
+    },
+    {
+      "name": "Breastplate",
+      "type": "medium",
+      "srd": {
+        "cost": "200 gp",
+        "acBonus": 5,
+        "maxDex": 3,
+        "armorCheckPenalty": -4,
+        "arcaneSpellFailure": "25%",
+        "speed30": "20 ft.",
+        "speed20": "15 ft.",
+        "weight": "30 lb.",
+        "source": "d20srd.org/srd/equipment/armor.htm"
+      },
+      "regauntless": {
+        "note": "Medium armor; +5 AC with a friendlier maxDex/ACP than chainmail. Feeds the AC + move-speed model."
+      }
+    },
+    {
+      "name": "Splint mail",
+      "type": "heavy",
+      "srd": {
+        "cost": "200 gp",
+        "acBonus": 6,
+        "maxDex": 0,
+        "armorCheckPenalty": -7,
+        "arcaneSpellFailure": "40%",
+        "speed30": "20 ft.",
+        "speed20": "15 ft.",
+        "weight": "45 lb.",
+        "source": "d20srd.org/srd/equipment/armor.htm"
+      },
+      "regauntless": {
+        "note": "Heavy armor; +6 AC, maxDex 0, big speed penalty. Feeds the AC + move-speed model; the 'best armor, slow' tank fantasy (Valkyrie)."
+      }
+    },
+    {
+      "name": "Banded mail",
+      "type": "heavy",
+      "srd": {
+        "cost": "250 gp",
+        "acBonus": 6,
+        "maxDex": 1,
+        "armorCheckPenalty": -6,
+        "arcaneSpellFailure": "35%",
+        "speed30": "20 ft.",
+        "speed20": "15 ft.",
+        "weight": "35 lb.",
+        "source": "d20srd.org/srd/equipment/armor.htm"
+      },
+      "regauntless": {
+        "note": "Heavy armor; +6 AC. Feeds the AC + move-speed model (speed penalty applies)."
+      }
+    },
+    {
+      "name": "Half-plate",
+      "type": "heavy",
+      "srd": {
+        "cost": "600 gp",
+        "acBonus": 7,
+        "maxDex": 0,
+        "armorCheckPenalty": -7,
+        "arcaneSpellFailure": "40%",
+        "speed30": "20 ft.",
+        "speed20": "15 ft.",
+        "weight": "50 lb.",
+        "source": "d20srd.org/srd/equipment/armor.htm"
+      },
+      "regauntless": {
+        "note": "Heavy armor; +7 AC. Feeds the AC + move-speed model; near-top tank armor."
+      }
+    },
+    {
+      "name": "Full plate",
+      "type": "heavy",
+      "srd": {
+        "cost": "1,500 gp",
+        "acBonus": 8,
+        "maxDex": 1,
+        "armorCheckPenalty": -6,
+        "arcaneSpellFailure": "35%",
+        "speed30": "20 ft.",
+        "speed20": "15 ft.",
+        "weight": "50 lb.",
+        "source": "d20srd.org/srd/equipment/armor.htm"
+      },
+      "regauntless": {
+        "note": "Heavy armor; best AC (+8). Feeds the AC + move-speed model; the Valkyrie endgame tank piece."
+      }
+    },
+    {
+      "name": "Buckler",
+      "type": "shield",
+      "srd": {
+        "cost": "15 gp",
+        "acBonus": 1,
+        "maxDex": null,
+        "armorCheckPenalty": -1,
+        "arcaneSpellFailure": "5%",
+        "speed30": "\u2014",
+        "speed20": "\u2014",
+        "weight": "5 lb.",
+        "source": "d20srd.org/srd/equipment/armor.htm"
+      },
+      "regauntless": {
+        "note": "Shield; +1 AC, leaves the hand mostly free (can still use a bow). Shields don't cap Dex or cut speed. Feeds the AC model."
+      }
+    },
+    {
+      "name": "Shield, light wooden",
+      "type": "shield",
+      "srd": {
+        "cost": "3 gp",
+        "acBonus": 1,
+        "maxDex": null,
+        "armorCheckPenalty": -1,
+        "arcaneSpellFailure": "5%",
+        "speed30": "\u2014",
+        "speed20": "\u2014",
+        "weight": "5 lb.",
+        "source": "d20srd.org/srd/equipment/armor.htm"
+      },
+      "regauntless": {
+        "note": "Shield; +1 AC. Bashable as a light martial weapon (see weapons array). Feeds the AC model."
+      }
+    },
+    {
+      "name": "Shield, light steel",
+      "type": "shield",
+      "srd": {
+        "cost": "9 gp",
+        "acBonus": 1,
+        "maxDex": null,
+        "armorCheckPenalty": -1,
+        "arcaneSpellFailure": "5%",
+        "speed30": "\u2014",
+        "speed20": "\u2014",
+        "weight": "6 lb.",
+        "source": "d20srd.org/srd/equipment/armor.htm"
+      },
+      "regauntless": {
+        "note": "Shield; +1 AC (steel = same protection as wooden, differs vs special attacks). Feeds the AC model."
+      }
+    },
+    {
+      "name": "Shield, heavy wooden",
+      "type": "shield",
+      "srd": {
+        "cost": "7 gp",
+        "acBonus": 2,
+        "maxDex": null,
+        "armorCheckPenalty": -2,
+        "arcaneSpellFailure": "15%",
+        "speed30": "\u2014",
+        "speed20": "\u2014",
+        "weight": "10 lb.",
+        "source": "d20srd.org/srd/equipment/armor.htm"
+      },
+      "regauntless": {
+        "note": "Shield; +2 AC, occupies the shield hand. Bashable as a heavy shield (see weapons array). Feeds the AC model."
+      }
+    },
+    {
+      "name": "Shield, heavy steel",
+      "type": "shield",
+      "srd": {
+        "cost": "20 gp",
+        "acBonus": 2,
+        "maxDex": null,
+        "armorCheckPenalty": -2,
+        "arcaneSpellFailure": "15%",
+        "speed30": "\u2014",
+        "speed20": "\u2014",
+        "weight": "15 lb.",
+        "source": "d20srd.org/srd/equipment/armor.htm"
+      },
+      "regauntless": {
+        "note": "Shield; +2 AC. Classic Valkyrie sword-and-board piece. Feeds the AC model."
+      }
+    },
+    {
+      "name": "Shield, tower",
+      "type": "shield",
+      "srd": {
+        "cost": "30 gp",
+        "acBonus": 4,
+        "maxDex": 2,
+        "armorCheckPenalty": -10,
+        "arcaneSpellFailure": "50%",
+        "speed30": "\u2014",
+        "speed20": "\u2014",
+        "weight": "45 lb.",
+        "source": "d20srd.org/srd/equipment/armor.htm"
+      },
+      "regauntless": {
+        "note": "Shield; +4 AC (can give total cover instead at the cost of attacks); -2 attack penalty, maxDex 2, huge ACP. The anomaly shield that DOES cap Dex. Feeds the AC model (and a potential cover/hunker primitive)."
+      }
+    },
+    {
+      "name": "Armor spikes",
+      "type": "extra",
+      "srd": {
+        "cost": "+50 gp",
+        "acBonus": 0,
+        "maxDex": null,
+        "armorCheckPenalty": 0,
+        "arcaneSpellFailure": "\u2014",
+        "speed30": "\u2014",
+        "speed20": "\u2014",
+        "weight": "+10 lb.",
+        "source": "d20srd.org/srd/equipment/armor.htm"
+      },
+      "regauntless": {
+        "note": "Add-on (not armor itself); grants the 'Spiked armor' weapon profile in the weapons array. No AC change. Purely cosmetic/economy unless grapple damage is modeled."
+      }
+    },
+    {
+      "name": "Gauntlet, locked",
+      "type": "extra",
+      "srd": {
+        "cost": "8 gp",
+        "acBonus": 0,
+        "maxDex": null,
+        "armorCheckPenalty": 0,
+        "arcaneSpellFailure": "\u2014",
+        "speed30": "\u2014",
+        "speed20": "\u2014",
+        "weight": "+5 lb.",
+        "source": "d20srd.org/srd/equipment/armor.htm"
+      },
+      "regauntless": {
+        "note": "Add-on; +10 vs disarm, can't be dropped easily. ACP is 'Special' in SRD (modeled as 0 here). Disarm = no-op unless modeled; mostly flavor/economy."
+      }
+    },
+    {
+      "name": "Shield spikes",
+      "type": "extra",
+      "srd": {
+        "cost": "+10 gp",
+        "acBonus": 0,
+        "maxDex": null,
+        "armorCheckPenalty": 0,
+        "arcaneSpellFailure": "\u2014",
+        "speed30": "\u2014",
+        "speed20": "\u2014",
+        "weight": "+5 lb.",
+        "source": "d20srd.org/srd/equipment/armor.htm"
+      },
+      "regauntless": {
+        "note": "Add-on; turns a shield into the 'Spiked shield' weapon profile (bigger bash). No AC change. Feeds the shield-bash weapon profiles in the weapons array."
+      }
+    }
+  ]
+}
