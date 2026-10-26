@@ -383,6 +383,120 @@
       "cr": "1", "size": "Large", "type": "Animal",
       "archetype": "noncombat",
       "notes2D": "OUT OF CURRENT COMBAT SCOPE (CR 1, boundary) + beast of burden. Domesticated, 2-hoof kick (1d4+3) — more capable than the donkey but still livestock, not a spawner threat. Data saved verbatim for the datamine (scope is a moving line); marked noncombat/out-of-scope. Part of the livestock cluster. Reserved for mount/pack-animal flavor."
+    },
+    {
+      "name": "Eagle",
+      "srd": {
+        "_note": "Verbatim SRD 3.5 stat block + flavor, full page. Single-size (describes any similar diurnal bird of prey).",
+        "source": "d20srd.org/srd/monsters/eagle.htm",
+        "variant": "Eagle",
+        "sizeType": "Small Animal",
+        "hd": "1d8+1 (5 hp)", "init": 2, "speed": "10 ft (2 squares), fly 80 ft (average)",
+        "ac": "14 (+1 size, +2 Dex, +1 natural), touch 13, flat-footed 12",
+        "baseAtk": 0, "grapple": -4,
+        "attack": "Talons +3 melee (1d4)",
+        "fullAttack": "2 talons +3 melee (1d4) and bite -2 melee (1d4)",
+        "space": "5 ft / 5 ft", "specialAttacks": "-",
+        "specialQualities": "Low-light vision",
+        "saves": { "fort": 3, "ref": 4, "will": 2 },
+        "abilities": { "str": 10, "dex": 15, "con": 12, "int": 2, "wis": 14, "cha": 6 },
+        "skills": "Listen +4, Spot +16",
+        "feats": "Alertness, Weapon Finesse(B)",
+        "environment": "Temperate mountains",
+        "organization": "Solitary or pair",
+        "cr": "1/2", "advancement": "2-3 HD (Medium)", "la": "-",
+        "flavor": "Birds of prey inhabiting nearly every terrain; prefer high, secluded nesting spots. ~3 ft long, ~7 ft wingspan. Describes any similar-sized diurnal bird of prey.",
+        "combat": "Eagles dive at prey, raking with their powerful talons.",
+        "skillsText": "+8 racial on Spot."
+      },
+      "cr": "1/2", "size": "Small", "type": "Animal",
+      "hp": 5, "hd": "1d8+1", "ac": 14, "touchAC": 13, "flatAC": 12,
+      "speedFt": 10, "flyFt": 80, "init": 2,
+      "bab": 0, "grapple": -4,
+      "saves": { "fort": 3, "ref": 4, "will": 2 },
+      "abilities": { "str": 10, "dex": 15, "con": 12, "int": 2, "wis": 14, "cha": 6 },
+      "attacks": [
+        { "name": "Talon", "mode": "melee", "delivery": "contact", "toHit": 3, "damage": "1d4", "crit": "x2", "faction": "filtered" },
+        { "name": "Talon", "mode": "melee", "delivery": "contact", "toHit": 3, "damage": "1d4", "crit": "x2", "faction": "filtered" },
+        { "name": "Bite", "mode": "melee", "delivery": "contact", "toHit": -2, "damage": "1d4", "crit": "x2", "faction": "filtered" }
+      ],
+      "specials": ["Low-light vision", "FLIGHT (fly 80ft, average) — off-ground movement; see notesSim for sim/2D handling of fliers"],
+      "movement": ["fly (primary)", "walk (10ft, barely)"],
+      "archetype": "brawler (flying diver)",
+      "behavior": {
+        "priorityList": [
+          "FLIER: fly fast (80ft/16 hexes) toward target; dive to contact",
+          "on contact: full attack (2 talons + bite)",
+          "inherits DEFAULT movement model, but in 3 dimensions (flight) — see open 'fliers' question"
+        ],
+        "movementIntent": "close (fast flying dive)",
+        "contact": "melee",
+        "movementModel": "DEFAULT collision-slide-drain, EXCEPT airborne: flies OVER ground obstacles/bodies (doesn't pile with ground mobs). FIRST FLIER — raises an open design question (how do fliers interact with the 2-grid floor/wall model, LoS over cover, can ground shots hit them). PARKED — spatial, Mids-owned."
+      },
+      "notes2D": "FIRST FLIER. Fast (80ft = 16 hexes/round airborne) multi-attack diver (2 talons + bite, like the badger's 3-attack profile). Flight is the new axis: flies over ground piles/cover, doesn't queue with ground mobs, dives onto the party. Opens design Qs (parked, spatial/Mids): do fliers occupy the same hex grid? can they be blocked/shot by ground units? do they ignore the collision-slide pile entirely? LoS over walls? Mechanically otherwise a vanilla fast multi-attack brawler.",
+      "notesSim": "5hp, AC14, 3 attacks/turn (2x talon +3 1d4, bite -2 1d4), fly 16 hexes/round. Models as a fast multi-attack brawler; FLIGHT abstracted for now (sim has no z-axis) — flag: fliers may ignore ground-collision piles and close unobstructed. Real flier rules (grid interaction, shootability) TBD with Mids."
+    },
+    {
+      "name": "Toad",
+      "srd": {
+        "_note": "Verbatim SRD 3.5 stat block + flavor, full page. Single-size. NO attack.",
+        "source": "d20srd.org/srd/monsters/toad.htm",
+        "variant": "Toad",
+        "sizeType": "Diminutive Animal",
+        "hd": "1/4 d8 (1 hp)", "init": 1, "speed": "5 ft (1 square)",
+        "ac": "15 (+4 size, +1 Dex), touch 15, flat-footed 14",
+        "baseAtk": 0, "grapple": -17,
+        "attack": "-", "fullAttack": "-",
+        "space": "1 ft / 0 ft", "specialAttacks": "-",
+        "specialQualities": "Amphibious, low-light vision",
+        "saves": { "fort": 2, "ref": 3, "will": 2 },
+        "abilities": { "str": 1, "dex": 12, "con": 11, "int": 1, "wis": 14, "cha": 4 },
+        "skills": "Hide +21, Listen +4, Spot +4",
+        "feats": "Alertness",
+        "environment": "Temperate marshes",
+        "organization": "Swarm (10-100)",
+        "cr": "1/10", "advancement": "-", "la": "-",
+        "flavor": "These diminutive amphibians are innocuous and beneficial, since they eat insects.",
+        "skillsText": "Coloration gives +4 racial on Hide."
+      },
+      "cr": "1/10", "size": "Diminutive", "type": "Animal",
+      "archetype": "noncombat",
+      "notes2D": "NONCOMBAT — no attack (1 hp). 'Innocuous and beneficial.' Not a threat mob; excluded from the enemy roster. Data saved for the datamine. Reserved for ambient fauna / familiar flavor (classic witch's toad). Same bucket as Bat."
+    },
+    {
+      "name": "Owl",
+      "srd": {
+        "_note": "Verbatim SRD 3.5 stat block + flavor, full page. Two columns: Owl + Celestial Owl (CR 1/4 both). Combines both talons into a single attack.",
+        "source": "d20srd.org/srd/monsters/owl.htm",
+        "variants": [
+          { "variant": "Owl", "sizeType": "Tiny Animal", "hd": "1d8 (4 hp)", "init": 3, "speed": "10 ft (2 squares), fly 40 ft (average)", "ac": "17 (+2 size, +3 Dex, +2 natural), touch 15, flat-footed 14", "baseAtk": 0, "grapple": -11, "attack": "Talons +5 melee (1d4-3)", "fullAttack": "Talons +5 melee (1d4-3)", "space": "2-1/2 ft / 0 ft", "specialAttacks": "-", "specialQualities": "Low-light vision", "saves": { "fort": 2, "ref": 5, "will": 2 }, "abilities": { "str": 4, "dex": 17, "con": 10, "int": 2, "wis": 14, "cha": 4 }, "skills": "Listen +14, Move Silently +17, Spot +6*", "feats": "Alertness, Weapon Finesse(B)", "environment": "Temperate forests", "organization": "Solitary", "cr": "1/4", "alignment": "Always neutral", "advancement": "2 HD (Small)", "la": "-" },
+          { "variant": "Celestial Owl", "sizeType": "Tiny Magical Beast (Extraplanar)", "hd": "1d8 (4 hp)", "init": 3, "speed": "10 ft (2 squares), fly 40 ft (average)", "ac": "17 (+2 size, +3 Dex, +2 natural), touch 15, flat-footed 14", "baseAtk": 0, "grapple": -11, "attack": "Talons +5 melee (1d4-3)", "fullAttack": "Talons +5 melee (1d4-3)", "space": "2-1/2 ft / 0 ft", "specialAttacks": "Smite Evil", "specialQualities": "Low-light vision, darkvision 60 ft, resistance to acid 5/cold 5/electricity 5, spell resistance 6", "saves": { "fort": 2, "ref": 5, "will": 2 }, "abilities": { "str": 4, "dex": 17, "con": 10, "int": 3, "wis": 14, "cha": 4 }, "skills": "Listen +14, Move Silently +17, Spot +6*", "feats": "Alertness, Weapon Finesse(B)", "environment": "Any good-aligned plane", "organization": "Solitary", "cr": "1/4", "alignment": "Always lawful good", "advancement": "2 HD (Small)", "la": "-" }
+        ],
+        "flavor": "Nocturnal birds of prey 1 to 2 feet long, wingspans up to 6 feet. They combine both talons into a single attack.",
+        "combat": "Owls swoop quietly down onto prey, attacking with their powerful talons.",
+        "skillsText": "+8 racial on Listen, +14 on Move Silently. *+8 racial on Spot in shadowy illumination.",
+        "celestial": "Summoned by summon monster I. Smite Evil (Su): once/day +1 damage vs evil foe."
+      },
+      "cr": "1/4", "size": "Tiny", "type": "Animal",
+      "hp": 4, "hd": "1d8", "ac": 17, "touchAC": 15, "flatAC": 14,
+      "speedFt": 10, "flyFt": 40, "init": 3,
+      "bab": 0, "grapple": -11,
+      "saves": { "fort": 2, "ref": 5, "will": 2 },
+      "abilities": { "str": 4, "dex": 17, "con": 10, "int": 2, "wis": 14, "cha": 4 },
+      "attacks": [
+        { "name": "Talons", "mode": "melee", "delivery": "contact", "toHit": 5, "damage": "1d4-3", "crit": "x2", "faction": "filtered" }
+      ],
+      "specials": ["Low-light vision", "FLIGHT (fly 40ft, average) — see Eagle notes + parked fliers question"],
+      "movement": ["fly (primary)", "walk (10ft, barely)"],
+      "archetype": "brawler (flying, weak)",
+      "behavior": {
+        "priorityList": ["FLIER: fly toward target, swoop to contact", "on contact: single talon attack (trivial dmg)", "inherits flier handling (see Eagle / parked fliers question)"],
+        "movementIntent": "close (flying swoop)",
+        "contact": "melee",
+        "movementModel": "Flier (see Eagle). Slower than eagle (40ft/8 hexes airborne), single weak attack."
+      },
+      "notes2D": "Eagle-lite: smaller, slower flier (40ft/8 hexes), SINGLE combined-talon attack for trivial damage (1d4-3, Str 4). High AC (17) for its tier (Dex 17 + size + natural) so it's annoyingly evasive but barely hurts. Stealthy (Move Silently +17 — swoops quietly). Solitary. Obvious familiar candidate (wizard's owl). Same flier questions as Eagle (parked). Mechanically the weakest flier — almost a noncombat, but it does attack so recorded as a (weak) brawler.",
+      "notesSim": "4hp, AC17, single talon +5 (1d4-3 ~ often 1), fly 8 hexes/round. High AC = whiffs more hero shots than its tier suggests; near-zero damage output. Flight abstracted (see Eagle). Validates a high-evasion low-damage flier."
     }
   ]
 }
