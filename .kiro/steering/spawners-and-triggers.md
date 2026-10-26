@@ -56,19 +56,40 @@ A **zone that runs a script when a condition is met.** This is the authored-set-
 - **trigger** — the condition that fires it. Open enum, extensible: **entry / exit** (first two),
   then on-death-of-X, on-timer, on-interact, on-prior-event-complete (chaining), etc. Add
   condition-types as needed; the architecture just says "a condition."
-- **script** — an ORDERED list of effects + an advance/completion condition. Effect kinds include:
-  **place/activate emitter-spawner(s)** (deploys type-1 generators into the zone — the two systems
-  meet HERE), **play a line** (announcer/dialogue), **mark a lair** (boss-territory dressing:
-  gold hoard / alien hatch-eggs / roc nest — the zone's visual), **grant a reward**, **gate/open
-  geometry**, **chain the next event**, …
+- **script** — an ORDERED list of **lines**. Each line = **`/verb args`** (one effect) **+ a
+  trinary FLOW-MODE** that controls how the list advances after this line. You compose encounters
+  by **stacking lines** — the trinary is the ONLY control flow (no if/else, no loops, no variables
+  in v1). This is the whole authoring ergonomic: *drop a line, pick a verb, set the toggle.*
 
-**Worked example (shows every part + the chaining):**
-> Player ENTERS the zone → miniboss **says a line** → script **places 3 emitter-spawners** inside
-> the field → **completion condition = all 3 spawners destroyed** → event ADVANCES (open the door /
-> reward / next wave).
+  **The trinary flow-mode (per line):**
+  1. **wait-until-complete** — block; don't advance until THIS effect fully finishes (all spawners
+     dead, line fully spoken, door fully open). The pacing beat / the gate.
+  2. **continue-after-action** — kick the effect off; once its initiating action is done, advance
+     (the effect may keep running, but the list rolls on).
+  3. **no-wait** — fire-and-forget; advance to the next line immediately (true parallel; the next
+     line stacks on top).
 
-Note the simplification this proves: the field doesn't invent spawning — it **places normal
-emitter-spawners**, which then behave by the normal rules (pile/slide/drain/pack). One emitter,
+  From these three you get serial beats (stacked wait-until-complete), simultaneous bursts (stacked
+  no-wait), and the completion GATE (a `/wait-until <cond>` line set to wait-until-complete) — with
+  NO branching syntax. Lenient EQ-macro spirit, 2025 ergonomics; NOT a scripting language. Complex
+  flow = **chain another trigger-field** (`/trigger next_field`), not nested logic.
+
+  **Verbs** (extensible): `/spawn` (place/activate emitter-spawner(s) — the two systems meet here),
+  `/say` + `/announce` (dialogue/announcer), `/mark-lair` (boss dressing: gold hoard / alien
+  hatch-eggs / roc nest = the zone visual), `/wait-until <cond>`, `/pause <t>`, `/open` + `/gate`
+  (geometry), `/reward`, `/trigger <field>` (chain), …
+
+**Worked example (lines + trinary; shows beats, parallel, and the gate):**
+```
+/say "You dare enter my lair?"     [wait-until-complete]   ← finish the line first (beat)
+/spawn goblin_gen x3 in-field      [no-wait]               ← drop the 3 generators, keep going
+/announce "Survive!"               [continue-after]        ← shout it, roll on
+/wait-until all-spawners-dead      [wait-until-complete]   ← the completion GATE
+/open door_north                   [continue-after]
+/reward chest_A                    [no-wait]
+```
+The field places NORMAL emitter-spawners (type 1); once out they behave by the normal rules
+(pile/slide/drain/pack). The field invents no spawning — it deploys generators and gates on them.
 reused.
 
 ## Authoring loop (the editor flow)
