@@ -1,0 +1,62 @@
+{
+  "_comment": "Regauntless canonical bestiary. The game's Monster Manual as DATA (datastream, not prose). Read by the crawl-sim now, by the game later. Grown mob-by-mob via the pull->define->append walkthrough. Stats transcribed from SRD 3.5 (OGL); 'archetype'/'behavior'/'notes*' are OUR definitions (how it plays in 2D + how the sim models it). See .kiro/steering/combat-model.md.",
+  "_schema": {
+    "name": "string", "cr": "string (SRD CR)", "size": "string", "type": "string",
+    "hp": "int (typical)", "hd": "string", "ac": "int", "touchAC": "int", "flatAC": "int",
+    "speedFt": "int (SRD ft; /5 = hexes/round)", "init": "int",
+    "bab": "int", "grapple": "int",
+    "saves": "{fort,ref,will}", "abilities": "{str,dex,con,int,wis,cha}",
+    "attacks": "[{name,mode:melee|ranged,delivery:flat|lob|cone|bolt|contact,toHit,damage,crit,faction:filtered|blind}]",
+    "specials": "[string]",
+    "archetype": "ghost|lobber|brawler|... (OUR behavior class)",
+    "behavior": "{priorityList:[string], movementIntent:close|hold-range|kite, contact:detonate|melee|none}",
+    "notes2D": "string (how it plays on the hex field)",
+    "notesSim": "string (how the numbers-sim models it; note any spatial-skill->probability abstraction)"
+  },
+  "monsters": [
+    {
+      "name": "Kobold",
+      "cr": "1/4", "size": "Small", "type": "Humanoid (Reptilian)",
+      "hp": 4, "hd": "1d8", "ac": 15, "touchAC": 12, "flatAC": 14,
+      "speedFt": 30, "init": 1,
+      "bab": 1, "grapple": -4,
+      "saves": { "fort": 2, "ref": 1, "will": -1 },
+      "abilities": { "str": 9, "dex": 13, "con": 10, "int": 10, "wis": 9, "cha": 8 },
+      "attacks": [
+        { "name": "Spear", "mode": "melee", "delivery": "contact", "toHit": 1, "damage": "1d6-1", "crit": "x3", "faction": "filtered" },
+        { "name": "Sling", "mode": "ranged", "delivery": "flat", "toHit": 3, "damage": "1d3-1", "crit": "x2", "faction": "filtered" }
+      ],
+      "specials": ["Darkvision 60ft", "Light Sensitivity (dazzled in bright light / daylight)"],
+      "archetype": "lobber",
+      "behavior": {
+        "priorityList": ["if LoS && has-shot -> fire sling (flat)", "else no LoS -> move to gain sightline / maintain range (kite)", "else -> weak spear melee if cornered"],
+        "movementIntent": "hold-range",
+        "contact": "melee"
+      },
+      "notes2D": "Gauntlet 'Lobber' feel but with a FLAT shot (sling), not an arc. Holds range, plinks via LoS, kites when closed on; its 'cowardice/flee' IS the kiting. Fragile (4hp, ~1hit). Light Sensitivity = possible interaction with lit-from-below light-wells (parked).",
+      "notesSim": "4hp unit, flat ranged ~1 dmg (1d3-1), speed 6 hexes/rd. Kiting/dodge is positional -> abstract to a probability in the numbers-sim. Dies to ~any hero shot."
+    },
+    {
+      "name": "Goblin",
+      "cr": "1/3", "size": "Small", "type": "Humanoid (Goblinoid)",
+      "hp": 5, "hd": "1d8+1", "ac": 15, "touchAC": 12, "flatAC": 14,
+      "speedFt": 30, "init": 1,
+      "bab": 1, "grapple": -3,
+      "saves": { "fort": 3, "ref": 1, "will": -1 },
+      "abilities": { "str": 11, "dex": 13, "con": 12, "int": 10, "wis": 9, "cha": 6 },
+      "attacks": [
+        { "name": "Morningstar", "mode": "melee", "delivery": "contact", "toHit": 2, "damage": "1d6", "crit": "x2", "faction": "filtered" },
+        { "name": "Javelin", "mode": "ranged", "delivery": "flat", "toHit": 3, "damage": "1d4", "crit": "x2", "faction": "filtered" }
+      ],
+      "specials": ["Darkvision 60ft"],
+      "archetype": "brawler/flat-shooter",
+      "behavior": {
+        "priorityList": ["if LoS && has-shot -> throw javelin (flat)", "else no LoS -> move to close/gain sightline", "else -> morningstar melee on contact"],
+        "movementIntent": "close",
+        "contact": "melee"
+      },
+      "notes2D": "The 'upward variation' from the ghost/kobold: a real little soldier. Closes to melee (morningstar) but will throw javelins (flat shot) with LoS. Survives contact (not a detonator) -> brawler-ish, but weak (5hp). Flees when a battle turns (tactical AI -> optional for auto-crawler).",
+      "notesSim": "5hp, AC15, melee 1d6 / ranged 1d4, speed 6 hexes/rd, +1 BAB. Fights back at contact (multi-round melee if it survives). Flat-shot firing discipline applies (holds if friendly/spawner blocks lane)."
+    }
+  ]
+}
