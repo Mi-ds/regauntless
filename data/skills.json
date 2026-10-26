@@ -1,0 +1,489 @@
+{
+  "_comment": "Regauntless skills — transcribed VERBATIM from SRD 3.5 (OGL). Skills feed the build model (character-creation.md: class vs cross-class ranks, Medical Background) and are referenced by feats (data/feats.json: Weapon Finesse, the +2-skill feats, Heal/revive, UMD). PROCESS: like feats/bestiary — 'srd' block (verbatim: key ability / trained-only / armor-check-penalty / synergy / short description) + a 'regauntless' layer. SKILLS have an extra axis: RELEVANCE to a top-down horde crawler (many SRD skills are social/exploration/tabletop with little dungeon-combat purchase). Validate JSON after every edit.",
+  "_schema": {
+    "name": "string",
+    "srd": {
+      "keyAbility": "Str|Dex|Con|Int|Wis|Cha (or 'none' / special)",
+      "trainedOnly": "bool — can only be used if you have ranks",
+      "armorCheckPenalty": "bool — armor check penalty applies",
+      "synergy": "[string] — '5+ ranks grants +2 to X' entries (verbatim)",
+      "description": "string — short verbatim summary of what the skill does",
+      "source": "d20srd.org/srd/skills/<skill>.htm"
+    },
+    "regauntless": {
+      "status": "clean | reinterpret | no-op | house",
+      "relevance": "core | situational | out-of-genre — how much a top-down dungeon crawler uses it",
+      "note": "how it maps to our model; if out-of-genre, why (social/overland/tabletop)"
+    }
+  },
+  "skills": [
+    {
+      "name": "Heal",
+      "srd": {
+        "keyAbility": "Wis", "trainedOnly": false, "armorCheckPenalty": false,
+        "synergy": [],
+        "description": "Treat wounds/first aid: stabilize a dying creature (DC 15), treat wounds from caltrops/spike growth/etc, treat poison (aid a save), treat disease (aid a save), provide long-term care. Also the skill behind the First-Aid revive.",
+        "source": "d20srd.org/srd/skills/heal.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret", "relevance": "core",
+        "note": "THE revive skill (character-creation.md / combat-model.md 'Reviving the incapped'): ranks -> the contextual First-Aid button; 'stabilize/first-aid' = clear incap (0->1). Also 'treat poison/disease' = aiding the resist-save loop (ties to the cleanse/ward taxonomy). High-value: gate + scale of the medic role."
+      }
+    },
+    {
+      "name": "Use Magic Device",
+      "srd": {
+        "keyAbility": "Cha", "trainedOnly": true, "armorCheckPenalty": false,
+        "synergy": ["5+ ranks in Decipher Script -> +2 UMD involving scrolls", "5+ ranks in Spellcraft -> +2 UMD to decipher scrolls"],
+        "description": "Activate magic items you normally couldn't (use a wand/scroll/staff without the class, emulate a class feature/alignment/ability score/race to meet an item's requirement). Trained only; retry allowed but a natural 1 locks that item for 24h.",
+        "source": "d20srd.org/srd/skills/useMagicDevice.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret", "relevance": "core",
+        "note": "The Rogue's 'fake a caster' path (character-creation.md: capability-as-outcome via item). UMD check -> activate a divine/arcane ITEM without the casting feat. Mechanism for item-gated capability. Core to the build-space richness (3-ways-to-cast example)."
+      }
+    },
+    {
+      "name": "Tumble",
+      "srd": {
+        "keyAbility": "Dex", "trainedOnly": true, "armorCheckPenalty": true,
+        "synergy": ["5+ ranks in Jump -> +2 Tumble", "5+ ranks in Tumble -> +2 Balance and +2 Jump"],
+        "description": "Move through/past enemies without provoking: tumble past foes (DC 15) or through their space (DC 25) avoiding attacks of opportunity; also treat a fall as 10 ft shorter when deliberate (DC 15).",
+        "source": "d20srd.org/srd/skills/tumble.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret", "relevance": "situational",
+        "note": "Core function (avoid AoO while moving through enemies) is partly a no-op (AoO deleted) — BUT the SPIRIT (move through/past enemy bodies cleanly) could reinterpret as a mobility perk: ignore/reduce the body-collision slow when passing through a mob cluster, or a dodge factor. Dex-flavored movement feat-adjacent. Worth a real-time reinterpret, not dead."
+      }
+    },
+    {
+      "name": "Hide",
+      "srd": {
+        "keyAbility": "Dex", "trainedOnly": false, "armorCheckPenalty": true,
+        "synergy": [],
+        "description": "Conceal yourself from sight; opposed by the observer's Spot. Size modifies (smaller hides better). Needs cover/concealment; moving fast or sniping imposes penalties.",
+        "source": "d20srd.org/srd/skills/hide.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret", "relevance": "situational",
+        "note": "Stealth vs the LoS/sensing model (combat-model.md). Could reinterpret as reducing the range/reliability at which mobs gain LoS on you (a stealth hero slips sightlines). Interacts with the spawner-aims-at-LoS targeting. Situational in a horde game (hard to hide from a swarm) but has real hooks. Many mobs use scent/tremorsense -> Hide useless vs those (nice counter texture)."
+      }
+    },
+    {
+      "name": "Diplomacy",
+      "srd": {
+        "keyAbility": "Cha", "trainedOnly": false, "armorCheckPenalty": false,
+        "synergy": ["5+ ranks in Bluff -> +2 Diplomacy", "5+ ranks in Knowledge (nobility and royalty) -> +2 Diplomacy", "5+ ranks in Sense Motive -> +2 Diplomacy"],
+        "description": "Change others' attitudes (hostile->friendly) or negotiate, via an opposed/DC Cha check over at least 1 full minute of conversation.",
+        "source": "d20srd.org/srd/skills/diplomacy.htm"
+      },
+      "regauntless": {
+        "status": "no-op", "relevance": "out-of-genre",
+        "note": "Social/NPC-attitude skill — no NPCs to persuade in a horde crawl; mobs don't negotiate. OUT OF GENRE for the core loop. Transcribed for completeness (and the metagame/game-show/announcer layer MIGHT surface Cha-social somewhere — e.g. the Pirate 'Unsavory' -Cha drawback implies social checks exist somewhere). Parked. Shares shape with Bluff/Intimidate/Sense Motive/Gather Information/Disguise/Forgery/Appraise/Decipher Script (the social/knowledge cluster)."
+      }
+    },
+    {
+      "name": "Appraise",
+      "srd": {
+        "keyAbility": "Int", "trainedOnly": false, "armorCheckPenalty": false,
+        "synergy": ["5 ranks in any Craft -> +2 Appraise checks related to items made with that Craft skill"],
+        "description": "Estimate the value of common or well-known objects (DC 12); rarer or exotic items require higher checks (DC 15, 20, or more). Failure means a wrong estimate or no estimate at all.",
+        "source": "d20srd.org/srd/skills/appraise.htm"
+      },
+      "regauntless": {
+        "status": "no-op", "relevance": "out-of-genre",
+        "note": "Merchant/value-estimation skill — no shopping or loot-valuation economy in the core horde loop. Parked; if a treasure/vendor metagame layer ever appears it could feed item-value readouts."
+      }
+    },
+    {
+      "name": "Balance",
+      "srd": {
+        "keyAbility": "Dex", "trainedOnly": false, "armorCheckPenalty": true,
+        "synergy": ["5+ ranks in Tumble -> +2 Balance"],
+        "description": "Walk a precarious or narrow surface; success lets you move at half speed for 1 round, a bad failure means you fall. You're flat-footed while balancing unless you have 5+ ranks, and taking damage forces another check.",
+        "source": "d20srd.org/srd/skills/balance.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret", "relevance": "situational",
+        "note": "Narrow-ledge/hazard-tile traversal in a ¾ dungeon — reinterpret as not slipping on bridges/chasm edges/ice tiles, tied to the movement model. Situational (depends on how much terrain hazard the levels carry)."
+      }
+    },
+    {
+      "name": "Bluff",
+      "srd": {
+        "keyAbility": "Cha", "trainedOnly": false, "armorCheckPenalty": false,
+        "synergy": ["5+ ranks in Bluff -> +2 Diplomacy, Intimidate, and Sleight of Hand checks, and +2 Disguise checks made to act in character"],
+        "description": "Deceive others via a check opposed by their Sense Motive; also feint in melee (deny a foe its Dex bonus to AC), create a diversion to Hide, or deliver a secret message.",
+        "source": "d20srd.org/srd/skills/bluff.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret", "relevance": "situational",
+        "note": "Social deception is out-of-genre, BUT the feint-in-combat use (deny a foe its Dex-to-AC / land a guaranteed opener) has a real deterministic-combat hook, as does 'diversion to Hide' feeding the stealth/LoS loop. Keep the combat feint, drop the conversation."
+      }
+    },
+    {
+      "name": "Climb",
+      "srd": {
+        "keyAbility": "Str", "trainedOnly": false, "armorCheckPenalty": true,
+        "synergy": ["5+ ranks in Use Rope -> +2 Climb checks made to climb a rope, a knotted rope, or a rope-and-wall combination"],
+        "description": "Move up, down, or across a wall or steep incline at one-quarter speed; DC depends on the surface. A failure by 5+ means you fall, and you lose your Dex bonus to AC while climbing.",
+        "source": "d20srd.org/srd/skills/climb.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret", "relevance": "situational",
+        "note": "Vertical traversal in a top-down map — reinterpret as scaling walls/pits to shortcut or escape a horde, gated by a Climb-style check. Situational: depends on whether levels expose climbable geometry vs flat floors."
+      }
+    },
+    {
+      "name": "Concentration",
+      "srd": {
+        "keyAbility": "Con", "trainedOnly": false, "armorCheckPenalty": false,
+        "synergy": [],
+        "description": "Avoid being distracted (by taking damage, violent motion, grappling, etc.) while casting a spell or doing something requiring full attention; a failed check wastes the action and loses the spell. Also lets you cast or act defensively (DC 15 + spell level) to avoid attacks of opportunity.",
+        "source": "d20srd.org/srd/skills/concentration.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret", "relevance": "core",
+        "note": "Core caster-survivability lever: reinterpret 'damaged while casting' as not getting your cast/channel interrupted when a mob hits you mid-animation — directly relevant to Wizard/Elf ranged-attack cadence in deterministic combat."
+      }
+    },
+    {
+      "name": "Craft",
+      "srd": {
+        "keyAbility": "Int", "trainedOnly": false, "armorCheckPenalty": false,
+        "synergy": ["5 ranks in a Craft skill -> +2 Appraise checks related to items made with that Craft skill"],
+        "description": "A group of separate skills (one per trade, e.g. weaponsmithing, alchemy, bowmaking), each bought separately. Lets you make an item of the appropriate type; DC and time scale with the item's complexity and price.",
+        "source": "d20srd.org/srd/skills/craft.htm"
+      },
+      "regauntless": {
+        "status": "no-op", "relevance": "out-of-genre",
+        "note": "Umbrella skill with many sub-types (alchemy, weaponsmithing, trapmaking, etc.), each a separate skill. Downtime item-crafting economy — out of genre for the real-time horde loop. Parked unless a crafting/upgrade metagame appears."
+      }
+    },
+    {
+      "name": "Decipher Script",
+      "srd": {
+        "keyAbility": "Int", "trainedOnly": true, "armorCheckPenalty": false,
+        "synergy": ["5+ ranks in Decipher Script -> +2 Use Magic Device checks involving scrolls"],
+        "description": "Read writing in an unfamiliar language or an incomplete/archaic form (base DC 20 for simple messages, higher for exotic text). On success you grasp the general content of about a page.",
+        "source": "d20srd.org/srd/skills/decipherScript.htm"
+      },
+      "regauntless": {
+        "status": "no-op", "relevance": "out-of-genre",
+        "note": "Puzzle/lore-reading skill with no real-time combat purchase; its one live hook is the UMD-scroll synergy (feeds the item-casting path). Parked otherwise."
+      }
+    },
+    {
+      "name": "Disable Device",
+      "srd": {
+        "keyAbility": "Int", "trainedOnly": true, "armorCheckPenalty": false,
+        "synergy": [],
+        "description": "Disarm, jam, or rig a device or trap; DC scales with complexity (10 simple up to 25 wicked). A failure by 5+ springs the trap. Characters with trapfinding can disarm magic traps.",
+        "source": "d20srd.org/srd/skills/disableDevice.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret", "relevance": "core",
+        "note": "The trap-disarm half of the dungeon toolkit — reinterpret as the Rogue-style interaction to neutralize trap tiles / jam generators before they spawn. Pairs with Search (find) and Open Lock (doors) as the classic dungeon-infiltration triad."
+      }
+    },
+    {
+      "name": "Disguise",
+      "srd": {
+        "keyAbility": "Cha", "trainedOnly": false, "armorCheckPenalty": false,
+        "synergy": ["5+ ranks in Bluff -> +2 Disguise checks made when you know you're being observed and you try to act in character"],
+        "description": "Change your appearance; your check is opposed by observers' Spot checks. Impersonating a specific individual gives viewers who know them a bonus to see through it.",
+        "source": "d20srd.org/srd/skills/disguise.htm"
+      },
+      "regauntless": {
+        "status": "no-op", "relevance": "out-of-genre",
+        "note": "Impersonation/infiltration social skill — mobs don't evaluate appearances in the horde loop. Out of genre; parked."
+      }
+    },
+    {
+      "name": "Escape Artist",
+      "srd": {
+        "keyAbility": "Dex", "trainedOnly": false, "armorCheckPenalty": true,
+        "synergy": ["5+ ranks in Escape Artist -> +2 Use Rope checks to bind someone", "5+ ranks in Use Rope -> +2 Escape Artist checks when escaping from rope bonds"],
+        "description": "Slip out of ropes, manacles, nets, grapples, or tight spaces; DC varies by restraint (ropes are opposed by the binder's Use Rope +10, grapples by the enemy's grapple check).",
+        "source": "d20srd.org/srd/skills/escapeArtist.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret", "relevance": "situational",
+        "note": "Escape-from-restraint — reinterpret as breaking free of entangle/snare/grab effects a mob inflicts (web, net, grapple), a real deterministic-combat state-escape. Situational, depending on which crowd-control statuses enemies carry."
+      }
+    },
+    {
+      "name": "Forgery",
+      "srd": {
+        "keyAbility": "Int", "trainedOnly": false, "armorCheckPenalty": false,
+        "synergy": [],
+        "description": "Create or detect forged documents; your check is made secretly and opposed by the examiner's Forgery check. It's language-dependent — you must read and write the language in question.",
+        "source": "d20srd.org/srd/skills/forgery.htm"
+      },
+      "regauntless": {
+        "status": "no-op", "relevance": "out-of-genre",
+        "note": "Document-forgery social skill — no paperwork or NPC bureaucracy in a horde crawl. Out of genre; parked."
+      }
+    },
+    {
+      "name": "Gather Information",
+      "srd": {
+        "keyAbility": "Cha", "trainedOnly": false, "armorCheckPenalty": false,
+        "synergy": ["5+ ranks in Knowledge (local) -> +2 Gather Information"],
+        "description": "Spend an evening and some coin buying drinks to pick up rumors or news (DC 10 for general news, 15-25+ for a specific rumor, item, or map).",
+        "source": "d20srd.org/srd/skills/gatherInformation.htm"
+      },
+      "regauntless": {
+        "status": "no-op", "relevance": "out-of-genre",
+        "note": "Town/NPC rumor-gathering, overland and social — no bearing on the real-time dungeon loop. Out of genre; parked."
+      }
+    },
+    {
+      "name": "Handle Animal",
+      "srd": {
+        "keyAbility": "Cha", "trainedOnly": true, "armorCheckPenalty": false,
+        "synergy": ["5+ ranks in Handle Animal -> +2 Ride checks and wild empathy checks"],
+        "description": "Command, 'push', teach tricks to, train, or rear animals; DC depends on the task (10 to handle a known trick, up to 20+ to teach/train). Can also be used on non-animals of Int 1-2 at +5 DC.",
+        "source": "d20srd.org/srd/skills/handleAnimal.htm"
+      },
+      "regauntless": {
+        "status": "no-op", "relevance": "out-of-genre",
+        "note": "Animal-companion/mount management with multi-week downtime training — no animal-handling layer in the four-hero horde loop. Out of genre; parked unless a pet/summon system appears."
+      }
+    },
+    {
+      "name": "Intimidate",
+      "srd": {
+        "keyAbility": "Cha", "trainedOnly": false, "armorCheckPenalty": false,
+        "synergy": ["5+ ranks in Bluff -> +2 Intimidate"],
+        "description": "Force a target into cooperative behavior, or demoralize an opponent in melee to make it shaken (-2 on attacks, checks, and saves) for 1 round. Opposed by the target's modified level check; immune-to-fear and nonintelligent creatures can't be intimidated.",
+        "source": "d20srd.org/srd/skills/intimidate.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret", "relevance": "situational",
+        "note": "The social-coercion use is out-of-genre, but Demoralize (make a visible melee foe shaken -> a deterministic debuff) is a legit combat action — reinterpret as a fear/debuff pulse on adjacent mobs. Many undead/mindless hordes are fear-immune (nice counter texture)."
+      }
+    },
+    {
+      "name": "Jump",
+      "srd": {
+        "keyAbility": "Str", "trainedOnly": false, "armorCheckPenalty": true,
+        "synergy": ["5+ ranks in Tumble -> +2 Jump", "5+ ranks in Jump -> +2 Tumble"],
+        "description": "Leap horizontally or vertically; DC equals distance for a long jump (doubled without a running start), 4x height for a high jump. Modified by your speed; with ranks you land on your feet.",
+        "source": "d20srd.org/srd/skills/jump.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret", "relevance": "situational",
+        "note": "Gap-crossing movement — reinterpret as hopping chasms/pit tiles or vaulting over an enemy cluster, scaled off move speed (fits the stat-driven movement model; Elf jumps best). Situational on level geometry."
+      }
+    },
+    {
+      "name": "Knowledge",
+      "srd": {
+        "keyAbility": "Int", "trainedOnly": true, "armorCheckPenalty": false,
+        "synergy": ["5+ ranks in Knowledge (arcana) -> +2 Spellcraft", "5+ ranks in Knowledge (architecture and engineering) -> +2 Search checks to find secret doors or hidden compartments", "5+ ranks in Knowledge (geography) -> +2 Survival checks to keep from getting lost or avoid natural hazards", "5+ ranks in Knowledge (history) -> +2 bardic knowledge checks", "5+ ranks in Knowledge (local) -> +2 Gather Information", "5+ ranks in Knowledge (nature) -> +2 Survival checks in aboveground natural environments", "5+ ranks in Knowledge (nobility and royalty) -> +2 Diplomacy", "5+ ranks in Knowledge (religion) -> +2 turning checks against undead", "5+ ranks in Knowledge (the planes) -> +2 Survival checks while on other planes", "5+ ranks in Knowledge (dungeoneering) -> +2 Survival checks while underground", "5+ ranks in Survival -> +2 Knowledge (nature)"],
+        "description": "A set of separate skills (arcana, dungeoneering, religion, nature, the planes, etc.), each bought separately. Answers questions in a field of study and can identify monsters and their powers/vulnerabilities (DC 10 + monster HD).",
+        "source": "d20srd.org/srd/skills/knowledge.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret", "relevance": "situational",
+        "note": "Umbrella of many sub-skills (treat as one entry). Most fields are out-of-genre lore, BUT the 'identify a monster's powers/vulnerabilities (DC 10+HD)' use is a strong bestiary-lore hook — Knowledge (arcana/dungeoneering/religion) could gate a monster-info/weakness readout in a horde game."
+      }
+    },
+    {
+      "name": "Listen",
+      "srd": {
+        "keyAbility": "Wis", "trainedOnly": false, "armorCheckPenalty": false,
+        "synergy": [],
+        "description": "Hear noises; made against a DC for how quiet the sound is, or opposed by a target's Move Silently. Modified by distance, intervening doors/walls, and distraction.",
+        "source": "d20srd.org/srd/skills/listen.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret", "relevance": "core",
+        "note": "A sensing channel alongside Spot — reinterpret as hearing-based detection of approaching/off-screen mobs (noise through walls, early warning before LoS). Fits the LoS/scent/tremorsense sensing model directly; counter to Move Silently."
+      }
+    },
+    {
+      "name": "Move Silently",
+      "srd": {
+        "keyAbility": "Dex", "trainedOnly": false, "armorCheckPenalty": true,
+        "synergy": [],
+        "description": "Move quietly, opposed by listeners' Listen checks. Full-speed movement takes a -5 penalty; running/charging is nearly impossible (-20), and noisy surfaces impose further penalties.",
+        "source": "d20srd.org/srd/skills/moveSilently.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret", "relevance": "situational",
+        "note": "The audio half of stealth — reinterpret as reducing the noise radius that alerts/draws mobs (vs the Listen/hearing sense), pairing with Hide for the sight half. Situational in a swarm but a real stealth-build lever; useless vs scent/tremorsense."
+      }
+    },
+    {
+      "name": "Open Lock",
+      "srd": {
+        "keyAbility": "Dex", "trainedOnly": true, "armorCheckPenalty": false,
+        "synergy": [],
+        "description": "Pick a lock with thieves' tools (DC 20 very simple up to 40 amazing); a full-round action. Without tools you take a -2 penalty, and you can't pick locks untrained (though you might force them).",
+        "source": "d20srd.org/srd/skills/openLock.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret", "relevance": "core",
+        "note": "The locked-door half of the dungeon toolkit — reinterpret as the Rogue interaction to open locked doors/chests gating progression or loot. Part of the Search/Disable Device/Open Lock infiltration triad."
+      }
+    },
+    {
+      "name": "Perform",
+      "srd": {
+        "keyAbility": "Cha", "trainedOnly": false, "armorCheckPenalty": false,
+        "synergy": [],
+        "description": "A set of separate skills (act, dance, oratory, each instrument category, sing, etc.), each bought separately. Impress an audience to earn money (DC 10-30); a bard needs ranks here to use bardic music abilities.",
+        "source": "d20srd.org/srd/skills/perform.htm"
+      },
+      "regauntless": {
+        "status": "no-op", "relevance": "out-of-genre",
+        "note": "Umbrella of nine performance categories (treat as one entry). Entertainment/bardic skill — no busking or audiences in the horde loop. Out of genre; parked unless a bard-style buff-song mechanic appears."
+      }
+    },
+    {
+      "name": "Profession",
+      "srd": {
+        "keyAbility": "Wis", "trainedOnly": true, "armorCheckPenalty": false,
+        "synergy": [],
+        "description": "A set of separate skills (one per vocation), each bought separately. Represents aptitude in a trade of broad, less-specific knowledge; mainly used to earn a living (about half your weekly check in gp).",
+        "source": "d20srd.org/srd/skills/profession.htm"
+      },
+      "regauntless": {
+        "status": "no-op", "relevance": "out-of-genre",
+        "note": "Umbrella of many vocations (treat as one entry). Downtime income/livelihood skill — no bearing on the real-time dungeon loop. Out of genre; parked."
+      }
+    },
+    {
+      "name": "Ride",
+      "srd": {
+        "keyAbility": "Dex", "trainedOnly": false, "armorCheckPenalty": false,
+        "synergy": ["5+ ranks in Handle Animal -> +2 Ride"],
+        "description": "Control a mount for special maneuvers — guide with knees, stay in the saddle, use the mount as cover, soft-fall, leap, spur to extra speed, or fast mount/dismount. Typical riding needs no check.",
+        "source": "d20srd.org/srd/skills/ride.htm"
+      },
+      "regauntless": {
+        "status": "no-op", "relevance": "out-of-genre",
+        "note": "Mounted-combat skill — no mounts in the four-hero-on-foot horde loop. Out of genre; parked unless a rideable-mount mechanic is ever added."
+      }
+    },
+    {
+      "name": "Search",
+      "srd": {
+        "keyAbility": "Int", "trainedOnly": false, "armorCheckPenalty": false,
+        "synergy": ["5+ ranks in Search -> +2 Survival checks to find or follow tracks", "5+ ranks in Knowledge (architecture and engineering) -> +2 Search checks to find secret doors or hidden compartments"],
+        "description": "Actively look for secret doors, traps, or hidden items within 10 feet (full-round action per 5-ft area). DC 20 spots a typical secret door or simple trap; only a rogue (or find traps) can find traps with DC above 20.",
+        "source": "d20srd.org/srd/skills/search.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret", "relevance": "core",
+        "note": "THE classic dungeon-exploration skill — finding traps and secret doors is a core crawler loop. Reinterpret as the active-scan interaction that reveals trap tiles / hidden passages / stashes; pairs with Disable Device and Open Lock."
+      }
+    },
+    {
+      "name": "Sense Motive",
+      "srd": {
+        "keyAbility": "Wis", "trainedOnly": false, "armorCheckPenalty": false,
+        "synergy": ["5+ ranks in Sense Motive -> +2 Diplomacy"],
+        "description": "Avoid being bluffed, get a 'hunch' about a social situation, sense an enchantment effect on someone, or discern a secret message. Opposes Bluff.",
+        "source": "d20srd.org/srd/skills/senseMotive.htm"
+      },
+      "regauntless": {
+        "status": "no-op", "relevance": "out-of-genre",
+        "note": "Social read / anti-deception skill — no lying NPCs in the horde loop. Out of genre; parked (its one SRD combat-ish use, sensing enchantment, has no analog here)."
+      }
+    },
+    {
+      "name": "Sleight of Hand",
+      "srd": {
+        "keyAbility": "Dex", "trainedOnly": true, "armorCheckPenalty": true,
+        "synergy": ["5+ ranks in Bluff -> +2 Sleight of Hand"],
+        "description": "Palm small objects, conceal a weapon on your body, pick pockets (DC 20), or entertain as legerdemain; opposed by observers' Spot (or Search when frisked). Can be done as a free action at a -20 penalty.",
+        "source": "d20srd.org/srd/skills/sleightOfHand.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret", "relevance": "situational",
+        "note": "Pickpocketing is out-of-genre, but 'conceal a weapon / draw a hidden weapon as a non-telegraphed action' has a faint combat hook (surprise opener). Mostly parked; keep only if a concealed-draw mechanic is wanted."
+      }
+    },
+    {
+      "name": "Speak Language",
+      "srd": {
+        "keyAbility": "none", "trainedOnly": true, "armorCheckPenalty": false,
+        "synergy": [],
+        "description": "Doesn't work like other skills and has no checks: each 'rank' purchased adds one new language you can speak (and read/write if literate). You start knowing languages based on race plus your Int bonus.",
+        "source": "d20srd.org/srd/skills/speakLanguage.htm"
+      },
+      "regauntless": {
+        "status": "no-op", "relevance": "out-of-genre",
+        "note": "No key ability, no checks — pure language inventory. No dialogue/translation layer in the horde loop. Out of genre; parked."
+      }
+    },
+    {
+      "name": "Spellcraft",
+      "srd": {
+        "keyAbility": "Int", "trainedOnly": true, "armorCheckPenalty": false,
+        "synergy": ["5+ ranks in Knowledge (arcana) -> +2 Spellcraft", "5+ ranks in Use Magic Device -> +2 Spellcraft checks to decipher spells on scrolls", "5+ ranks in Spellcraft -> +2 Use Magic Device checks related to scrolls"],
+        "description": "Identify spells as they're cast or already in place (DC 15 + spell level and up), identify potions, learn spells from a spellbook/scroll (wizards), and recognize magical materials and effects.",
+        "source": "d20srd.org/srd/skills/spellcraft.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret", "relevance": "situational",
+        "note": "Arcane-identification skill — reinterpret as recognizing enemy spell effects / identifying magic items or potions (feeds the UMD/item-casting and bestiary-lore hooks). Situational: strongest if an item-identify or enemy-ability-readout layer exists."
+      }
+    },
+    {
+      "name": "Spot",
+      "srd": {
+        "keyAbility": "Wis", "trainedOnly": false, "armorCheckPenalty": false,
+        "synergy": [],
+        "description": "Detect hidden or hard-to-see creatures (opposed by their Hide), notice someone in disguise, become aware of invisible creatures (result 20+), or read lips. Penalized by distance and distraction.",
+        "source": "d20srd.org/srd/skills/spot.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret", "relevance": "core",
+        "note": "The sight-based sensing channel — reinterpret as the LoS detection range/reliability for spotting mobs (and seeing through stealth/invisibility). Core to the sensing model; direct counter to Hide."
+      }
+    },
+    {
+      "name": "Survival",
+      "srd": {
+        "keyAbility": "Wis", "trainedOnly": false, "armorCheckPenalty": false,
+        "synergy": ["5+ ranks in Survival -> +2 Knowledge (nature)", "5+ ranks in Knowledge (dungeoneering) -> +2 Survival checks while underground", "5+ ranks in Knowledge (nature) -> +2 Survival checks in aboveground natural environments", "5+ ranks in Knowledge (geography) -> +2 Survival checks to keep from getting lost or avoid natural hazards", "5+ ranks in Knowledge (the planes) -> +2 Survival checks while on other planes", "5+ ranks in Search -> +2 Survival checks to find or follow tracks"],
+        "description": "Keep yourself and others fed and safe in the wild, avoid getting lost or natural hazards, predict weather, and follow tracks (difficult tracks require the Track feat or ranger).",
+        "source": "d20srd.org/srd/skills/survival.htm"
+      },
+      "regauntless": {
+        "status": "no-op", "relevance": "out-of-genre",
+        "note": "Overland wilderness-survival skill — foraging, weather, not-getting-lost are all out of genre for a contained dungeon crawl. Tracking is the only faintly relevant use and still largely off-loop. Parked; the Knowledge(dungeoneering)->underground synergy is the one dungeon-flavored thread."
+      }
+    },
+    {
+      "name": "Swim",
+      "srd": {
+        "keyAbility": "Str", "trainedOnly": false, "armorCheckPenalty": true,
+        "synergy": [],
+        "description": "Make a check each round in water to move at up to half speed; DC depends on conditions (10 calm, 15 rough, 20 stormy). Failing by 5+ sends you underwater; armor and encumbrance penalties are doubled.",
+        "source": "d20srd.org/srd/skills/swim.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret", "relevance": "situational",
+        "note": "Water-traversal — reinterpret as crossing water/flooded tiles without being slowed or 'going under', with the doubled-armor-penalty flavor making heavy Warrior/Valkyrie worse swimmers. Situational on whether levels feature water hazards."
+      }
+    },
+    {
+      "name": "Use Rope",
+      "srd": {
+        "keyAbility": "Dex", "trainedOnly": false, "armorCheckPenalty": false,
+        "synergy": ["5+ ranks in Use Rope -> +2 Climb checks made to climb a rope, a knotted rope, or a rope-and-wall combination", "5+ ranks in Use Rope -> +2 Escape Artist checks when escaping from rope bonds", "5+ ranks in Escape Artist -> +2 checks made to bind someone"],
+        "description": "Tie knots, secure a grappling hook (DC 10 +2 per 10 ft thrown), tie a rope one-handed, splice ropes, or bind a character (opposed by their Escape Artist, with a +10 binder bonus).",
+        "source": "d20srd.org/srd/skills/useRope.htm"
+      },
+      "regauntless": {
+        "status": "no-op", "relevance": "out-of-genre",
+        "note": "Utility rope-work (knots, grappling hooks, binding captives) — no rope/binding interactions in the horde loop. Out of genre; parked (its value survives only as the Climb-rope synergy, which Climb covers)."
+      }
+    }
+  ]
+}
