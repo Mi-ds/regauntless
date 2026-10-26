@@ -118,12 +118,28 @@ the *source of reasons*.
   to shed leeches, but eat −5 saves while you're there). The map is a participant in the d20 math.
 - (A future social/announcer/crowd-favor layer *could* grant some "reasoned" +5s — a hook, not now.)
 
-- **Crits** exist naturally in Gremlin Mode (nat 20). In deterministic modes they currently
-  don't trigger — revisit if we want a deterministic crit rule.
+- **Crits — RESOLVED (see "Crits" section below).** They exist in Gremlin Mode via nat-20 AND in
+  deterministic modes as a **forced/triggered effect** (not RNG). No longer open.
 - **Where BAB/AC live in deterministic play** beyond fire-rate (BAB) and the to-hit
   comparison (AC): AC-as-damage-mitigation is a candidate but not locked.
 - **Low-level 3.5 swinginess** (6-HP level-1 death) is a difficulty/starting-level knob, not
   an architecture decision.
+
+## Crits — triggered in deterministic modes, random only in Gremlin
+
+- **Gremlin Mode:** crits happen the real 3.5 way — a natural 20 threatens, confirm, ×multiplier.
+  RNG, as intended for the "real dice" mode.
+- **Deterministic modes (Easy/Normal/Hard):** there's no to-hit roll, so **no *random* crits** —
+  but crits still **exist as a FORCED/TRIGGERED effect.** Certain effects *cause* a crit on a
+  specific hit: a spell (True Strike → force a crit on your next attack), a feat, a sneak-attack
+  condition (positional), etc. So a crit is something the game *grants*, not something the dice
+  roll.
+- **What a (forced) crit DOES:** apply the weapon's **crit multiplier to the deterministic damage**
+  of that hit (×2 weapon → double the take-10/max/min damage; ×3 → triple; etc.). Legible and
+  breakpoint-friendly — a forced crit is just a predictable bigger number, not a variance spike.
+- **First trigger on the books:** True Strike (data/spells.json) — reinterpreted from SRD's "+20
+  to the next attack roll" (meaningless with geometry-as-hit) to "force a crit on the next
+  attack." Future crit-triggers (feats, rogue-style positional sneak conditions) plug in the same way.
 
 ## Resolved elsewhere (no longer open)
 

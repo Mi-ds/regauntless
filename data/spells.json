@@ -33,377 +33,580 @@
       "school": "Conjuration (Creation) [Acid]",
       "level": "Sorcerer/Wizard 0",
       "srd": {
-        "castingTime": "1 standard action", "range": "Close (25 ft. + 5 ft./2 levels)", "target": "One missile of acid",
-        "duration": "Instantaneous", "savingThrow": "None", "spellResistance": "No",
+        "castingTime": "1 standard action",
+        "range": "Close (25 ft. + 5 ft./2 levels)",
+        "target": "One missile of acid",
+        "duration": "Instantaneous",
+        "savingThrow": "None",
+        "spellResistance": "No",
         "description": "You fire a small orb of acid at the target as a ranged touch attack, dealing 1d3 points of acid damage.",
         "source": "d20srd.org/srd/spells/acidSplash.htm"
       },
-      "regauntless": { "status": "clean", "delivery": "bolt",
-        "note": "The archetypal weak arcane cantrip = a basic shot. Ranged-touch orb -> a 1d3 bolt down the lane; collision=hit (combat.md). The Wizard's default pea-shooter." }
+      "regauntless": {
+        "status": "clean",
+        "delivery": "bolt",
+        "note": "The archetypal weak arcane cantrip = a basic shot. Ranged-touch orb -> a 1d3 bolt down the lane; collision=hit (combat.md). The Wizard's default pea-shooter."
+      }
     },
     {
       "name": "Ray of Frost",
       "school": "Evocation [Cold]",
       "level": "Sorcerer/Wizard 0",
       "srd": {
-        "castingTime": "1 standard action", "range": "Close (25 ft. + 5 ft./2 levels)", "target": "Ray",
-        "duration": "Instantaneous", "savingThrow": "None", "spellResistance": "Yes",
+        "castingTime": "1 standard action",
+        "range": "Close (25 ft. + 5 ft./2 levels)",
+        "target": "Ray",
+        "duration": "Instantaneous",
+        "savingThrow": "None",
+        "spellResistance": "Yes",
         "description": "A ray of freezing air and ice projects from your pointing finger; make a ranged touch attack to deal 1d3 points of cold damage.",
         "source": "d20srd.org/srd/spells/rayOfFrost.htm"
       },
-      "regauntless": { "status": "clean", "delivery": "bolt",
-        "note": "Same as Acid Splash as a basic shot (1d3 cold). Ray = a thin bolt lane; could carry a tiny slow flavor (cold) if we want elemental texture." }
+      "regauntless": {
+        "status": "clean",
+        "delivery": "bolt",
+        "note": "Same as Acid Splash as a basic shot (1d3 cold). Ray = a thin bolt lane; could carry a tiny slow flavor (cold) if we want elemental texture."
+      }
     },
     {
       "name": "Disrupt Undead",
       "school": "Necromancy",
       "level": "Sorcerer/Wizard 0",
       "srd": {
-        "castingTime": "1 standard action", "range": "Close (25 ft. + 5 ft./2 levels)", "target": "Ray",
-        "duration": "Instantaneous", "savingThrow": "None", "spellResistance": "Yes",
+        "castingTime": "1 standard action",
+        "range": "Close (25 ft. + 5 ft./2 levels)",
+        "target": "Ray",
+        "duration": "Instantaneous",
+        "savingThrow": "None",
+        "spellResistance": "Yes",
         "description": "You direct a ray of positive energy; make a ranged touch attack to deal 1d6 damage to one undead creature.",
         "source": "d20srd.org/srd/spells/disruptUndead.htm"
       },
-      "regauntless": { "status": "clean", "delivery": "bolt",
-        "note": "A bolt that only bites undead (1d6 vs undead, nothing else). Maps to a conditional-damage shot vs the undead mob family — anti-undead flavor on the basic shot." }
+      "regauntless": {
+        "status": "clean",
+        "delivery": "bolt",
+        "note": "A bolt that only bites undead (1d6 vs undead, nothing else). Maps to a conditional-damage shot vs the undead mob family — anti-undead flavor on the basic shot."
+      }
     },
     {
       "name": "Touch of Fatigue",
       "school": "Necromancy",
       "level": "Sorcerer/Wizard 0",
       "srd": {
-        "castingTime": "1 standard action", "range": "Touch", "target": "Creature touched",
-        "duration": "1 round/level", "savingThrow": "Fortitude negates", "spellResistance": "Yes",
+        "castingTime": "1 standard action",
+        "range": "Touch",
+        "target": "Creature touched",
+        "duration": "1 round/level",
+        "savingThrow": "Fortitude negates",
+        "spellResistance": "Yes",
         "description": "Your touch (a melee touch attack) instills weariness, making the subject fatigued for the duration.",
         "source": "d20srd.org/srd/spells/touchOfFatigue.htm"
       },
-      "regauntless": { "status": "reinterpret", "delivery": "touch",
-        "note": "Touch-range debuff. Fatigue (no run, Str/Dex penalty) -> a brief melee-range SLOW/weaken tag on one mob. Minor melee debuff for a gish caster." }
+      "regauntless": {
+        "status": "reinterpret",
+        "delivery": "touch",
+        "note": "Touch-range debuff. Fatigue (no run, Str/Dex penalty) -> a brief melee-range SLOW/weaken tag on one mob. Minor melee debuff for a gish caster."
+      }
     },
     {
       "name": "Daze",
       "school": "Enchantment (Compulsion) [Mind-Affecting]",
       "level": "Sorcerer/Wizard 0",
       "srd": {
-        "castingTime": "1 standard action", "range": "Close (25 ft. + 5 ft./2 levels)", "target": "One humanoid creature of 4 HD or less",
-        "duration": "1 round", "savingThrow": "Will negates", "spellResistance": "Yes",
+        "castingTime": "1 standard action",
+        "range": "Close (25 ft. + 5 ft./2 levels)",
+        "target": "One humanoid creature of 4 HD or less",
+        "duration": "1 round",
+        "savingThrow": "Will negates",
+        "spellResistance": "Yes",
         "description": "This spell clouds the mind of a humanoid creature with 4 or fewer Hit Dice so that it takes no actions for 1 round.",
         "source": "d20srd.org/srd/spells/daze.htm"
       },
-      "regauntless": { "status": "reinterpret", "delivery": "bolt",
-        "note": "Single-target 1-round stun on a weak mob. Maps to a short freeze/stun applied to one low-HD target in LoS — crowd-control nibble, caps at trash mobs." }
+      "regauntless": {
+        "status": "reinterpret",
+        "delivery": "bolt",
+        "note": "Single-target 1-round stun on a weak mob. Maps to a short freeze/stun applied to one low-HD target in LoS — crowd-control nibble, caps at trash mobs."
+      }
     },
     {
       "name": "Flare",
       "school": "Evocation [Light]",
       "level": "Sorcerer/Wizard 0",
       "srd": {
-        "castingTime": "1 standard action", "range": "Close (25 ft. + 5 ft./2 levels)", "target": "Burst of light",
-        "duration": "Instantaneous", "savingThrow": "Fortitude negates", "spellResistance": "Yes",
+        "castingTime": "1 standard action",
+        "range": "Close (25 ft. + 5 ft./2 levels)",
+        "target": "Burst of light",
+        "duration": "Instantaneous",
+        "savingThrow": "Fortitude negates",
+        "spellResistance": "Yes",
         "description": "This cantrip creates a burst of light; if aimed at a creature it dazzles it for 1 minute (-1 on attack rolls and Spot/Search).",
         "source": "d20srd.org/srd/spells/flare.htm"
       },
-      "regauntless": { "status": "reinterpret", "delivery": "bolt",
-        "note": "Dazzle = a flat to-hit/accuracy debuff on one target. Maps to a short accuracy-down tag (-1 band) on a mob's shot. Minor, situational against shooters." }
+      "regauntless": {
+        "status": "reinterpret",
+        "delivery": "bolt",
+        "note": "Dazzle = a flat to-hit/accuracy debuff on one target. Maps to a short accuracy-down tag (-1 band) on a mob's shot. Minor, situational against shooters."
+      }
     },
     {
       "name": "Light",
       "school": "Evocation [Light]",
       "level": "Sorcerer/Wizard 0, Cleric 0",
       "srd": {
-        "castingTime": "1 standard action", "range": "Touch", "target": "Object touched",
-        "duration": "10 min./level (D)", "savingThrow": "None", "spellResistance": "No",
+        "castingTime": "1 standard action",
+        "range": "Touch",
+        "target": "Object touched",
+        "duration": "10 min./level (D)",
+        "savingThrow": "None",
+        "spellResistance": "No",
         "description": "This spell causes a touched object to glow like a torch, shedding bright light in a 20-ft. radius.",
         "source": "d20srd.org/srd/spells/light.htm"
       },
-      "regauntless": { "status": "no-op", "delivery": "none",
-        "note": "Illumination utility. Our view is top-down fixed-light; no fog-of-war to lift. No-op unless we ever add a darkness/vision mechanic." }
+      "regauntless": {
+        "status": "no-op",
+        "delivery": "none",
+        "note": "Illumination utility. Our view is top-down fixed-light; no fog-of-war to lift. No-op unless we ever add a darkness/vision mechanic."
+      }
     },
     {
       "name": "Dancing Lights",
       "school": "Evocation [Light]",
       "level": "Sorcerer/Wizard 0",
       "srd": {
-        "castingTime": "1 standard action", "range": "Medium (100 ft. + 10 ft./level)", "target": "Up to four lights, all within a 10-ft.-radius area",
-        "duration": "1 minute (D)", "savingThrow": "None", "spellResistance": "No",
+        "castingTime": "1 standard action",
+        "range": "Medium (100 ft. + 10 ft./level)",
+        "target": "Up to four lights, all within a 10-ft.-radius area",
+        "duration": "1 minute (D)",
+        "savingThrow": "None",
+        "spellResistance": "No",
         "description": "Creates up to four lights (torches, lanterns, or a faintly glowing vaguely humanoid shape) that you can move with concentration.",
         "source": "d20srd.org/srd/spells/dancingLights.htm"
       },
-      "regauntless": { "status": "no-op", "delivery": "none",
-        "note": "Illumination/decoy utility. No fog-of-war to exploit; out-of-genre for the crawl." }
+      "regauntless": {
+        "status": "no-op",
+        "delivery": "none",
+        "note": "Illumination/decoy utility. No fog-of-war to exploit; out-of-genre for the crawl."
+      }
     },
     {
       "name": "Ghost Sound",
       "school": "Illusion (Figment)",
       "level": "Sorcerer/Wizard 0",
       "srd": {
-        "castingTime": "1 standard action", "range": "Close (25 ft. + 5 ft./2 levels)", "target": "Illusory sounds",
-        "duration": "1 round/level (D)", "savingThrow": "Will disbelief (if interacted with)", "spellResistance": "No",
+        "castingTime": "1 standard action",
+        "range": "Close (25 ft. + 5 ft./2 levels)",
+        "target": "Illusory sounds",
+        "duration": "1 round/level (D)",
+        "savingThrow": "Will disbelief (if interacted with)",
+        "spellResistance": "No",
         "description": "Ghost sound creates a volume of sound that rises, recedes, approaches, or remains in place as you wish.",
         "source": "d20srd.org/srd/spells/ghostSound.htm"
       },
-      "regauntless": { "status": "no-op", "delivery": "none",
-        "note": "Audio-illusion social/exploration utility. Mobs sense via LoS, not sound bluffs; nothing to do for the crawl." }
+      "regauntless": {
+        "status": "no-op",
+        "delivery": "none",
+        "note": "Audio-illusion social/exploration utility. Mobs sense via LoS, not sound bluffs; nothing to do for the crawl."
+      }
     },
     {
       "name": "Mage Hand",
       "school": "Transmutation",
       "level": "Sorcerer/Wizard 0",
       "srd": {
-        "castingTime": "1 standard action", "range": "Close (25 ft. + 5 ft./2 levels)", "target": "One nonmagical, unattended object weighing up to 5 lb.",
-        "duration": "Concentration", "savingThrow": "None", "spellResistance": "No",
+        "castingTime": "1 standard action",
+        "range": "Close (25 ft. + 5 ft./2 levels)",
+        "target": "One nonmagical, unattended object weighing up to 5 lb.",
+        "duration": "Concentration",
+        "savingThrow": "None",
+        "spellResistance": "No",
         "description": "You point your finger at an object and can lift it and move it at will from a distance (up to 5 lb., 15 ft./round).",
         "source": "d20srd.org/srd/spells/mageHand.htm"
       },
-      "regauntless": { "status": "no-op", "delivery": "none",
-        "note": "Light telekinesis utility. Possible far-future hook: pull a lever/key from afar in a puzzle room. No-op for combat." }
+      "regauntless": {
+        "status": "no-op",
+        "delivery": "none",
+        "note": "Light telekinesis utility. Possible far-future hook: pull a lever/key from afar in a puzzle room. No-op for combat."
+      }
     },
     {
       "name": "Mending",
       "school": "Transmutation",
       "level": "Sorcerer/Wizard 0, Cleric 0",
       "srd": {
-        "castingTime": "1 standard action", "range": "10 ft.", "target": "One object of up to 1 lb.",
-        "duration": "Instantaneous", "savingThrow": "Will negates (harmless, object)", "spellResistance": "Yes (harmless, object)",
+        "castingTime": "1 standard action",
+        "range": "10 ft.",
+        "target": "One object of up to 1 lb.",
+        "duration": "Instantaneous",
+        "savingThrow": "Will negates (harmless, object)",
+        "spellResistance": "Yes (harmless, object)",
         "description": "Mending repairs small breaks or tears in objects (but not warps, burns, or missing pieces).",
         "source": "d20srd.org/srd/spells/mending.htm"
       },
-      "regauntless": { "status": "no-op", "delivery": "none",
-        "note": "Object-repair utility. No item-durability system; out-of-genre." }
+      "regauntless": {
+        "status": "no-op",
+        "delivery": "none",
+        "note": "Object-repair utility. No item-durability system; out-of-genre."
+      }
     },
     {
       "name": "Message",
       "school": "Transmutation [Language-Dependent]",
       "level": "Sorcerer/Wizard 0",
       "srd": {
-        "castingTime": "1 standard action", "range": "Medium (100 ft. + 10 ft./level)", "target": "One creature/level",
-        "duration": "10 min./level", "savingThrow": "None", "spellResistance": "No",
+        "castingTime": "1 standard action",
+        "range": "Medium (100 ft. + 10 ft./level)",
+        "target": "One creature/level",
+        "duration": "10 min./level",
+        "savingThrow": "None",
+        "spellResistance": "No",
         "description": "You can whisper messages and receive whispered replies with chosen creatures at a distance, as if conversing quietly.",
         "source": "d20srd.org/srd/spells/message.htm"
       },
-      "regauntless": { "status": "no-op", "delivery": "none",
-        "note": "Comms utility — party coordination is handled by the game's own UI/voice, not a spell. No-op." }
+      "regauntless": {
+        "status": "no-op",
+        "delivery": "none",
+        "note": "Comms utility — party coordination is handled by the game's own UI/voice, not a spell. No-op."
+      }
     },
     {
       "name": "Open/Close",
       "school": "Transmutation",
       "level": "Sorcerer/Wizard 0",
       "srd": {
-        "castingTime": "1 standard action", "range": "Close (25 ft. + 5 ft./2 levels)", "target": "Object weighing up to 30 lb. or portal that can be opened or closed",
-        "duration": "Instantaneous", "savingThrow": "Will negates (object)", "spellResistance": "Yes (object)",
+        "castingTime": "1 standard action",
+        "range": "Close (25 ft. + 5 ft./2 levels)",
+        "target": "Object weighing up to 30 lb. or portal that can be opened or closed",
+        "duration": "Instantaneous",
+        "savingThrow": "Will negates (object)",
+        "spellResistance": "Yes (object)",
         "description": "You can open or close (your choice) a door, chest, box, window, bag, pouch, bottle, barrel, or other container.",
         "source": "d20srd.org/srd/spells/openClose.htm"
       },
-      "regauntless": { "status": "no-op", "delivery": "none",
-        "note": "Door/container utility. Possible puzzle hook (open a gate at range); no combat use." }
+      "regauntless": {
+        "status": "no-op",
+        "delivery": "none",
+        "note": "Door/container utility. Possible puzzle hook (open a gate at range); no combat use."
+      }
     },
     {
       "name": "Arcane Mark",
       "school": "Universal",
       "level": "Sorcerer/Wizard 0",
       "srd": {
-        "castingTime": "1 standard action", "range": "Touch", "target": "One personal rune or mark, all of which must fit within 1 sq. ft.",
-        "duration": "Permanent", "savingThrow": "None", "spellResistance": "No",
+        "castingTime": "1 standard action",
+        "range": "Touch",
+        "target": "One personal rune or mark, all of which must fit within 1 sq. ft.",
+        "duration": "Permanent",
+        "savingThrow": "None",
+        "spellResistance": "No",
         "description": "This spell allows you to inscribe your personal rune or mark, visible or invisible, on any substance.",
         "source": "d20srd.org/srd/spells/arcaneMark.htm"
       },
-      "regauntless": { "status": "no-op", "delivery": "none",
-        "note": "Flavor/signature utility. No-op." }
+      "regauntless": {
+        "status": "no-op",
+        "delivery": "none",
+        "note": "Flavor/signature utility. No-op."
+      }
     },
     {
       "name": "Prestidigitation",
       "school": "Universal",
       "level": "Sorcerer/Wizard 0",
       "srd": {
-        "castingTime": "1 standard action", "range": "10 ft.", "target": "See text",
-        "duration": "1 hour", "savingThrow": "See text", "spellResistance": "No",
+        "castingTime": "1 standard action",
+        "range": "10 ft.",
+        "target": "See text",
+        "duration": "1 hour",
+        "savingThrow": "See text",
+        "spellResistance": "No",
         "description": "Performs minor magical tricks: color/clean/soil objects, chill/warm/flavor 1 lb. of material, create small objects or illusions, etc.",
         "source": "d20srd.org/srd/spells/prestidigitation.htm"
       },
-      "regauntless": { "status": "no-op", "delivery": "none",
-        "note": "The grab-bag flavor cantrip. Pure whimsy/utility; no-op for the crawl (but on-brand for arcade flavor)." }
+      "regauntless": {
+        "status": "no-op",
+        "delivery": "none",
+        "note": "The grab-bag flavor cantrip. Pure whimsy/utility; no-op for the crawl (but on-brand for arcade flavor)."
+      }
     },
     {
       "name": "Resistance",
       "school": "Abjuration",
       "level": "Sorcerer/Wizard 0, Cleric 0",
       "srd": {
-        "castingTime": "1 standard action", "range": "Touch", "target": "Creature touched",
-        "duration": "1 minute", "savingThrow": "Will negates (harmless)", "spellResistance": "Yes (harmless)",
+        "castingTime": "1 standard action",
+        "range": "Touch",
+        "target": "Creature touched",
+        "duration": "1 minute",
+        "savingThrow": "Will negates (harmless)",
+        "spellResistance": "Yes (harmless)",
         "description": "You imbue the subject with magical energy that grants a +1 resistance bonus on saving throws.",
         "source": "d20srd.org/srd/spells/resistance.htm"
       },
-      "regauntless": { "status": "reinterpret", "delivery": "buff",
-        "note": "Flat +1 to saves. Maps to a short self/ally buff: +1 band to our resist-save checks (vs poison/stun/web). Tiny ward." }
+      "regauntless": {
+        "status": "reinterpret",
+        "delivery": "buff",
+        "note": "Flat +1 to saves. Maps to a short self/ally buff: +1 band to our resist-save checks (vs poison/stun/web). Tiny ward."
+      }
     },
     {
       "name": "Detect Magic",
       "school": "Divination",
       "level": "Sorcerer/Wizard 0, Cleric 0",
       "srd": {
-        "castingTime": "1 standard action", "range": "60 ft.", "target": "Cone-shaped emanation",
-        "duration": "Concentration, up to 1 min./level (D)", "savingThrow": "None", "spellResistance": "No",
+        "castingTime": "1 standard action",
+        "range": "60 ft.",
+        "target": "Cone-shaped emanation",
+        "duration": "Concentration, up to 1 min./level (D)",
+        "savingThrow": "None",
+        "spellResistance": "No",
         "description": "You detect magical auras; the amount of information revealed increases with the number of rounds you study an area.",
         "source": "d20srd.org/srd/spells/detectMagic.htm"
       },
-      "regauntless": { "status": "no-op", "delivery": "none",
-        "note": "Divination utility. No hidden-magic layer to probe; out-of-genre." }
+      "regauntless": {
+        "status": "no-op",
+        "delivery": "none",
+        "note": "Divination utility. No hidden-magic layer to probe; out-of-genre."
+      }
     },
     {
       "name": "Detect Poison",
       "school": "Divination",
       "level": "Sorcerer/Wizard 0, Cleric 0",
       "srd": {
-        "castingTime": "1 standard action", "range": "Close (25 ft. + 5 ft./2 levels)", "target": "One creature, one object, or a 5-ft. cube",
-        "duration": "Instantaneous", "savingThrow": "None", "spellResistance": "No",
+        "castingTime": "1 standard action",
+        "range": "Close (25 ft. + 5 ft./2 levels)",
+        "target": "One creature, one object, or a 5-ft. cube",
+        "duration": "Instantaneous",
+        "savingThrow": "None",
+        "spellResistance": "No",
         "description": "You determine whether a creature, object, or area has been poisoned or is poisonous.",
         "source": "d20srd.org/srd/spells/detectPoison.htm"
       },
-      "regauntless": { "status": "no-op", "delivery": "none",
-        "note": "Divination utility. No-op." }
+      "regauntless": {
+        "status": "no-op",
+        "delivery": "none",
+        "note": "Divination utility. No-op."
+      }
     },
     {
       "name": "Read Magic",
       "school": "Divination",
       "level": "Sorcerer/Wizard 0, Cleric 0",
       "srd": {
-        "castingTime": "1 standard action", "range": "Personal", "target": "You",
-        "duration": "10 min./level", "savingThrow": "None", "spellResistance": "No",
+        "castingTime": "1 standard action",
+        "range": "Personal",
+        "target": "You",
+        "duration": "10 min./level",
+        "savingThrow": "None",
+        "spellResistance": "No",
         "description": "You can decipher magical inscriptions on objects — books, scrolls, weapons — that would otherwise be unintelligible.",
         "source": "d20srd.org/srd/spells/readMagic.htm"
       },
-      "regauntless": { "status": "no-op", "delivery": "none",
-        "note": "Scroll-prep utility (the gate on casting from scrolls at the table). In-game scroll use is an item-activation, not this spell; no-op." }
+      "regauntless": {
+        "status": "no-op",
+        "delivery": "none",
+        "note": "Scroll-prep utility (the gate on casting from scrolls at the table). In-game scroll use is an item-activation, not this spell; no-op."
+      }
     },
     {
       "name": "Magic Missile",
       "school": "Evocation [Force]",
       "level": "Sorcerer/Wizard 1",
       "srd": {
-        "castingTime": "1 standard action", "range": "Medium (100 ft. + 10 ft./level)", "target": "Up to five creatures, no two of which can be more than 15 ft. apart",
-        "duration": "Instantaneous", "savingThrow": "None", "spellResistance": "Yes",
+        "castingTime": "1 standard action",
+        "range": "Medium (100 ft. + 10 ft./level)",
+        "target": "Up to five creatures, no two of which can be more than 15 ft. apart",
+        "duration": "Instantaneous",
+        "savingThrow": "None",
+        "spellResistance": "Yes",
         "description": "A missile of magical energy darts forth and strikes its target for 1d4+1 force damage, striking unerringly even in melee or through less-than-total cover. One extra missile per 2 caster levels (max 5).",
         "source": "d20srd.org/srd/spells/magicMissile.htm"
       },
-      "regauntless": { "status": "reinterpret", "delivery": "bolt",
-        "note": "Signature arcane attack. 'Strikes unerringly' (no save, no to-hit) = a HOMING bolt: a shot that tracks to a target in LoS and can't miss. Multi-missile -> fires N tracking bolts split across targets. Premium Wizard shot." }
+      "regauntless": {
+        "status": "reinterpret",
+        "delivery": "bolt",
+        "note": "Signature arcane attack. 'Strikes unerringly' (no save, no to-hit) = a HOMING bolt: a shot that tracks to a target in LoS and can't miss. Multi-missile -> fires N tracking bolts split across targets. Premium Wizard shot."
+      }
     },
     {
       "name": "Burning Hands",
       "school": "Evocation [Fire]",
       "level": "Sorcerer/Wizard 1",
       "srd": {
-        "castingTime": "1 standard action", "range": "15 ft.", "target": "Cone-shaped burst",
-        "duration": "Instantaneous", "savingThrow": "Reflex half", "spellResistance": "Yes",
+        "castingTime": "1 standard action",
+        "range": "15 ft.",
+        "target": "Cone-shaped burst",
+        "duration": "Instantaneous",
+        "savingThrow": "Reflex half",
+        "spellResistance": "Yes",
         "description": "A cone of searing flame shoots from your fingertips, dealing 1d4 fire damage per caster level (max 5d4) to all in the area.",
         "source": "d20srd.org/srd/spells/burningHands.htm"
       },
-      "regauntless": { "status": "clean", "delivery": "cone",
-        "note": "Textbook CONE. Short 15-ft. fan of fire AoE in front of the caster; everyone caught takes the hit (Reflex-half -> our half-on-partial-clip rule). Core close-range crowd clearer." }
+      "regauntless": {
+        "status": "clean",
+        "delivery": "cone",
+        "note": "Textbook CONE. Short 15-ft. fan of fire AoE in front of the caster; everyone caught takes the hit (Reflex-half -> our half-on-partial-clip rule). Core close-range crowd clearer."
+      }
     },
     {
       "name": "Shocking Grasp",
       "school": "Evocation [Electricity]",
       "level": "Sorcerer/Wizard 1",
       "srd": {
-        "castingTime": "1 standard action", "range": "Touch", "target": "Creature or object touched",
-        "duration": "Instantaneous", "savingThrow": "None", "spellResistance": "Yes",
+        "castingTime": "1 standard action",
+        "range": "Touch",
+        "target": "Creature or object touched",
+        "duration": "Instantaneous",
+        "savingThrow": "None",
+        "spellResistance": "Yes",
         "description": "Your touch delivers 1d6 points of electricity damage per caster level (max 5d6); you gain +3 to hit if the target is wearing metal armor or carrying a metal weapon.",
         "source": "d20srd.org/srd/spells/shockingGrasp.htm"
       },
-      "regauntless": { "status": "clean", "delivery": "touch",
-        "note": "Hard-hitting melee-range touch (1d6/level). Maps to a high-damage melee zap for a gish caster; the +3-vs-metal becomes a flat +band vs armored mobs." }
+      "regauntless": {
+        "status": "clean",
+        "delivery": "touch",
+        "note": "Hard-hitting melee-range touch (1d6/level). Maps to a high-damage melee zap for a gish caster; the +3-vs-metal becomes a flat +band vs armored mobs."
+      }
     },
     {
       "name": "Chill Touch",
       "school": "Necromancy",
       "level": "Sorcerer/Wizard 1",
       "srd": {
-        "castingTime": "1 standard action", "range": "Touch", "target": "Creature or creatures touched (up to one/level)",
-        "duration": "Instantaneous", "savingThrow": "Fortitude partial or Will negates; see text", "spellResistance": "Yes",
+        "castingTime": "1 standard action",
+        "range": "Touch",
+        "target": "Creature or creatures touched (up to one/level)",
+        "duration": "Instantaneous",
+        "savingThrow": "Fortitude partial or Will negates; see text",
+        "spellResistance": "Yes",
         "description": "A touch deals 1d6 negative energy damage and may deal 1 point of Strength damage (Fort negates); undead instead flee for 1d4+ rounds (Will negates). One touch per caster level.",
         "source": "d20srd.org/srd/spells/chillTouch.htm"
       },
-      "regauntless": { "status": "reinterpret", "delivery": "touch",
-        "note": "Multi-charge melee touch: holds N charges (one/level), each a 1d6 + Str-damage (weaken) tap. Str damage -> our offense-down debuff band. Undead-fear clause -> brief flee tag on undead mobs." }
+      "regauntless": {
+        "status": "reinterpret",
+        "delivery": "touch",
+        "note": "Multi-charge melee touch: holds N charges (one/level), each a 1d6 + Str-damage (weaken) tap. Str damage -> our offense-down debuff band. Undead-fear clause -> brief flee tag on undead mobs."
+      }
     },
     {
       "name": "Ray of Enfeeblement",
       "school": "Necromancy",
       "level": "Sorcerer/Wizard 1",
       "srd": {
-        "castingTime": "1 standard action", "range": "Close (25 ft. + 5 ft./2 levels)", "target": "Ray",
-        "duration": "1 min./level", "savingThrow": "None", "spellResistance": "Yes",
+        "castingTime": "1 standard action",
+        "range": "Close (25 ft. + 5 ft./2 levels)",
+        "target": "Ray",
+        "duration": "1 min./level",
+        "savingThrow": "None",
+        "spellResistance": "Yes",
         "description": "A ray (ranged touch attack) saps strength, dealing 1d6+1 per two levels of Strength damage (target's Str cannot drop below 1).",
         "source": "d20srd.org/srd/spells/rayOfEnfeeblement.htm"
       },
-      "regauntless": { "status": "reinterpret", "delivery": "bolt",
-        "note": "A debuff bolt: lands and applies a timed offense-down (Str loss -> reduced mob hit damage band, per combat-model.md Str->shot-damage axis). Softens a heavy hitter rather than killing it." }
+      "regauntless": {
+        "status": "reinterpret",
+        "delivery": "bolt",
+        "note": "A debuff bolt: lands and applies a timed offense-down (Str loss -> reduced mob hit damage band, per combat-model.md Str->shot-damage axis). Softens a heavy hitter rather than killing it."
+      }
     },
     {
       "name": "True Strike",
       "school": "Divination",
       "level": "Sorcerer/Wizard 1",
       "srd": {
-        "castingTime": "1 standard action", "range": "Personal", "target": "You",
-        "duration": "See text", "savingThrow": "None", "spellResistance": "No",
+        "castingTime": "1 standard action",
+        "range": "Personal",
+        "target": "You",
+        "duration": "See text",
+        "savingThrow": "None",
+        "spellResistance": "No",
         "description": "You gain a +20 insight bonus on your next single attack roll, and are not affected by the miss chance from concealment.",
         "source": "d20srd.org/srd/spells/trueStrike.htm"
       },
-      "regauntless": { "status": "reinterpret", "delivery": "self",
-        "note": "In a collision=hit model there is no to-hit roll to boost (Easy/Normal/Hard). On Insane ('real 3.5') where shots can miss, this = a one-shot guaranteed-hit buff on your next shot. Self buff, niche to hard mode." }
+      "regauntless": {
+        "status": "reinterpret",
+        "delivery": "self",
+        "note": "MIDS HOUSE-RULE: translate the INTENT, not the +20. SRD = +20 insight to your next attack roll within the round. In our model geometry IS the hit (no to-hit roll in Easy/Normal/Hard), so +20 is meaningless. Instead True Strike = FORCE A CRIT on your next attack/shot (your next hit is the guaranteed big swing). This is the FIRST 'forced/triggered deterministic crit' effect (see combat.md crit rule): crits aren't only a Gremlin-mode nat-20 thing — effects like this cause them even in deterministic modes. Self-buff, one-shot."
+      }
     },
     {
       "name": "Sleep",
       "school": "Enchantment (Compulsion) [Mind-Affecting]",
       "level": "Sorcerer/Wizard 1",
       "srd": {
-        "castingTime": "1 round", "range": "Medium (100 ft. + 10 ft./level)", "target": "One or more living creatures within a 10-ft.-radius burst",
-        "duration": "1 min./level", "savingThrow": "Will negates", "spellResistance": "Yes",
+        "castingTime": "1 round",
+        "range": "Medium (100 ft. + 10 ft./level)",
+        "target": "One or more living creatures within a 10-ft.-radius burst",
+        "duration": "1 min./level",
+        "savingThrow": "Will negates",
+        "spellResistance": "Yes",
         "description": "Puts 4 HD of creatures (lowest HD first) into a magical slumber; sleepers are helpless. Affects only 4 HD or fewer; a standard action rouses a sleeper.",
         "source": "d20srd.org/srd/spells/sleep.htm"
       },
-      "regauntless": { "status": "reinterpret", "delivery": "lob",
-        "note": "Classic trash-clearer AoE. A lobbed 10-ft zone that disables up to 4 HD of weak mobs (helpless = free kills / skip). Caps at low-HD swarm — strong against generator spam, useless vs a boss. 1-round cast = a wind-up." }
+      "regauntless": {
+        "status": "reinterpret",
+        "delivery": "lob",
+        "note": "Classic trash-clearer AoE. A lobbed 10-ft zone that disables up to 4 HD of weak mobs (helpless = free kills / skip). Caps at low-HD swarm — strong against generator spam, useless vs a boss. 1-round cast = a wind-up."
+      }
     },
     {
       "name": "Color Spray",
       "school": "Illusion (Pattern) [Mind-Affecting]",
       "level": "Sorcerer/Wizard 1",
       "srd": {
-        "castingTime": "1 standard action", "range": "15 ft.", "target": "Cone-shaped burst",
-        "duration": "Instantaneous; see text", "savingThrow": "Will negates", "spellResistance": "Yes",
+        "castingTime": "1 standard action",
+        "range": "15 ft.",
+        "target": "Cone-shaped burst",
+        "duration": "Instantaneous; see text",
+        "savingThrow": "Will negates",
+        "spellResistance": "Yes",
         "description": "A vivid cone of clashing colors stuns, blinds, and/or knocks unconscious weak creatures in the area based on their Hit Dice.",
         "source": "d20srd.org/srd/spells/colorSpray.htm"
       },
-      "regauntless": { "status": "reinterpret", "delivery": "cone",
-        "note": "A crowd-control CONE: short fan that stuns/blinds low-HD mobs in front of you (knockout scaling by HD). Defensive cone to buy breathing room in a swarm; weak vs high-HD." }
+      "regauntless": {
+        "status": "reinterpret",
+        "delivery": "cone",
+        "note": "A crowd-control CONE: short fan that stuns/blinds low-HD mobs in front of you (knockout scaling by HD). Defensive cone to buy breathing room in a swarm; weak vs high-HD."
+      }
     },
     {
       "name": "Cause Fear",
       "school": "Necromancy [Fear, Mind-Affecting]",
       "level": "Sorcerer/Wizard 1",
       "srd": {
-        "castingTime": "1 standard action", "range": "Close (25 ft. + 5 ft./2 levels)", "target": "One living creature with 5 or fewer HD",
-        "duration": "1d4 rounds or 1 round; see text", "savingThrow": "Will partial", "spellResistance": "Yes",
+        "castingTime": "1 standard action",
+        "range": "Close (25 ft. + 5 ft./2 levels)",
+        "target": "One living creature with 5 or fewer HD",
+        "duration": "1d4 rounds or 1 round; see text",
+        "savingThrow": "Will partial",
+        "spellResistance": "Yes",
         "description": "One creature of 5 HD or less becomes frightened and flees for 1d4 rounds (a successful save reduces this to shaken for 1 round). Creatures of 6+ HD are immune.",
         "source": "d20srd.org/srd/spells/causeFear.htm"
       },
-      "regauntless": { "status": "reinterpret", "delivery": "bolt",
-        "note": "Single-target flee on a weak mob: the target routs (runs from the party) for a few seconds. Maps to a short 'flee' AI override on one low-HD target. Soft CC." }
+      "regauntless": {
+        "status": "reinterpret",
+        "delivery": "bolt",
+        "note": "Single-target flee on a weak mob: the target routs (runs from the party) for a few seconds. Maps to a short 'flee' AI override on one low-HD target. Soft CC."
+      }
     },
     {
       "name": "Summon Monster I",
       "school": "Conjuration (Summoning)",
       "level": "Sorcerer/Wizard 1, Cleric 1",
       "srd": {
-        "castingTime": "1 round", "range": "Close (25 ft. + 5 ft./2 levels)", "target": "One summoned creature",
-        "duration": "1 round/level (D)", "savingThrow": "None", "spellResistance": "No",
+        "castingTime": "1 round",
+        "range": "Close (25 ft. + 5 ft./2 levels)",
+        "target": "One summoned creature",
+        "duration": "1 round/level (D)",
+        "savingThrow": "None",
+        "spellResistance": "No",
         "description": "Summons one extraplanar creature from the 1st-level list, which appears where you designate and fights your opponents for the duration.",
         "source": "d20srd.org/srd/spells/summonMonsterI.htm"
       },
-      "regauntless": { "status": "reinterpret", "delivery": "none",
-        "note": "Spawns a temporary friendly minion (a timed ally entity) that the AI drives against mobs. 1-round cast = wind-up. Mirrors the enemy 'generator' idea but player-side; a pet for the duration, then despawns." }
+      "regauntless": {
+        "status": "reinterpret",
+        "delivery": "none",
+        "note": "Spawns a temporary friendly minion (a timed ally entity) that the AI drives against mobs. 1-round cast = wind-up. Mirrors the enemy 'generator' idea but player-side; a pet for the duration, then despawns."
+      }
     }
   ]
 }
