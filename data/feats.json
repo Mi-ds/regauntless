@@ -843,8 +843,8 @@
         "source": "d20srd.org/srd/feats.htm"
       },
       "regauntless": {
-        "status": "no-op",
-        "note": "'No AoO' is deleted-mechanic no-op; the +4-to-hit an object only matters if we model targeting/breaking carried equipment, which the horde game doesn't. Parked."
+        "status": "reinterpret",
+        "note": "Grab/grapple-family special attack (combat-model.md) — the 'attack an object' branch. If sunder is modeled (break a shield/weapon, or destructible objects like spawners/webs/doors), the +4 = a flat circumstance bonus to hit the object; the 'no AoO' half is a no-op. Note: spawners ARE destructible targets (combat-model.md), so an anti-object feat has real purchase. In the live family, not dead."
       }
     },
     {
@@ -861,8 +861,8 @@
         "source": "d20srd.org/srd/feats.htm"
       },
       "regauntless": {
-        "status": "no-op",
-        "note": "Disarming and the counter-disarm risk both lean on the turn-based opposed-roll / AoO structure. The horde game's enemies don't carry disarmable gear we track; parked unless a disarm mechanic is added."
+        "status": "reinterpret",
+        "note": "Grab/grapple-family special attack (combat-model.md). If disarm is modeled (knock an enemy's weapon away — e.g. vs armed humanoids like goblins), the +4 to the opposed check = a flat circumstance bonus on that contested check; the 'no AoO / no counter-disarm' halves are no-ops (AoO deleted). Pending the disarm action being surfaced, but it's in the live grapple family, not dead."
       }
     },
     {
@@ -879,8 +879,8 @@
         "source": "d20srd.org/srd/feats.htm"
       },
       "regauntless": {
-        "status": "no-op",
-        "note": "Pure action-economy upgrade (standard->move action to feint). Both action types and the feint-to-deny-Dex mechanic are deleted in the real-time conversion. Parked."
+        "status": "reinterpret",
+        "note": "Grab/grapple-family combat maneuver (Combat Expertise tree). The action-economy half (standard->move to feint) is a no-op (actions deleted), BUT feint's EFFECT (deny a target its Dex-to-AC / set up a hit) could reinterpret as a short vulnerability-opening on a target if feint is modeled. Pending feint being surfaced; grouped with the live maneuver family, not dead."
       }
     },
     {
@@ -969,8 +969,8 @@
         "source": "d20srd.org/srd/feats.htm"
       },
       "regauntless": {
-        "status": "no-op",
-        "note": "'No AoO' is deleted-mechanic no-op; the +4 grapple-check bonus needs a grapple subsystem, which the top-down horde battler doesn't model. Parked unless grapple is added."
+        "status": "reinterpret",
+        "note": "APPLIES NOW — we have a grab/grapple-check family (combat-model.md 'Grab / Grapple family'). The +4 grapple-check bonus = a flat circumstance bonus to the contested grapple check that resolves grabs (hero's break attempts AND a grappler's holds); the 'no AoO on touch-to-grapple' half is a no-op (AoO deleted). So a hero with Improved Grapple is better at both escaping grabs and (if a grappler build) holding them."
       }
     },
     {
