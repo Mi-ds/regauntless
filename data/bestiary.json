@@ -497,6 +497,67 @@
       },
       "notes2D": "Eagle-lite: smaller, slower flier (40ft/8 hexes), SINGLE combined-talon attack for trivial damage (1d4-3, Str 4). High AC (17) for its tier (Dex 17 + size + natural) so it's annoyingly evasive but barely hurts. Stealthy (Move Silently +17 — swoops quietly). Solitary. Obvious familiar candidate (wizard's owl). Same flier questions as Eagle (parked). Mechanically the weakest flier — almost a noncombat, but it does attack so recorded as a (weak) brawler.",
       "notesSim": "4hp, AC17, single talon +5 (1d4-3 ~ often 1), fly 8 hexes/round. High AC = whiffs more hero shots than its tier suggests; near-zero damage output. Flight abstracted (see Eagle). Validates a high-evasion low-damage flier."
+    },
+    {
+      "name": "Weasel",
+      "srd": {
+        "_note": "Verbatim SRD 3.5 stat block + flavor, full page. Single-size (also applies to ferrets). Carries ATTACH -> our Latcher archetype.",
+        "source": "d20srd.org/srd/monsters/weasel.htm",
+        "variant": "Weasel",
+        "sizeType": "Tiny Animal",
+        "hd": "1/2 d8 (2 hp)", "init": 2, "speed": "20 ft (4 squares), climb 20 ft",
+        "ac": "14 (+2 size, +2 Dex), touch 14, flat-footed 12",
+        "baseAtk": 0, "grapple": -12,
+        "attack": "Bite +4 melee (1d3-4)", "fullAttack": "Bite +4 melee (1d3-4)",
+        "space": "2-1/2 ft / 0 ft", "specialAttacks": "Attach",
+        "specialQualities": "Low-light vision, scent",
+        "saves": { "fort": 2, "ref": 4, "will": 1 },
+        "abilities": { "str": 3, "dex": 15, "con": 10, "int": 2, "wis": 12, "cha": 5 },
+        "skills": "Balance +12, Climb +10, Escape Artist +4, Hide +11, Move Silently +8, Spot +3",
+        "feats": "Agile, Weapon Finesse(B)",
+        "environment": "Temperate hills",
+        "organization": "Solitary",
+        "cr": "1/4", "advancement": "-", "la": "-",
+        "flavor": "These little mammals are aggressive predators but usually confine themselves to smaller prey. Also applies to ferrets.",
+        "attach": "Ex: If a weasel hits with a bite, it latches on with its jaws and automatically deals bite damage each round it remains attached. An attached weasel loses its Dex bonus to AC (AC 12), and can be struck or grappled. To remove it, the opponent must achieve a pin.",
+        "skillsText": "+4 racial Move Silently, +8 racial Balance & Climb. Uses Dex for Climb. Can always take 10 on Climb even if rushed/threatened."
+      },
+      "cr": "1/4", "size": "Tiny", "type": "Animal",
+      "hp": 2, "hd": "1/2 d8", "ac": 14, "touchAC": 14, "flatAC": 12, "attachedAC": 12,
+      "speedFt": 20, "climbFt": 20, "init": 2,
+      "bab": 0, "grapple": -12,
+      "saves": { "fort": 2, "ref": 4, "will": 1 },
+      "abilities": { "str": 3, "dex": 15, "con": 10, "int": 2, "wis": 12, "cha": 5 },
+      "attacks": [
+        { "name": "Bite", "mode": "melee", "delivery": "contact", "toHit": 4, "damage": "1d3-4", "crit": "x2", "faction": "filtered", "onHit": "attach" }
+      ],
+      "specials": ["Low-light vision", "Scent", "Climb 20ft", "Attach (Ex) — FIRST LATCHER mechanic; see combat-model.md 'Latcher / Attach archetype'"],
+      "archetype": "latcher",
+      "behavior": {
+        "priorityList": [
+          "NOT spawner-fed: hand-placed in clumps of 3-5, a few per dungeon (ambient ambush pocket)",
+          "fast rusher: bolt at a hero, jump on (bite -> ATTACH)",
+          "while attached: ride + auto-tick per the hands-capacity ladder (combat-model.md); removed only by an ALLY (shot / conjured-hand / AoE repel)"
+        ],
+        "movementIntent": "close (fast, jump-on)",
+        "contact": "attach (persistent ride, not per-round positional)",
+        "latcher": {
+          "placement": "hand-placed clumps of 3-5, not spawner-fed",
+          "capacity": "hero HANDS (default 2, per-hero stat) manage latchers; overflow bites freely",
+          "ladderByCount": {
+            "1": "Distract (defensive debuff: take MORE incoming — SRD lost-Dex-to-AC)",
+            "2": "+ Slow (both hands full)",
+            "3": "+ DoT (no hands — bites free)",
+            "4": "+ Slow (on a leg)",
+            "5": "+ Slow (other leg — mired)"
+          },
+          "removal": "ally's shot scrapes off / Bigby-style conjured-hand plucks (+capacity) / AoE fumigate-repel detaches a cluster. Self-clear impossible with full hands.",
+          "danger": "CONTEXTUAL — trivial alone; lethal stacked during a wave (Distract amplifies all other incoming)",
+          "openKnobs": "does the ally scrape-shot HURT the ridden hero (rough) or clean-remove? ; default hands value"
+        }
+      },
+      "notes2D": "FIRST LATCHER. A 2hp weasel whose stats are nothing but whose MECHANIC is a whole enemy class: fast rush, jump on, RIDE. Attach = persistent on-hero state (first non-positional contact). Hand-placed clumps of 3-5 (not spawner chaff) = ambush pockets that EXCEED your 2 hands to force the DoT/leg-slow overflow. Inverse of the ghost (fast closer, but sticks-and-drains vs burst-and-gone). Whole point = FORCED CO-OP: hands full -> a teammate must clean you (shot / conjured-hand / AoE repel). Climber (reaches over cover). Obvious whimsy: 'get it off me!' Also the demand-creator for future removal spells.",
+      "notesSim": "2hp, AC14 (12 while attached — easier to kill once on), bite +4 (1d3-4). Models: fast approach, on-hit sets ATTACHED state on that hero; thereafter auto-tick the hands-capacity ladder (distract/slow/DoT/slow/slow by attached-count) until an ally removes it. Validates: persistent per-avatar on-hero state, hands-capacity primitive, forced-co-op removal, contextual danger (debuff amplifies concurrent wave damage). Attached-AC drop = reward for committing (it's squishier once riding)."
     }
   ]
 }

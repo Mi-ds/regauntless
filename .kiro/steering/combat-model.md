@@ -59,6 +59,9 @@ it is not usually a *chosen* action, it's what happens when units occupy adjacen
 - **Lobber** — holds range / kites, throws arcing AREA attacks. *Counter: dodge the zone, or
   close and kill. Baitable (see below).*
 - **Brawler** — closes, survivable multi-round melee. *Counter: out-fight at contact, or shoot down.*
+- **Latcher / Clinger** — fast rusher that JUMPS ON a hero and rides, draining; hand-placed in
+  clumps (not spawner-fed). *Counter: an ALLY must clean it off (you can't self-clear once your
+  hands are full). See the Latcher section.*
 - (More to be cataloged as we walk further SRD monsters.)
 
 ## Status effects (per-avatar flags; SRD condition → our FEEL)
@@ -93,6 +96,49 @@ we own *what it does* to a Regauntless avatar).
 
 (Future statuses reuse the same shape; we DEFINE each one's feel as we meet the SRD creature that
 carries it.)
+
+## Latcher / Attach archetype (the "get it off me!" enemy)
+
+Built from the SRD **Attach** ability (weasel/leech/tick/stirge). These are NOT spawner chaff —
+they're **hand-placed in the dungeon, in clumps of 3-5, a few times per map** (ambient ambush
+pockets). Each is a **fast rusher that jumps onto a hero and RIDES** — persistent state that
+travels with the hero (first "the enemy is *on* you" mechanic; contact that doesn't resolve by
+position each round but sticks). Individually trivial (a weasel is 2 hp, ~1 dmg); the MECHANIC
+carries it, not the stats.
+
+### Capacity = hands (the ladder is anatomical, not a counter)
+A hero has **hands** (default 2 — a per-hero STAT so classes/feats/forms can vary it). You can
+*manage* (grapple/fend) up to your hand-count of latchers; **any beyond that bite freely.** The
+effect per attached latcher is a **fixed lookup by count** (no accumulator math — just a table):
+
+| # attached | effect ADDED | why (anatomy) |
+|---|---|---|
+| 1 | **Distract** — defensive debuff: you take MORE incoming damage (SRD "loses Dex to AC" → you're tangled/exposed) | one hand occupied |
+| 2 | **+ Slow** — movement suffers | both hands full wrestling |
+| 3 | **+ DoT** — real, uncontested bite damage | no hands left → it eats you |
+| 4 | **+ Slow** — harder to walk | hanging off a leg |
+| 5 | **+ Slow** — nearly mired | other leg |
+
+So a full clump of 5 = distracted + bleeding + barely mobile = **totally dependent on a teammate
+to clean you.** Danger is **CONTEXTUAL:** a latcher alone is nothing; a latcher on you DURING a
+wave is lethal (the Distract rung amplifies all the other incoming fire). Creates a live
+priority call — keep fighting the wave, or peel off to help the ridden hero *because* they're
+now taking amplified damage.
+
+### Removal = a co-op demand (you can't self-clear with full hands)
+The latcher's whole reason to exist is to make the party reach into each other's kits:
+- **Ally's shot** scrapes one off (brute, universal — anyone can help). *[OPEN knob: does the
+  cleaning shot also HURT the ridden hero (rough scrape, spicier) or clean-remove (no downside)?
+  — Mids undecided.]*
+- **Conjured-hand spell** (Bigby-flavored "plucking fingers") — plucks one off / lends a hand
+  (= temporary +capacity). The caster's single-target answer.
+- **AoE fumigate / repel** — area effect that detaches / scares off a whole cluster (the panic
+  button for a 3-5 clump).
+- **(Future)** high-hand-count or extra-attack classes natively manage more.
+
+(The spell answers live in the class/spell layer — NOT specced here; the latcher CREATES the
+demand, real SRD spells FILL it later. What's banked now is the archetype + the hands-capacity
+primitive + the removal-demand hooks. OPEN knobs: scrape-hurts-hero?, default hands value.)
 
 ## Ranged-delivery taxonomy (one primitive, several delivery physics)
 
