@@ -1,0 +1,2003 @@
+{
+  "_comment": "Regauntless feats — transcribed VERBATIM from SRD 3.5 (OGL), the unified ability primitive (character-creation.md: 'class features' are just class-granted feats, source-agnostic). PROCESS: like the bestiary — each entry has an 'srd' block (verbatim: type/prereq/benefit/normal/special) + a 'regauntless' interpretation layer (how it maps to our real-time model; some SRD text is turn-based and needs reinterpretation or is a no-op here). SCOPE: transcribe the whole General + combat feat list (metamagic/item-creation arrive with the caster/economy layer). This is a DATA-ENTRY job (subagent-friendly). Validate JSON after every edit.",
+  "_schema": {
+    "name": "string",
+    "type": "General | Item Creation | Metamagic | Special | (Fighter-bonus is a TAG, not a type)",
+    "fighterBonus": "bool — selectable as a fighter bonus feat",
+    "srd": {
+      "prereq": "string | null (verbatim: ability score / feat(s) / BAB / skill ranks / class level)",
+      "benefit": "string (verbatim)",
+      "normal": "string | null (verbatim — what you're limited to without it)",
+      "special": "string | null (verbatim — incl. which classes get it as a bonus/auto feat)",
+      "choice": "string | null (if the feat is 'choose a weapon/school/skill', what you pick)",
+      "stackable": "bool — can be taken multiple times (effects stack? note in benefit)",
+      "source": "d20srd.org/srd/feats.htm"
+    },
+    "regauntless": {
+      "status": "clean | reinterpret | no-op | house — does the SRD text port to our real-time model as-is?",
+      "note": "how it maps (e.g. ties to a primitive in combat.md/combat-model.md), or why it's a no-op/reinterpret"
+    }
+  },
+  "feats": [
+    {
+      "name": "Alertness",
+      "type": "General",
+      "fighterBonus": false,
+      "srd": {
+        "prereq": null,
+        "benefit": "You get a +2 bonus on all Listen checks and Spot checks.",
+        "normal": null,
+        "special": "The master of a familiar gains the benefit of the Alertness feat whenever the familiar is within arm's reach.",
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret",
+        "note": "Flat +2 to two skills. Listen/Spot are perception skills — in our model they'd feed sensing/awareness if we ever surface skill-checks on the field; for now a sheet-level +2 (the circumstance pile handles the math). Low priority to wire (no combat primitive yet). Many 'X [General]: +2 to skill A & B' feats share this exact shape (Acrobatic/Agile/Athletic/Deceitful/Deft Hands/Diligent/Investigator/Magical Aptitude/Negotiator/Nimble Fingers/Persuasive/Self-Sufficient/Stealthy) — bulk-transcribe as a family."
+      }
+    },
+    {
+      "name": "Power Attack",
+      "type": "General",
+      "fighterBonus": true,
+      "srd": {
+        "prereq": "Str 13",
+        "benefit": "On your action, before making attack rolls for a round, you may choose to subtract a number from all melee attack rolls and add the same number to all melee damage rolls. This number may not exceed your base attack bonus. The penalty on attacks and bonus on damage apply until your next turn.",
+        "normal": null,
+        "special": "If you attack with a two-handed weapon (or a one-handed weapon in two hands), add TWICE the number subtracted from attack rolls to damage. Cannot add Power Attack damage to a light weapon (except unarmed/natural). A fighter may select Power Attack as a fighter bonus feat.",
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret",
+        "note": "Trade to-hit for damage. In deterministic no-d20-to-hit combat (combat.md), 'subtract from attack roll' has no normal meaning (geometry = the hit). REINTERPRET: likely a stance that trades fire-rate or a hit-chance factor for +damage, OR (Gremlin mode) the literal -atk/+dmg since Gremlin rolls to-hit. The 2-handed doubling + light-weapon exclusion = damage-math modifiers. Prereq Str 13 = the real tracked stat (character-creation.md). Gateway feat (Cleave/Improved Bull Rush/Overrun/Sunder prereq it)."
+      }
+    },
+    {
+      "name": "Weapon Focus",
+      "type": "General",
+      "fighterBonus": true,
+      "srd": {
+        "prereq": "Proficiency with selected weapon, base attack bonus +1",
+        "benefit": "You gain a +1 bonus on all attack rolls you make using the selected weapon.",
+        "normal": null,
+        "special": "Choose one type of weapon (or unarmed strike / grapple / ray). Can be taken multiple times, each for a new weapon; effects do not stack (per-weapon). Prereq for Weapon Specialization. A fighter may select it as a fighter bonus feat.",
+        "choice": "a weapon type (or unarmed strike / grapple / ray)",
+        "stackable": true,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret",
+        "note": "+1 attack with a chosen weapon. In deterministic combat there's no to-hit roll to boost — REINTERPRET as either a damage/breakpoint nudge with that weapon, or a +1 that only matters in Gremlin mode (where to-hit rolls). The 'choose a weapon' + 'take multiple times for different weapons' pattern recurs (Improved Critical, Weapon Specialization, Greater Weapon Focus, Exotic/Martial Weapon Proficiency, Rapid Reload) — model 'choice' + 'stackable-per-choice' once, reuse. Classic feat CHAIN (Weapon Focus -> Specialization -> Greater...): prereqs form a tree."
+      }
+    },
+    {
+      "name": "Toughness",
+      "type": "General",
+      "fighterBonus": false,
+      "srd": {
+        "prereq": null,
+        "benefit": "You gain +3 hit points.",
+        "normal": null,
+        "special": "A character may gain this feat multiple times. Its effects stack.",
+        "choice": null,
+        "stackable": true,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret",
+        "note": "+3 HP. We use a SHARED party pool (survival.md), not per-hero HP bars — so Toughness adds this hero's +3 to the pool MAX (the inverse of Con-damage, which LOWERS pool max; same 'hero contributes to pool ceiling' mechanic, combat-model.md). Stackable = flat additive. Clean once pool-contribution is modeled."
+      }
+    },
+    {
+      "name": "Quicken Spell",
+      "type": "Metamagic",
+      "fighterBonus": false,
+      "srd": {
+        "prereq": null,
+        "benefit": "Casting a quickened spell is a swift action; you can cast another spell the same round. One quickened spell/round. Can't quicken a spell with casting time > 1 full round. Uses a spell slot four levels higher than actual. Casting it doesn't provoke an attack of opportunity.",
+        "normal": null,
+        "special": "Can't be applied to spontaneously cast spells (sorcerer/bard, spontaneous cleric/druid).",
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "no-op",
+        "note": "Pure turn-based artifact: 'swift action / cast another spell this round / no attack of opportunity' are all ROUND-STRUCTURE concepts we DELETED in the real-time conversion (combat.md 'what dies'; AoO gone, actions are continuous). The only portable bit is the SLOT-COST (+4 levels) IF we model spell slots. PARK metamagic until the caster/spell layer exists. Flag: whole Metamagic + Item-Creation families are caster-layer-dependent — transcribe them LAST, with the spell system."
+      }
+    },
+    {
+      "name": "Acrobatic",
+      "type": "General",
+      "fighterBonus": false,
+      "srd": {
+        "prereq": null,
+        "benefit": "You get a +2 bonus on all Jump checks and Tumble checks.",
+        "normal": null,
+        "special": null,
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret",
+        "note": "Flat +2 to two skills. Sheet-level bonus via the circumstance pile; low priority to wire (no combat primitive yet)."
+      }
+    },
+    {
+      "name": "Agile",
+      "type": "General",
+      "fighterBonus": false,
+      "srd": {
+        "prereq": null,
+        "benefit": "You get a +2 bonus on all Balance checks and Escape Artist checks.",
+        "normal": null,
+        "special": null,
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret",
+        "note": "Flat +2 to two skills. Sheet-level bonus via the circumstance pile; low priority to wire (no combat primitive yet)."
+      }
+    },
+    {
+      "name": "Animal Affinity",
+      "type": "General",
+      "fighterBonus": false,
+      "srd": {
+        "prereq": null,
+        "benefit": "You get a +2 bonus on all Handle Animal checks and Ride checks.",
+        "normal": null,
+        "special": null,
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret",
+        "note": "Flat +2 to two skills. Sheet-level bonus via the circumstance pile; low priority to wire (no combat primitive yet)."
+      }
+    },
+    {
+      "name": "Athletic",
+      "type": "General",
+      "fighterBonus": false,
+      "srd": {
+        "prereq": null,
+        "benefit": "You get a +2 bonus on all Climb checks and Swim checks.",
+        "normal": null,
+        "special": null,
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret",
+        "note": "Flat +2 to two skills. Sheet-level bonus via the circumstance pile; low priority to wire (no combat primitive yet)."
+      }
+    },
+    {
+      "name": "Deceitful",
+      "type": "General",
+      "fighterBonus": false,
+      "srd": {
+        "prereq": null,
+        "benefit": "You get a +2 bonus on all Disguise checks and Forgery checks.",
+        "normal": null,
+        "special": null,
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret",
+        "note": "Flat +2 to two skills. Sheet-level bonus via the circumstance pile; low priority to wire (no combat primitive yet)."
+      }
+    },
+    {
+      "name": "Deft Hands",
+      "type": "General",
+      "fighterBonus": false,
+      "srd": {
+        "prereq": null,
+        "benefit": "You get a +2 bonus on all Sleight of Hand checks and Use Rope checks.",
+        "normal": null,
+        "special": null,
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret",
+        "note": "Flat +2 to two skills. Sheet-level bonus via the circumstance pile; low priority to wire (no combat primitive yet)."
+      }
+    },
+    {
+      "name": "Diligent",
+      "type": "General",
+      "fighterBonus": false,
+      "srd": {
+        "prereq": null,
+        "benefit": "You get a +2 bonus on all Appraise checks and Decipher Script checks.",
+        "normal": null,
+        "special": null,
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret",
+        "note": "Flat +2 to two skills. Sheet-level bonus via the circumstance pile; low priority to wire (no combat primitive yet)."
+      }
+    },
+    {
+      "name": "Investigator",
+      "type": "General",
+      "fighterBonus": false,
+      "srd": {
+        "prereq": null,
+        "benefit": "You get a +2 bonus on all Gather Information checks and Search checks.",
+        "normal": null,
+        "special": null,
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret",
+        "note": "Flat +2 to two skills. Sheet-level bonus via the circumstance pile; low priority to wire (no combat primitive yet)."
+      }
+    },
+    {
+      "name": "Magical Aptitude",
+      "type": "General",
+      "fighterBonus": false,
+      "srd": {
+        "prereq": null,
+        "benefit": "You get a +2 bonus on all Spellcraft checks and Use Magic Device checks.",
+        "normal": null,
+        "special": null,
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret",
+        "note": "Flat +2 to two skills. Sheet-level bonus via the circumstance pile; low priority to wire (no combat primitive yet)."
+      }
+    },
+    {
+      "name": "Negotiator",
+      "type": "General",
+      "fighterBonus": false,
+      "srd": {
+        "prereq": null,
+        "benefit": "You get a +2 bonus on all Diplomacy checks and Sense Motive checks.",
+        "normal": null,
+        "special": null,
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret",
+        "note": "Flat +2 to two skills. Sheet-level bonus via the circumstance pile; low priority to wire (no combat primitive yet)."
+      }
+    },
+    {
+      "name": "Nimble Fingers",
+      "type": "General",
+      "fighterBonus": false,
+      "srd": {
+        "prereq": null,
+        "benefit": "You get a +2 bonus on all Disable Device checks and Open Lock checks.",
+        "normal": null,
+        "special": null,
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret",
+        "note": "Flat +2 to two skills. Sheet-level bonus via the circumstance pile; low priority to wire (no combat primitive yet)."
+      }
+    },
+    {
+      "name": "Persuasive",
+      "type": "General",
+      "fighterBonus": false,
+      "srd": {
+        "prereq": null,
+        "benefit": "You get a +2 bonus on all Bluff checks and Intimidate checks.",
+        "normal": null,
+        "special": null,
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret",
+        "note": "Flat +2 to two skills. Sheet-level bonus via the circumstance pile; low priority to wire (no combat primitive yet)."
+      }
+    },
+    {
+      "name": "Self-Sufficient",
+      "type": "General",
+      "fighterBonus": false,
+      "srd": {
+        "prereq": null,
+        "benefit": "You get a +2 bonus on all Heal checks and Survival checks.",
+        "normal": null,
+        "special": null,
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret",
+        "note": "Flat +2 to two skills. Sheet-level bonus via the circumstance pile; low priority to wire (no combat primitive yet)."
+      }
+    },
+    {
+      "name": "Stealthy",
+      "type": "General",
+      "fighterBonus": false,
+      "srd": {
+        "prereq": null,
+        "benefit": "You get a +2 bonus on all Hide checks and Move Silently checks.",
+        "normal": null,
+        "special": null,
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret",
+        "note": "Flat +2 to two skills. Sheet-level bonus via the circumstance pile; low priority to wire (no combat primitive yet)."
+      }
+    },
+    {
+      "name": "Armor Proficiency (Heavy)",
+      "type": "General",
+      "fighterBonus": false,
+      "srd": {
+        "prereq": "Armor Proficiency (light), Armor Proficiency (medium).",
+        "benefit": "See Armor Proficiency (light).",
+        "normal": "See Armor Proficiency (light).",
+        "special": "Fighters, paladins, and clerics automatically have Armor Proficiency (heavy) as a bonus feat. They need not select it.",
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret",
+        "note": "Proficiency gates the armor-check penalty on skills/attacks. No to-hit roll in our model, so the attack-penalty half is a no-op; the skill-check penalty reinterprets to the circumstance pile. Mostly a sheet gate on which armor a hero can wear without penalty."
+      }
+    },
+    {
+      "name": "Armor Proficiency (Light)",
+      "type": "General",
+      "fighterBonus": false,
+      "srd": {
+        "prereq": null,
+        "benefit": "When you wear a type of armor with which you are proficient, the armor check penalty for that armor applies only to Balance, Climb, Escape Artist, Hide, Jump, Move Silently, Sleight of Hand, and Tumble checks.",
+        "normal": "A character who is wearing armor with which she is not proficient applies its armor check penalty to attack rolls and to all skill checks that involve moving, including Ride.",
+        "special": "All characters except wizards, sorcerers, and monks automatically have Armor Proficiency (light) as a bonus feat. They need not select it.",
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret",
+        "note": "Armor-check penalty on attack rolls is a no-op (geometry is the hit); skill-check penalty maps to the circumstance pile. Sheet gate on armor wear."
+      }
+    },
+    {
+      "name": "Armor Proficiency (Medium)",
+      "type": "General",
+      "fighterBonus": false,
+      "srd": {
+        "prereq": "Armor Proficiency (light).",
+        "benefit": "See Armor Proficiency (light).",
+        "normal": "See Armor Proficiency (light).",
+        "special": "Fighters, barbarians, paladins, clerics, druids, and bards automatically have Armor Proficiency (medium) as a bonus feat. They need not select it.",
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret",
+        "note": "Same as Armor Proficiency (light): attack-penalty half no-ops, skill-penalty half joins the circumstance pile. Sheet gate on armor wear."
+      }
+    },
+    {
+      "name": "Shield Proficiency",
+      "type": "General",
+      "fighterBonus": false,
+      "srd": {
+        "prereq": null,
+        "benefit": "You can use a shield and take only the standard penalties.",
+        "normal": "When you are using a shield with which you are not proficient, you take the shield's armor check penalty on attack rolls and on all skill checks that involve moving, including Ride checks.",
+        "special": "Barbarians, bards, clerics, druids, fighters, paladins, and rangers automatically have Shield Proficiency as a bonus feat. They need not select it.",
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret",
+        "note": "Attack-penalty half no-ops (no to-hit roll); skill penalty maps to the circumstance pile. Sheet gate on shield use; shield's AC value would feed the deterministic defense math."
+      }
+    },
+    {
+      "name": "Tower Shield Proficiency",
+      "type": "General",
+      "fighterBonus": false,
+      "srd": {
+        "prereq": "Shield Proficiency.",
+        "benefit": "You can use a tower shield and suffer only the standard penalties.",
+        "normal": "A character who is using a shield with which he or she is not proficient takes the shield's armor check penalty on attack rolls and on all skill checks that involve moving, including Ride.",
+        "special": "Fighters automatically have Tower Shield Proficiency as a bonus feat. They need not select it.",
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret",
+        "note": "Attack-penalty half no-ops; skill penalty maps to the circumstance pile. Sheet gate on tower-shield use."
+      }
+    },
+    {
+      "name": "Simple Weapon Proficiency",
+      "type": "General",
+      "fighterBonus": false,
+      "srd": {
+        "prereq": null,
+        "benefit": "You make attack rolls with simple weapons normally.",
+        "normal": "When using a weapon with which you are not proficient, you take a -4 penalty on attack rolls.",
+        "special": "All characters except for druids, monks, and wizards are automatically proficient with all simple weapons. They need not select this feat.",
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret",
+        "note": "The -4 non-proficiency attack penalty has no to-hit roll to bite in our model; it only matters in Gremlin mode, or becomes a damage/breakpoint nudge. Mostly a sheet gate on weapon use."
+      }
+    },
+    {
+      "name": "Martial Weapon Proficiency",
+      "type": "General",
+      "fighterBonus": false,
+      "srd": {
+        "prereq": null,
+        "benefit": "You make attack rolls with the selected weapon normally.",
+        "normal": "When using a weapon with which you are not proficient, you take a -4 penalty on attack rolls.",
+        "special": "Barbarians, fighters, paladins, and rangers are proficient with all martial weapons. They need not select this feat. You can gain Martial Weapon Proficiency multiple times. Each time you take the feat, it applies to a new type of weapon. A cleric who chooses the War domain automatically gains the Martial Weapon Proficiency feat related to his deity's favored weapon as a bonus feat, if the weapon is a martial one. He need not select it.",
+        "choice": "a martial weapon type",
+        "stackable": true,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret",
+        "note": "Non-proficiency -4 attack penalty only bites in Gremlin mode / becomes a damage nudge; otherwise a sheet gate on weapon use. Choice + stackable-per-choice pattern."
+      }
+    },
+    {
+      "name": "Exotic Weapon Proficiency",
+      "type": "General",
+      "fighterBonus": true,
+      "srd": {
+        "prereq": "Base attack bonus +1 (plus Str 13 for bastard sword or dwarven waraxe).",
+        "benefit": "You make attack rolls with the weapon normally.",
+        "normal": "A character who uses a weapon with which he or she is not proficient takes a -4 penalty on attack rolls.",
+        "special": "You can gain Exotic Weapon Proficiency multiple times. Each time you take the feat, it applies to a new type of exotic weapon. Proficiency with the bastard sword or the dwarven waraxe has an additional prerequisite of Str 13. A fighter may select Exotic Weapon Proficiency as one of his fighter bonus feats.",
+        "choice": "an exotic weapon type",
+        "stackable": true,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret",
+        "note": "Non-proficiency -4 attack penalty only bites in Gremlin mode / becomes a damage nudge; otherwise a sheet gate on weapon use. Choice + stackable-per-choice pattern."
+      }
+    },
+    {
+      "name": "Great Fortitude",
+      "type": "General",
+      "fighterBonus": false,
+      "srd": {
+        "prereq": null,
+        "benefit": "You get a +2 bonus on all Fortitude saving throws.",
+        "normal": null,
+        "special": null,
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret",
+        "note": "+2 to a save category. Saves are deterministic thresholds / resist checks in our model; a flat +2 to this hero's Fortitude resist via the circumstance pile."
+      }
+    },
+    {
+      "name": "Iron Will",
+      "type": "General",
+      "fighterBonus": false,
+      "srd": {
+        "prereq": null,
+        "benefit": "You get a +2 bonus on all Will saving throws.",
+        "normal": null,
+        "special": null,
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret",
+        "note": "+2 to Will saves via the circumstance pile; deterministic resist threshold nudge."
+      }
+    },
+    {
+      "name": "Lightning Reflexes",
+      "type": "General",
+      "fighterBonus": false,
+      "srd": {
+        "prereq": null,
+        "benefit": "You get a +2 bonus on all Reflex saving throws.",
+        "normal": null,
+        "special": null,
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret",
+        "note": "+2 to Reflex saves via the circumstance pile; deterministic resist threshold nudge."
+      }
+    },
+    {
+      "name": "Skill Focus",
+      "type": "General",
+      "fighterBonus": false,
+      "srd": {
+        "prereq": null,
+        "benefit": "You get a +3 bonus on all checks involving that skill.",
+        "normal": null,
+        "special": "You can gain this feat multiple times. Its effects do not stack. Each time you take the feat, it applies to a new skill.",
+        "choice": "a skill",
+        "stackable": true,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret",
+        "note": "+3 to one chosen skill via the circumstance pile. Choice + take-multiple-for-different-skills pattern; low priority until skill-checks surface on the field."
+      }
+    },
+    {
+      "name": "Run",
+      "type": "General",
+      "fighterBonus": false,
+      "srd": {
+        "prereq": null,
+        "benefit": "When running, you move five times your normal speed (if wearing medium, light, or no armor and carrying no more than a medium load) or four times your speed (if wearing heavy armor or carrying a heavy load). If you make a jump after a running start (see the Jump skill description), you gain a +4 bonus on your Jump check. While running, you retain your Dexterity bonus to AC.",
+        "normal": "You move four times your speed while running (if wearing medium, light, or no armor and carrying no more than a medium load) or three times your speed (if wearing heavy armor or carrying a heavy load), and you lose your Dexterity bonus to AC.",
+        "special": null,
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret",
+        "note": "Movement-speed multiplier maps cleanly to a real-time move-speed buff (there is no 'run action' — movement is continuous). 'Retain Dex bonus to AC while running' is a no-op since AC-loss-while-running doesn't exist here. The Jump-check bonus is sheet-level."
+      }
+    },
+    {
+      "name": "Endurance",
+      "type": "General",
+      "fighterBonus": false,
+      "srd": {
+        "prereq": null,
+        "benefit": "You gain a +4 bonus on the following checks and saves: Swim checks made to resist nonlethal damage, Constitution checks made to continue running, Constitution checks made to avoid nonlethal damage from a forced march, Constitution checks made to hold your breath, Constitution checks made to avoid nonlethal damage from starvation or thirst, Fortitude saves made to avoid nonlethal damage from hot or cold environments, and Fortitude saves made to resist damage from suffocation. Also, you may sleep in light or medium armor without becoming fatigued.",
+        "normal": "A character without this feat who sleeps in medium or heavier armor is automatically fatigued the next day.",
+        "special": "A ranger automatically gains Endurance as a bonus feat at 3rd level. He need not select it.",
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret",
+        "note": "Bundle of +4s against environmental/attrition effects. Most of these subsystems (forced march, suffocation, sleeping in armor) don't exist in the dungeon-battler loop; the portable bits are circumstance-pile bonuses if/when we model attrition. Largely parked."
+      }
+    },
+    {
+      "name": "Diehard",
+      "type": "General",
+      "fighterBonus": false,
+      "srd": {
+        "prereq": "Endurance.",
+        "benefit": "When reduced to between -1 and -9 hit points, you automatically become stable. You don't have to roll d% to see if you lose 1 hit point each round. When reduced to negative hit points, you may choose to act as if you were disabled, rather than dying. You must make this decision as soon as you are reduced to negative hit points (even if it isn't your turn). If you do not choose to act as if you were disabled, you immediately fall unconscious. When using this feat, you can take either a single move or standard action each turn, but not both, and you cannot take a full round action. You can take a move action without further injuring yourself, but if you perform any standard action (or any other action deemed as strenuous, including some free actions, swift actions, or immediate actions, such as casting a quickened spell) you take 1 point of damage after completing the act. If you reach -10 hit points, you immediately die.",
+        "normal": "A character without this feat who is reduced to between -1 and -9 hit points is unconscious and dying.",
+        "special": null,
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "no-op",
+        "note": "Entirely built on the per-hero negative-HP / dying / turn-action economy we deleted. With a shared party pool there is no per-hero -1..-9 band and no round-by-round bleed roll. Would need a bespoke 'keep acting while downed' house rule to port; parked."
+      }
+    },
+    {
+      "name": "Blind-Fight",
+      "type": "General",
+      "fighterBonus": true,
+      "srd": {
+        "prereq": null,
+        "benefit": "In melee, every time you miss because of concealment, you can reroll your miss chance percentile roll one time to see if you actually hit. An invisible attacker gets no advantages related to hitting you in melee. That is, you don't lose your Dexterity bonus to Armor Class, and the attacker doesn't get the usual +2 bonus for being invisible. The invisible attacker's bonuses do still apply for ranged attacks, however. You take only half the usual penalty to speed for being unable to see. Darkness and poor visibility in general reduces your speed to three-quarters normal, instead of one-half.",
+        "normal": "Regular attack roll modifiers for invisible attackers trying to hit you apply, and you lose your Dexterity bonus to AC. The speed reduction for darkness and poor visibility also applies.",
+        "special": "The Blind-Fight feat is of no use against a character who is the subject of a blink spell. A fighter may select Blind-Fight as one of his fighter bonus feats.",
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret",
+        "note": "Concealment/invisibility miss-chance rerolls assume a roll-to-hit; in deterministic combat this maps to 'ignore/reduce concealment miss-chance' if we model concealment at all. The half speed-penalty-in-darkness part ports cleanly as a real-time move-speed modifier under low visibility."
+      }
+    },
+    {
+      "name": "Combat Expertise",
+      "type": "General",
+      "fighterBonus": true,
+      "srd": {
+        "prereq": "Int 13.",
+        "benefit": "When you use the attack action or the full attack action in melee, you can take a penalty of as much as -5 on your attack roll and add the same number (+5 or less) as a dodge bonus to your Armor Class. This number may not exceed your base attack bonus. The changes to attack rolls and Armor Class last until your next action.",
+        "normal": "A character without the Combat Expertise feat can fight defensively while using the attack or full attack action to take a -4 penalty on attack rolls and gain a +2 dodge bonus to Armor Class.",
+        "special": "A fighter may select Combat Expertise as one of his fighter bonus feats.",
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret",
+        "note": "Trade to-hit for AC. No to-hit roll here, so REINTERPRET as a defensive stance that trades damage/fire-rate for the deterministic defense value, or the literal -atk/+AC only in Gremlin mode. Gateway feat (Improved Disarm/Feint/Trip, Whirlwind prereq it)."
+      }
+    },
+    {
+      "name": "Combat Reflexes",
+      "type": "General",
+      "fighterBonus": true,
+      "srd": {
+        "prereq": null,
+        "benefit": "You may make a number of additional attacks of opportunity equal to your Dexterity bonus. With this feat, you may also make attacks of opportunity while flat-footed.",
+        "normal": "A character without this feat can make only one attack of opportunity per round and can't make attacks of opportunity while flat-footed.",
+        "special": "The Combat Reflexes feat does not allow a rogue to use her opportunist ability more than once per round. A fighter may select Combat Reflexes as one of his fighter bonus feats. A monk may select Combat Reflexes as a bonus feat at 2nd level.",
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "no-op",
+        "note": "Entirely about attacks of opportunity and flat-footed, both of which are deleted in the real-time conversion (no turn structure, no AoO). Nothing to port unless we reintroduce a bespoke AoO-like reaction."
+      }
+    },
+    {
+      "name": "Dodge",
+      "type": "General",
+      "fighterBonus": true,
+      "srd": {
+        "prereq": "Dex 13.",
+        "benefit": "During your action, you designate an opponent and receive a +1 dodge bonus to Armor Class against attacks from that opponent. You can select a new opponent on any action. A condition that makes you lose your Dexterity bonus to Armor Class (if any) also makes you lose dodge bonuses. Also, dodge bonuses stack with each other, unlike most other types of bonuses.",
+        "normal": null,
+        "special": "A fighter may select Dodge as one of his fighter bonus feats.",
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret",
+        "note": "+1 dodge bonus to AC vs one designated foe. 'Designate per action' is turn-structure; REINTERPRET as a flat +1 to this hero's deterministic defense value (drop the single-target targeting). Gateway feat (Mobility/Spring Attack/Whirlwind prereq it)."
+      }
+    },
+    {
+      "name": "Mobility",
+      "type": "General",
+      "fighterBonus": true,
+      "srd": {
+        "prereq": "Dex 13, Dodge.",
+        "benefit": "You get a +4 dodge bonus to Armor Class against attacks of opportunity caused when you move out of or within a threatened area. A condition that makes you lose your Dexterity bonus to Armor Class (if any) also makes you lose dodge bonuses. Dodge bonuses stack with each other, unlike most types of bonuses.",
+        "normal": null,
+        "special": "A fighter may select Mobility as one of his fighter bonus feats.",
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "no-op",
+        "note": "The entire benefit is a bonus against attacks of opportunity, which are deleted in the real-time conversion. No-op unless AoO is reintroduced. Still useful as a prereq node in the Dodge->Mobility->Spring Attack chain."
+      }
+    },
+    {
+      "name": "Spring Attack",
+      "type": "General",
+      "fighterBonus": true,
+      "srd": {
+        "prereq": "Dex 13, Dodge, Mobility, base attack bonus +4.",
+        "benefit": "When using the attack action with a melee weapon, you can move both before and after the attack, provided that your total distance moved is not greater than your speed. Moving in this way does not provoke an attack of opportunity from the defender you attack, though it might provoke attacks of opportunity from other creatures, if appropriate. You can't use this feat if you are wearing heavy armor. You must move at least 5 feet both before and after you make your attack in order to utilize the benefits of Spring Attack.",
+        "normal": null,
+        "special": "A fighter may select Spring Attack as one of his fighter bonus feats.",
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "no-op",
+        "note": "Move-before-and-after-attack-without-provoking-AoO is free by default in real-time combat (no action economy, no AoO to avoid). The feat's whole value evaporates; mostly a prereq node for Whirlwind Attack."
+      }
+    },
+    {
+      "name": "Whirlwind Attack",
+      "type": "General",
+      "fighterBonus": true,
+      "srd": {
+        "prereq": "Dex 13, Int 13, Combat Expertise, Dodge, Mobility, Spring Attack, base attack bonus +4.",
+        "benefit": "When you use the full attack action, you can give up your regular attacks and instead make one melee attack at your full base attack bonus against each opponent within reach. When you use the Whirlwind Attack feat, you also forfeit any bonus or extra attacks granted by other feats, spells, or abilities.",
+        "normal": null,
+        "special": "A fighter may select Whirlwind Attack as one of his fighter bonus feats.",
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret",
+        "note": "Hit every adjacent enemy at once — a natural fit for the horde game. REINTERPRET as an AoE melee sweep (an activated attack pattern) rather than a full-attack-action swap; the 'give up iteratives' clause is moot without the attack-sequence economy."
+      }
+    },
+    {
+      "name": "Cleave",
+      "type": "General",
+      "fighterBonus": true,
+      "srd": {
+        "prereq": "Str 13, Power Attack.",
+        "benefit": "If you deal a creature enough damage to make it drop (typically by dropping it to below 0 hit points or killing it), you get an immediate, extra melee attack against another creature within reach. You cannot take a 5-foot step before making this extra attack. The extra attack is with the same weapon and at the same bonus as the attack that dropped the previous creature. You can use this ability once per round.",
+        "normal": null,
+        "special": "A fighter may select Cleave as one of his fighter bonus feats.",
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret",
+        "note": "Kill-triggers-a-free-extra-attack is great horde flavor. REINTERPRET as a real-time trigger: on killing blow, immediately queue another swing at a nearby enemy (drop the per-round cap or convert to a short cooldown)."
+      }
+    },
+    {
+      "name": "Great Cleave",
+      "type": "General",
+      "fighterBonus": true,
+      "srd": {
+        "prereq": "Str 13, Cleave, Power Attack, base attack bonus +4.",
+        "benefit": "This feat works like Cleave, except that there is no limit to the number of times you can use it per round.",
+        "normal": null,
+        "special": "A fighter may select Great Cleave as one of his fighter bonus feats.",
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret",
+        "note": "Uncapped Cleave chain — ideal for mowing down generator spawn. REINTERPRET as Cleave with no cooldown/cap: every killing blow immediately chains to the next nearby enemy."
+      }
+    },
+    {
+      "name": "Improved Bull Rush",
+      "type": "General",
+      "fighterBonus": true,
+      "srd": {
+        "prereq": "Str 13, Power Attack.",
+        "benefit": "When you perform a bull rush you do not provoke an attack of opportunity from the defender. You also gain a +4 bonus on the opposed Strength check you make to push back the defender.",
+        "normal": null,
+        "special": "A fighter may select Improved Bull Rush as one of his fighter bonus feats.",
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret",
+        "note": "The 'no AoO' half is a no-op (AoO deleted). The +4 to the opposed shove maps to a stronger deterministic push/knockback if we model bull-rush as a real-time shove."
+      }
+    },
+    {
+      "name": "Improved Overrun",
+      "type": "General",
+      "fighterBonus": true,
+      "srd": {
+        "prereq": "Str 13, Power Attack.",
+        "benefit": "When you attempt to overrun an opponent, the target may not choose to avoid you. You also gain a +4 bonus on your Strength check to knock down your opponent.",
+        "normal": "Without this feat, the target of an overrun can choose to avoid you or to block you.",
+        "special": "A fighter may select Improved Overrun as one of his fighter bonus feats.",
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret",
+        "note": "Overrun is a real-time push-through-enemy move if we model it; +4 to the knockdown becomes a stronger deterministic trample/knockdown. The turn-based 'avoid' choice is moot."
+      }
+    },
+    {
+      "name": "Improved Sunder",
+      "type": "General",
+      "fighterBonus": true,
+      "srd": {
+        "prereq": "Str 13, Power Attack.",
+        "benefit": "When you strike at an object held or carried by an opponent (such as a weapon or shield), you do not provoke an attack of opportunity. You also gain a +4 bonus on any attack roll made to attack an object held or carried by another character.",
+        "normal": "Without this feat, you provoke an attack of opportunity when you strike at an object held or carried by another character.",
+        "special": "A fighter may select Improved Sunder as one of his fighter bonus feats.",
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "no-op",
+        "note": "'No AoO' is deleted-mechanic no-op; the +4-to-hit an object only matters if we model targeting/breaking carried equipment, which the horde game doesn't. Parked."
+      }
+    },
+    {
+      "name": "Improved Disarm",
+      "type": "General",
+      "fighterBonus": true,
+      "srd": {
+        "prereq": "Int 13, Combat Expertise.",
+        "benefit": "You do not provoke an attack of opportunity when you attempt to disarm an opponent, nor does the opponent have a chance to disarm you. You also gain a +4 bonus on the opposed attack roll you make to disarm your opponent.",
+        "normal": "See the normal disarm rules.",
+        "special": "A fighter may select Improved Disarm as one of his fighter bonus feats. A monk may select Improved Disarm as a bonus feat at 6th level, even if she does not meet the prerequisites.",
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "no-op",
+        "note": "Disarming and the counter-disarm risk both lean on the turn-based opposed-roll / AoO structure. The horde game's enemies don't carry disarmable gear we track; parked unless a disarm mechanic is added."
+      }
+    },
+    {
+      "name": "Improved Feint",
+      "type": "General",
+      "fighterBonus": true,
+      "srd": {
+        "prereq": "Int 13, Combat Expertise.",
+        "benefit": "You can make a Bluff check to feint in combat as a move action.",
+        "normal": "Feinting in combat is a standard action.",
+        "special": "A fighter may select Improved Feint as one of his fighter bonus feats.",
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "no-op",
+        "note": "Pure action-economy upgrade (standard->move action to feint). Both action types and the feint-to-deny-Dex mechanic are deleted in the real-time conversion. Parked."
+      }
+    },
+    {
+      "name": "Improved Trip",
+      "type": "General",
+      "fighterBonus": true,
+      "srd": {
+        "prereq": "Int 13, Combat Expertise.",
+        "benefit": "You do not provoke an attack of opportunity when you attempt to trip an opponent while you are unarmed. You also gain a +4 bonus on your Strength check to trip your opponent. If you trip an opponent in melee combat, you immediately get a melee attack against that opponent as if you hadn't used your attack for the trip attempt.",
+        "normal": "Without this feat, you provoke an attack of opportunity when you attempt to trip an opponent while you are unarmed.",
+        "special": "At 6th level, a monk may select Improved Trip as a bonus feat, even if she does not have the prerequisites. A fighter may select Improved Trip as one of his fighter bonus feats.",
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret",
+        "note": "The 'no AoO' half is a no-op. If trip is modeled as a real-time knockdown, +4 to the opposed check becomes a stronger deterministic trip and the free follow-up attack becomes a bonus-damage trigger on a successful trip."
+      }
+    },
+    {
+      "name": "Improved Unarmed Strike",
+      "type": "General",
+      "fighterBonus": true,
+      "srd": {
+        "prereq": null,
+        "benefit": "You are considered to be armed even when unarmed - that is, you do not provoke attacks or opportunity from armed opponents when you attack them while unarmed. However, you still get an attack of opportunity against any opponent who makes an unarmed attack on you. In addition, your unarmed strikes can deal lethal or nonlethal damage, at your option.",
+        "normal": "Without this feat, you are considered unarmed when attacking with an unarmed strike, and you can deal only nonlethal damage with such an attack.",
+        "special": "A monk automatically gains Improved Unarmed Strike as a bonus feat at 1st level. She need not select it. A fighter may select Improved Unarmed Strike as one of his fighter bonus feats.",
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret",
+        "note": "The AoO clauses are no-ops (AoO deleted). The portable core is 'unarmed strikes deal lethal damage' — a clean sheet flag letting a hero's fists count as a real weapon. Gateway feat for the Deflect/Grapple/Snatch/Stunning Fist tree."
+      }
+    },
+    {
+      "name": "Deflect Arrows",
+      "type": "General",
+      "fighterBonus": true,
+      "srd": {
+        "prereq": "Dex 13, Improved Unarmed Strike.",
+        "benefit": "You must have at least one hand free (holding nothing) to use this feat. Once per round when you would normally be hit with a ranged weapon, you may deflect it so that you take no damage from it. You must be aware of the attack and not flat-footed. Attempting to deflect a ranged weapon doesn't count as an action. Unusually massive ranged weapons and ranged attacks generated by spell effects can't be deflected.",
+        "normal": null,
+        "special": "A monk may select Deflect Arrows as a bonus feat at 2nd level, even if she does not meet the prerequisites. A fighter may select Deflect Arrows as one of his fighter bonus feats.",
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret",
+        "note": "'Once per round negate a ranged hit' — with projectiles as real-time entities, REINTERPRET as a cooldown-gated ability to nullify one incoming projectile (replace 'per round' with a short cooldown). The flat-footed clause drops out."
+      }
+    },
+    {
+      "name": "Snatch Arrows",
+      "type": "General",
+      "fighterBonus": true,
+      "srd": {
+        "prereq": "Dex 15, Deflect Arrows, Improved Unarmed Strike.",
+        "benefit": "When using the Deflect Arrows feat you may catch the weapon instead of just deflecting it. Thrown weapons can immediately be thrown back at the original attacker (even though it isn't your turn) or kept for later use. You must have at least one hand free (holding nothing) to use this feat.",
+        "normal": null,
+        "special": "A fighter may select Snatch Arrows as one of his fighter bonus feats.",
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret",
+        "note": "Catch-and-return an incoming projectile. 'Even though it isn't your turn' is already the default in real-time. REINTERPRET as upgrading Deflect's nullify into a reflect (catch the projectile and fire it back)."
+      }
+    },
+    {
+      "name": "Improved Grapple",
+      "type": "General",
+      "fighterBonus": true,
+      "srd": {
+        "prereq": "Dex 13, Improved Unarmed Strike.",
+        "benefit": "You do not provoke an attack of opportunity when you make a touch attack to start a grapple. You also gain a +4 bonus on all grapple checks, regardless of whether you started the grapple.",
+        "normal": "Without this feat, you provoke an attack of opportunity when you make a touch attack to start a grapple.",
+        "special": "A fighter may select Improved Grapple as one of his fighter bonus feats. A monk may select Improved Grapple as a bonus feat at 1st level, even if she does not meet the prerequisites.",
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "no-op",
+        "note": "'No AoO' is deleted-mechanic no-op; the +4 grapple-check bonus needs a grapple subsystem, which the top-down horde battler doesn't model. Parked unless grapple is added."
+      }
+    },
+    {
+      "name": "Stunning Fist",
+      "type": "General",
+      "fighterBonus": true,
+      "srd": {
+        "prereq": "Dex 13, Wis 13, Improved Unarmed Strike, base attack bonus +8.",
+        "benefit": "You must declare that you are using this feat before you make your attack roll (thus, a failed attack roll ruins the attempt). Stunning Fist forces a foe damaged by your unarmed attack to make a Fortitude saving throw (DC 10 + 1/2 your character level + your Wis modifier), in addition to dealing damage normally. A defender who fails this saving throw is stunned for 1 round (until just before your next action). A stunned creature drops everything held, can't take actions, takes a -2 penalty to AC, and loses his Dexterity bonus to AC. You may attempt a stunning attack once per day for every four levels you have attained (but see Special), and no more than once per round. Constructs, oozes, plants, undead, incorporeal creatures, and creatures immune to critical hits cannot be stunned.",
+        "normal": null,
+        "special": "A monk may select Stunning Fist as a bonus feat at 1st level, even if she does not meet the prerequisites. A monk who selects this feat may attempt a stunning attack a number of times per day equal to her monk level, plus one more time per day for every four levels she has in classes other than monk. A fighter may select Stunning Fist as one of his fighter bonus feats.",
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret",
+        "note": "On-hit Fort save or be stunned — a clean real-time on-hit crowd-control proc. REINTERPRET: the DC becomes a deterministic threshold vs the target's Fort resist; 'stunned 1 round' becomes a short real-time stun duration; 'uses/day' becomes a cooldown or charge pool. Immunity list ports as-is."
+      }
+    },
+    {
+      "name": "Weapon Finesse",
+      "type": "General",
+      "fighterBonus": true,
+      "srd": {
+        "prereq": "Base attack bonus +1.",
+        "benefit": "With a light weapon, rapier, whip, or spiked chain made for a creature of your size category, you may use your Dexterity modifier instead of your Strength modifier on attack rolls. If you carry a shield, its armor check penalty applies to your attack rolls.",
+        "normal": null,
+        "special": "A fighter may select Weapon Finesse as one of his fighter bonus feats. Natural weapons are always considered light weapons.",
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret",
+        "note": "Use Dex instead of Str on attack rolls with finesse weapons. No to-hit roll to swap, so REINTERPRET as 'Dex drives this hero's finesse-weapon hit/damage math' — relevant for the fast Dex-based heroes (Elf). Matters literally only in Gremlin mode."
+      }
+    },
+    {
+      "name": "Point Blank Shot",
+      "type": "General",
+      "fighterBonus": true,
+      "srd": {
+        "prereq": null,
+        "benefit": "You get a +1 bonus on attack and damage rolls with ranged weapons at ranges of up to 30 feet.",
+        "normal": null,
+        "special": "A fighter may select Point Blank Shot as one of his fighter bonus feats.",
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret",
+        "note": "+1 atk/+1 dmg with ranged weapons within 30 ft. The +damage half ports cleanly as a close-range damage bonus; the +attack half only bites in Gremlin mode. Gateway feat for the whole archery chain (Far/Precise/Rapid/Manyshot/Shot on the Run/Improved Precise)."
+      }
+    },
+    {
+      "name": "Far Shot",
+      "type": "General",
+      "fighterBonus": true,
+      "srd": {
+        "prereq": "Point Blank Shot.",
+        "benefit": "When you use a projectile weapon, such as a bow, its range increment increases by one-half (multiply by 1 1/2). When you use a thrown weapon, its range increment is doubled.",
+        "normal": null,
+        "special": "A fighter may select Far Shot as one of his fighter bonus feats.",
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret",
+        "note": "Range-increment boost maps cleanly to longer effective projectile range / slower damage falloff in the real-time model. Clean once ranged falloff is parameterized."
+      }
+    },
+    {
+      "name": "Precise Shot",
+      "type": "General",
+      "fighterBonus": true,
+      "srd": {
+        "prereq": "Point Blank Shot.",
+        "benefit": "You can shoot or throw ranged weapons at an opponent engaged in melee without taking the standard -4 penalty on your attack roll.",
+        "normal": null,
+        "special": "A fighter may select Precise Shot as one of his fighter bonus feats.",
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret",
+        "note": "Removes the -4 for firing into melee. There is no firing-into-melee penalty in real-time geometry (you aim where you aim), so the benefit is largely moot; only matters in Gremlin mode. Mainly a prereq node for Improved Precise Shot / Manyshot."
+      }
+    },
+    {
+      "name": "Rapid Shot",
+      "type": "General",
+      "fighterBonus": true,
+      "srd": {
+        "prereq": "Dex 13, Point Blank Shot.",
+        "benefit": "You can get one extra attack per round with a ranged weapon. The attack is at your highest base attack bonus, but each attack you make in that round (the extra one and the normal ones) takes a -2 penalty. You must use the full attack action to use this feat.",
+        "normal": null,
+        "special": "A fighter may select Rapid Shot as one of his fighter bonus feats. A 2nd-level ranger who has chosen the archery combat style is treated as having Rapid Shot, even if he does not have the prerequisites for it, but only when he is wearing light or no armor.",
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret",
+        "note": "Extra ranged attack for a -2 to all. REINTERPRET as a fire-rate boost traded for a small accuracy/damage cost; 'full attack action' framing drops out. Fits the Elf's fast-firing identity."
+      }
+    },
+    {
+      "name": "Manyshot",
+      "type": "General",
+      "fighterBonus": true,
+      "srd": {
+        "prereq": "Dex 17, Point Blank Shot, Rapid Shot, base attack bonus +6.",
+        "benefit": "As a standard action, you may fire two arrows at a single opponent within 30 feet. Both arrows use the same attack roll (with a -4 penalty) to determine success and deal damage normally (but see Special). For every five points of base attack bonus you have above +6, you may add one additional arrow to this attack, to a maximum of four arrows at a base attack bonus of +16. However, each arrow after the second adds a cumulative -2 penalty on the attack roll (for a total penalty of -6 for three arrows and -8 for four). Damage reduction and other resistances apply separately against each arrow fired.",
+        "normal": null,
+        "special": "Regardless of the number of arrows you fire, you apply precision-based damage only once. If you score a critical hit, only the first arrow fired deals critical damage; all others deal regular damage. A fighter may select Manyshot as one of his fighter bonus feats. A 6th-level ranger who has chosen the archery combat style is treated as having Manyshot even if he does not have the prerequisites for it, but only when he is wearing light or no armor.",
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret",
+        "note": "Fire multiple arrows in one action. REINTERPRET as a multi-projectile burst/volley; the shared-attack-roll and -N penalties become a damage/accuracy tradeoff tuned per projectile. DR-applies-separately ports as-is to per-projectile damage resolution."
+      }
+    },
+    {
+      "name": "Shot On The Run",
+      "type": "General",
+      "fighterBonus": true,
+      "srd": {
+        "prereq": "Dex 13, Dodge, Mobility, Point Blank Shot, base attack bonus +4.",
+        "benefit": "When using the attack action with a ranged weapon, you can move both before and after the attack, provided that your total distance moved is not greater than your speed.",
+        "normal": null,
+        "special": "A fighter may select Shot on the Run as one of his fighter bonus feats.",
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "no-op",
+        "note": "Move-before-and-after a ranged attack is the default in real-time (no action economy chopping movement and attacks into slots). The benefit is free for everyone; parked."
+      }
+    },
+    {
+      "name": "Improved Precise Shot",
+      "type": "General",
+      "fighterBonus": true,
+      "srd": {
+        "prereq": "Dex 19, Point Blank Shot, Precise Shot, base attack bonus +11.",
+        "benefit": "Your ranged attacks ignore the AC bonus granted to targets by anything less than total cover, and the miss chance granted to targets by anything less than total concealment. Total cover and total concealment provide their normal benefits against your ranged attacks. In addition, when you shoot or throw ranged weapons at a grappling opponent, you automatically strike at the opponent you have chosen.",
+        "normal": "See the normal rules on the effects of cover and concealment. Without this feat, a character who shoots or throws a ranged weapon at a target involved in a grapple must roll randomly to see which grappling combatant the attack strikes.",
+        "special": "A fighter may select Improved Precise Shot as one of his fighter bonus feats. An 11th-level ranger who has chosen the archery combat style is treated as having Improved Precise Shot, even if he does not have the prerequisites for it, but only when he is wearing light or no armor.",
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret",
+        "note": "Ignore partial cover/concealment on ranged attacks. If we model cover/concealment as damage/accuracy modifiers, this nullifies the partial forms; otherwise largely moot. The grapple-targeting clause is a no-op (no grapple subsystem)."
+      }
+    },
+    {
+      "name": "Quick Draw",
+      "type": "General",
+      "fighterBonus": true,
+      "srd": {
+        "prereq": "Base attack bonus +1.",
+        "benefit": "You can draw a weapon as a free action instead of as a move action. You can draw a hidden weapon (see the Sleight of Hand skill) as a move action. A character who has selected this feat may throw weapons at his full normal rate of attacks (much like a character with a bow).",
+        "normal": "Without this feat, you may draw a weapon as a move action, or (if your base attack bonus is +1 or higher) as a free action as part of movement. Without this feat, you can draw a hidden weapon as a standard action.",
+        "special": "A fighter may select Quick Draw as one of his fighter bonus feats.",
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret",
+        "note": "Weapon-draw speed is action-economy (deleted), so that half no-ops. The portable bit is 'throw weapons at full rate of attacks' — a fire-rate enabler for thrown weapons if we model them."
+      }
+    },
+    {
+      "name": "Rapid Reload",
+      "type": "General",
+      "fighterBonus": true,
+      "srd": {
+        "prereq": "Weapon Proficiency (crossbow type chosen).",
+        "benefit": "The time required for you to reload your chosen type of crossbow is reduced to a free action (for a hand or light crossbow) or a move action (for a heavy crossbow). Reloading a crossbow still provokes an attack of opportunity. If you have selected this feat for hand crossbow or light crossbow, you may fire that weapon as many times in a full attack action as you could attack if you were using a bow.",
+        "normal": "A character without this feat needs a move action to reload a hand or light crossbow, or a full-round action to reload a heavy crossbow.",
+        "special": "You can gain Rapid Reload multiple times. Each time you take the feat, it applies to a new type of crossbow. A fighter may select Rapid Reload as one of his fighter bonus feats.",
+        "choice": "a crossbow type (hand, light, or heavy)",
+        "stackable": true,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret",
+        "note": "Reload-time reduction maps cleanly to a shorter real-time reload/cooldown on the chosen crossbow -> higher effective fire rate. The 'still provokes AoO' clause is a no-op. Choice + stackable-per-choice pattern."
+      }
+    },
+    {
+      "name": "Improved Initiative",
+      "type": "General",
+      "fighterBonus": true,
+      "srd": {
+        "prereq": null,
+        "benefit": "You get a +4 bonus on initiative checks.",
+        "normal": null,
+        "special": "A fighter may select Improved Initiative as one of his fighter bonus feats.",
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "no-op",
+        "note": "Initiative is deleted in the real-time conversion (no turn order). Nothing to port unless a bespoke 'who acts first on engage' tiebreaker is introduced."
+      }
+    },
+    {
+      "name": "Improved Critical",
+      "type": "General",
+      "fighterBonus": true,
+      "srd": {
+        "prereq": "Proficient with weapon, base attack bonus +8.",
+        "benefit": "When using the weapon you selected, your threat range is doubled.",
+        "normal": null,
+        "special": "You can gain Improved Critical multiple times. The effects do not stack. Each time you take the feat, it applies to a new type of weapon. This effect doesn't stack with any other effect that expands the threat range of a weapon. A fighter may select Improved Critical as one of his fighter bonus feats.",
+        "choice": "a weapon type",
+        "stackable": true,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret",
+        "note": "Doubled threat range = more crits. With no to-hit roll, crits become a probability/breakpoint knob on the damage model; REINTERPRET as a higher crit chance with the chosen weapon. Choice + take-multiple-for-different-weapons pattern."
+      }
+    },
+    {
+      "name": "Improved Shield Bash",
+      "type": "General",
+      "fighterBonus": true,
+      "srd": {
+        "prereq": "Shield Proficiency.",
+        "benefit": "When you perform a shield bash, you may still apply the shield's shield bonus to your AC.",
+        "normal": "Without this feat, a character who performs a shield bash loses the shield's shield bonus to AC until his or her next turn.",
+        "special": "A fighter may select Improved Shield Bash as one of his fighter bonus feats.",
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret",
+        "note": "Keep shield AC while bashing. If shield-bash is a melee option and shield contributes to the deterministic defense value, this removes the defense penalty for bashing. Minor; depends on modeling shield bash at all."
+      }
+    },
+    {
+      "name": "Two-Weapon Fighting",
+      "type": "General",
+      "fighterBonus": true,
+      "srd": {
+        "prereq": "Dex 15.",
+        "benefit": "Your penalties on attack rolls for fighting with two weapons are reduced. The penalty for your primary hand lessens by 2 and the one for your off hand lessens by 6. See the Two-Weapon Fighting special attack.",
+        "normal": "If you wield a second weapon in your off hand, you can get one extra attack per round with that weapon. When fighting in this way you suffer a -6 penalty with your regular attack or attacks with your primary hand and a -10 penalty to the attack with your off hand. If your off-hand weapon is light the penalties are reduced by 2 each. (An unarmed strike is always considered light.)",
+        "special": "A 2nd-level ranger who has chosen the two-weapon combat style is treated as having Two-Weapon Fighting, even if he does not have the prerequisite for it, but only when he is wearing light or no armor. A fighter may select Two-Weapon Fighting as one of his fighter bonus feats.",
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret",
+        "note": "Reduces dual-wield attack penalties. REINTERPRET as enabling/boosting a dual-wield attack mode (extra swing or fire-rate) with the two-weapon penalties folded into a damage/accuracy tradeoff. Gateway feat for the TWF chain."
+      }
+    },
+    {
+      "name": "Two-Weapon Defense",
+      "type": "General",
+      "fighterBonus": true,
+      "srd": {
+        "prereq": "Dex 15, Two-Weapon Fighting.",
+        "benefit": "When wielding a double weapon or two weapons (not including natural weapons or unarmed strikes), you gain a +1 shield bonus to your AC. When you are fighting defensively or using the total defense action, this shield bonus increases to +2.",
+        "normal": null,
+        "special": "A fighter may select Two-Weapon Defense as one of his fighter bonus feats.",
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret",
+        "note": "+1 (or +2 defending) shield bonus while dual-wielding. Maps to a flat bonus to the deterministic defense value while in dual-wield mode; the 'fighting defensively/total defense' tier drops out (those are turn actions)."
+      }
+    },
+    {
+      "name": "Improved Two-Weapon Fighting",
+      "type": "General",
+      "fighterBonus": true,
+      "srd": {
+        "prereq": "Dex 17, Two-Weapon Fighting, base attack bonus +6.",
+        "benefit": "In addition to the standard single extra attack you get with an off-hand weapon, you get a second attack with it, albeit at a -5 penalty. See the Two-Weapon Fighting special attack.",
+        "normal": "Without this feat, you can only get a single extra attack with an off-hand weapon.",
+        "special": "A fighter may select Improved Two-Weapon Fighting as one of his fighter bonus feats. A 6th-level ranger who has chosen the two-weapon combat style is treated as having Improved Two-Weapon Fighting, even if he does not have the prerequisites for it, but only when he is wearing light or no armor.",
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret",
+        "note": "Second off-hand attack. REINTERPRET as a further dual-wield fire-rate/extra-swing increase; the iterative-attack and -5 framing become a damage-rate tuning value."
+      }
+    },
+    {
+      "name": "Greater Two-Weapon Fighting",
+      "type": "General",
+      "fighterBonus": true,
+      "srd": {
+        "prereq": "Dex 19, Improved Two-Weapon Fighting, Two-Weapon Fighting, base attack bonus +11.",
+        "benefit": "You get a third attack with your off-hand weapon, albeit at a -10 penalty. See the Two-Weapon Fighting special attack.",
+        "normal": null,
+        "special": "A fighter may select Greater Two-Weapon Fighting as one of his fighter bonus feats. An 11th-level ranger who has chosen the two-weapon combat style is treated as having Greater Two-Weapon Fighting, even if he does not have the prerequisites for it, but only when he is wearing light or no armor.",
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret",
+        "note": "Third off-hand attack. REINTERPRET as the top tier of dual-wield fire-rate/extra-swing; iterative/-10 framing folds into the damage-rate model."
+      }
+    },
+    {
+      "name": "Weapon Specialization",
+      "type": "General",
+      "fighterBonus": true,
+      "srd": {
+        "prereq": "Proficiency with selected weapon, Weapon Focus with selected weapon, fighter level 4th.",
+        "benefit": "You gain a +2 bonus on all damage rolls you make using the selected weapon.",
+        "normal": null,
+        "special": "You can gain this feat multiple times. Its effects do not stack. Each time you take the feat, it applies to a new type of weapon. A fighter may select Weapon Specialization as one of his fighter bonus feats.",
+        "choice": "a weapon type for which you have Weapon Focus",
+        "stackable": true,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "clean",
+        "note": "Flat +2 damage with the chosen weapon ports directly to the deterministic damage model. Clean. Choice + take-multiple-for-different-weapons pattern; part of the Weapon Focus->Specialization->Greater chain."
+      }
+    },
+    {
+      "name": "Greater Weapon Focus",
+      "type": "General",
+      "fighterBonus": true,
+      "srd": {
+        "prereq": "Proficiency with selected weapon, Weapon Focus with selected weapon, fighter level 8th.",
+        "benefit": "You gain a +1 bonus on all attack rolls you make using the selected weapon. This bonus stacks with other bonuses on attack rolls, including the one from Weapon Focus (see below).",
+        "normal": null,
+        "special": "You can gain Greater Weapon Focus multiple times. Its effects do not stack. Each time you take the feat, it applies to a new type of weapon. A fighter must have Greater Weapon Focus with a given weapon to gain the Greater Weapon Specialization feat for that weapon. A fighter may select Greater Weapon Focus as one of his fighter bonus feats.",
+        "choice": "a weapon type for which you have Weapon Focus",
+        "stackable": true,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "reinterpret",
+        "note": "Another +1 attack with the chosen weapon — same reinterpretation as Weapon Focus: a damage/breakpoint nudge, or a to-hit that only bites in Gremlin mode. Stacks with Weapon Focus."
+      }
+    },
+    {
+      "name": "Greater Weapon Specialization",
+      "type": "General",
+      "fighterBonus": true,
+      "srd": {
+        "prereq": "Proficiency with selected weapon, Greater Weapon Focus with selected weapon, Weapon Focus with selected weapon, Weapon Specialization with selected weapon, fighter level 12th.",
+        "benefit": "You gain a +2 bonus on all damage rolls you make using the selected weapon. This bonus stacks with other bonuses on damage rolls, including the one from Weapon Specialization (see below).",
+        "normal": null,
+        "special": "You can gain Greater Weapon Specialization multiple times. Its effects do not stack. Each time you take the feat, it applies to a new type of weapon. A fighter may select Greater Weapon Specialization as one of his fighter bonus feats.",
+        "choice": "a weapon type for which you have Weapon Specialization",
+        "stackable": true,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "clean",
+        "note": "Another flat +2 damage with the chosen weapon; ports directly to the damage model and stacks with Weapon Specialization. Clean. Top of the Weapon Focus/Specialization chain."
+      }
+    },
+    {
+      "name": "Mounted Combat",
+      "type": "General",
+      "fighterBonus": true,
+      "srd": {
+        "prereq": "Ride 1 rank.",
+        "benefit": "Once per round when your mount is hit in combat, you may attempt a Ride check (as a reaction) to negate the hit. The hit is negated if your Ride check result is greater than the opponent's attack roll. (Essentially, the Ride check result becomes the mount's Armor Class if it's higher than the mount's regular AC.)",
+        "normal": null,
+        "special": "A fighter may select Mounted Combat as one of his fighter bonus feats.",
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "no-op",
+        "note": "The whole mounted-combat subsystem (mounts, Ride-check-vs-attack-roll reactions) isn't modeled in the top-down dungeon battler. Parked; gateway node for the mounted tree."
+      }
+    },
+    {
+      "name": "Mounted Archery",
+      "type": "General",
+      "fighterBonus": true,
+      "srd": {
+        "prereq": "Ride 1 rank, Mounted Combat.",
+        "benefit": "The penalty you take when using a ranged weapon while mounted is halved: -2 instead of -4 if your mount is taking a double move, and -4 instead of -8 if your mount is running.",
+        "normal": null,
+        "special": "A fighter may select Mounted Archery as one of his fighter bonus feats.",
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "no-op",
+        "note": "No mount subsystem in the horde battler; mounted ranged penalties don't exist here. Parked."
+      }
+    },
+    {
+      "name": "Ride-By Attack",
+      "type": "General",
+      "fighterBonus": true,
+      "srd": {
+        "prereq": "Ride 1 rank, Mounted Combat.",
+        "benefit": "When you are mounted and use the charge action, you may move and attack as if with a standard charge and then move again (continuing the straight line of the charge). Your total movement for the round can't exceed double your mounted speed. You and your mount do not provoke an attack of opportunity from the opponent that you attack.",
+        "normal": null,
+        "special": "A fighter may select Ride-By Attack as one of his fighter bonus feats.",
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "no-op",
+        "note": "Depends on mounts, the charge action, and AoO — none of which exist in the real-time dungeon battler. Parked."
+      }
+    },
+    {
+      "name": "Spirited Charge",
+      "type": "General",
+      "fighterBonus": true,
+      "srd": {
+        "prereq": "Ride 1 rank, Mounted Combat, Ride-By Attack.",
+        "benefit": "When mounted and using the charge action, you deal double damage with a melee weapon (or triple damage with a lance).",
+        "normal": null,
+        "special": "A fighter may select Spirited Charge as one of his fighter bonus feats.",
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "no-op",
+        "note": "Mounted charge bonus damage — no mount/charge subsystem here. Parked (the charge-damage idea could seed a house 'charge attack' later)."
+      }
+    },
+    {
+      "name": "Trample",
+      "type": "General",
+      "fighterBonus": true,
+      "srd": {
+        "prereq": "Ride 1 rank, Mounted Combat.",
+        "benefit": "When you attempt to overrun an opponent while mounted, your target may not choose to avoid you. Your mount may make one hoof attack against any target you knock down, gaining the standard +4 bonus on attack rolls against prone targets.",
+        "normal": null,
+        "special": "A fighter may select Trample as one of his fighter bonus feats.",
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "no-op",
+        "note": "Mounted overrun/hoof attack — no mount subsystem. Parked."
+      }
+    },
+    {
+      "name": "Leadership",
+      "type": "General",
+      "fighterBonus": false,
+      "srd": {
+        "prereq": "Character level 6th.",
+        "benefit": "Having this feat enables the character to attract loyal companions and devoted followers, subordinates who assist her. A character's base Leadership score equals his level plus any Charisma modifier, modified by reputation and other factors. The score determines the level of cohort the character can attract (the cohort must be two or more levels lower than the character) and how many followers of each level the character leads. Cohorts earn XP (not counting as a party member for XP purposes); followers don't earn XP or gain levels. See the Leadership Score, Cohort Level, Number of Followers by Level, and Leadership Modifiers tables on the source page for the exact numbers.",
+        "normal": null,
+        "special": null,
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "no-op",
+        "note": "Cohort/follower recruitment is a campaign-layer, out-of-combat social mechanic with no place in the four-hero horde loop. Parked; the big followers-by-level and reputation-modifier tables are intentionally not transcribed."
+      }
+    },
+    {
+      "name": "Track",
+      "type": "General",
+      "fighterBonus": false,
+      "srd": {
+        "prereq": null,
+        "benefit": "To find tracks or to follow them for 1 mile requires a successful Survival check. You must make another Survival check every time the tracks become difficult to follow. You move at half your normal speed (or at your normal speed with a -5 penalty on the check, or at up to twice your normal speed with a -20 penalty on the check). The DC depends on the surface and the prevailing conditions (see Table: Track DC and Table: Track DC Modifiers on the source page). If you fail a Survival check, you can retry after 1 hour (outdoors) or 10 minutes (indoors) of searching.",
+        "normal": "Without this feat, you can use the Survival skill to find tracks, but you can follow them only if the DC for the task is 10 or lower. Alternatively, you can use the Search skill to find a footprint or similar sign of a creature's passage using the DCs given above, but you can't use Search to follow tracks, even if someone else has already found them.",
+        "special": "A ranger automatically has Track as a bonus feat. He need not select it. This feat does not allow you to find or follow the tracks made by a subject of a pass without trace spell.",
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "no-op",
+        "note": "Overland tracking/Survival exploration isn't part of the dungeon-battler loop (rooms, generators, exit). Parked; DC/modifier tables not transcribed."
+      }
+    },
+    {
+      "name": "Natural Spell",
+      "type": "General",
+      "fighterBonus": false,
+      "srd": {
+        "prereq": "Wis 13, wild shape ability.",
+        "benefit": "You can complete the verbal and somatic components of spells while in a wild shape. You substitute various noises and gestures for the normal verbal and somatic components of a spell. You can also use any material components or focuses you possess, even if such items are melded within your current form. This feat does not permit the use of magic items while you are in a form that could not ordinarily use them, and you do not gain the ability to speak while in a wild shape.",
+        "normal": null,
+        "special": null,
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "no-op",
+        "note": "Depends on the wild-shape + spellcasting layers, neither of which exists yet. Caster-layer-dependent; parked with the spell system."
+      }
+    },
+    {
+      "name": "Combat Casting",
+      "type": "General",
+      "fighterBonus": false,
+      "srd": {
+        "prereq": null,
+        "benefit": "You get a +4 bonus on Concentration checks made to cast a spell or use a spell-like ability while on the defensive or while you are grappling or pinned.",
+        "normal": null,
+        "special": null,
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "no-op",
+        "note": "Concentration-to-cast-under-duress depends on the spellcasting layer and a grapple/defensive subsystem that don't exist yet. Caster-layer-dependent; parked."
+      }
+    },
+    {
+      "name": "Eschew Materials",
+      "type": "General",
+      "fighterBonus": false,
+      "srd": {
+        "prereq": null,
+        "benefit": "You can cast any spell that has a material component costing 1 gp or less without needing that component. (The casting of the spell still provokes attacks of opportunity as normal.) If the spell requires a material component that costs more than 1 gp, you must have the material component at hand to cast the spell, just as normal.",
+        "normal": null,
+        "special": null,
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "no-op",
+        "note": "Material-component bookkeeping is part of the caster/economy layer that isn't modeled. The AoO clause is also a deleted mechanic. Parked with the spell system."
+      }
+    },
+    {
+      "name": "Spell Focus",
+      "type": "General",
+      "fighterBonus": false,
+      "srd": {
+        "prereq": null,
+        "benefit": "Add +1 to the Difficulty Class for all saving throws against spells from the school of magic you select.",
+        "normal": null,
+        "special": "You can gain this feat multiple times. Its effects do not stack. Each time you take the feat, it applies to a new school of magic.",
+        "choice": "a school of magic",
+        "stackable": true,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "no-op",
+        "note": "Spell-save-DC boost depends on the spellcasting + saving-throw-vs-spell layer not yet built. Caster-layer-dependent; parked (would reinterpret as +1 to a deterministic spell-effect threshold once spells exist). Choice + take-multiple pattern."
+      }
+    },
+    {
+      "name": "Greater Spell Focus",
+      "type": "General",
+      "fighterBonus": false,
+      "srd": {
+        "prereq": "Spell Focus (in the chosen school).",
+        "benefit": "Add +1 to the Difficulty Class for all saving throws against spells from the school of magic you select. This bonus stacks with the bonus from Spell Focus.",
+        "normal": null,
+        "special": "You can gain this feat multiple times. Its effects do not stack. Each time you take the feat, it applies to a new school of magic to which you already have applied the Spell Focus feat.",
+        "choice": "a school of magic for which you have Spell Focus",
+        "stackable": true,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "no-op",
+        "note": "Stacks another +1 spell-save DC; caster-layer-dependent and parked, same as Spell Focus. Choice + take-multiple pattern."
+      }
+    },
+    {
+      "name": "Spell Penetration",
+      "type": "General",
+      "fighterBonus": false,
+      "srd": {
+        "prereq": null,
+        "benefit": "You get a +2 bonus on caster level checks (1d20 + caster level) made to overcome a creature's spell resistance.",
+        "normal": null,
+        "special": null,
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "no-op",
+        "note": "Spell resistance / caster-level checks belong to the unbuilt spell layer. Caster-layer-dependent; parked."
+      }
+    },
+    {
+      "name": "Greater Spell Penetration",
+      "type": "General",
+      "fighterBonus": false,
+      "srd": {
+        "prereq": "Spell Penetration.",
+        "benefit": "You get a +2 bonus on caster level checks (1d20 + caster level) made to overcome a creature's spell resistance. This bonus stacks with the one from Spell Penetration.",
+        "normal": null,
+        "special": null,
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "no-op",
+        "note": "Stacks another +2 vs spell resistance; caster-layer-dependent and parked, same as Spell Penetration."
+      }
+    },
+    {
+      "name": "Augment Summoning",
+      "type": "General",
+      "fighterBonus": false,
+      "srd": {
+        "prereq": "Spell Focus (conjuration).",
+        "benefit": "Each creature you conjure with any summon spell gains a +4 enhancement bonus to Strength and Constitution for the duration of the spell that summoned it.",
+        "normal": null,
+        "special": null,
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "no-op",
+        "note": "Buffs summoned creatures — depends on the summoning/spell layer not yet built. Caster-layer-dependent; parked (would reinterpret as +4 Str/Con on summon entities once summons exist)."
+      }
+    },
+    {
+      "name": "Improved Counterspell",
+      "type": "General",
+      "fighterBonus": false,
+      "srd": {
+        "prereq": null,
+        "benefit": "When counterspelling, you may use a spell of the same school that is one or more spell levels higher than the target spell.",
+        "normal": "Without this feat, you may counter a spell only with the same spell or with a spell specifically designated as countering the target spell.",
+        "special": null,
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "no-op",
+        "note": "Counterspelling is a turn-based reaction within the unbuilt spell layer. Caster-layer-dependent; parked."
+      }
+    },
+    {
+      "name": "Extra Turning",
+      "type": "General",
+      "fighterBonus": false,
+      "srd": {
+        "prereq": "Ability to turn or rebuke creatures.",
+        "benefit": "Each time you take this feat, you can use your ability to turn or rebuke creatures four more times per day than normal. If you have the ability to turn or rebuke more than one kind of creature each of your turning or rebuking abilities gains four additional uses per day.",
+        "normal": "Without this feat, a character can typically turn or rebuke undead (or other creatures) a number of times per day equal to 3 + his or her Charisma modifier.",
+        "special": "You can gain Extra Turning multiple times. Its effects stack. Each time you take the feat, you can use each of your turning or rebuking abilities four additional times per day.",
+        "choice": null,
+        "stackable": true,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "no-op",
+        "note": "Depends on the turn/rebuke-undead class feature and per-day use economy, neither modeled yet. Caster/economy-layer-dependent; parked (per-day uses would become a charge pool). Stackable."
+      }
+    },
+    {
+      "name": "Improved Turning",
+      "type": "General",
+      "fighterBonus": false,
+      "srd": {
+        "prereq": "Ability to turn or rebuke creatures.",
+        "benefit": "You turn or rebuke creatures as if you were one level higher than you are in the class that grants you the ability.",
+        "normal": null,
+        "special": null,
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "no-op",
+        "note": "Depends on the unbuilt turn/rebuke undead subsystem. Caster/class-feature-layer-dependent; parked."
+      }
+    },
+    {
+      "name": "Improved Familiar",
+      "type": "General",
+      "fighterBonus": false,
+      "srd": {
+        "prereq": "Ability to acquire a new familiar, compatible alignment, sufficiently high level (see the source page's tables).",
+        "benefit": "When choosing a familiar, nonstandard creatures (see Table: Improved Familiar by Alignment / by Type/Subtype on the source page) are also available to the spellcaster, with an alignment up to one step away on each axis. Improved familiars use the normal familiar rules, except: if the creature's type is not animal, its type does not change; and improved familiars do not gain the ability to speak with other creatures of their kind (though many already can communicate).",
+        "normal": null,
+        "special": null,
+        "choice": "a nonstandard familiar from the eligible list",
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "no-op",
+        "note": "Depends on the familiar subsystem within the unbuilt caster layer. Caster-layer-dependent; parked. The familiar-by-alignment/type tables are not transcribed."
+      }
+    },
+    {
+      "name": "Spell Mastery",
+      "type": "Special",
+      "fighterBonus": false,
+      "srd": {
+        "prereq": "Wizard level 1st.",
+        "benefit": "Each time you take this feat, choose a number of spells equal to your Intelligence modifier that you already know. From that point on, you can prepare these spells without referring to a spellbook.",
+        "normal": "Without this feat, you must use a spellbook to prepare all your spells, except read magic.",
+        "special": null,
+        "choice": "spells you know (count equal to Int modifier)",
+        "stackable": true,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "no-op",
+        "note": "Spellbook/spell-preparation bookkeeping is part of the unbuilt caster layer. Caster-layer-dependent; parked. Marked type 'Special' per the SRD tag."
+      }
+    },
+    {
+      "name": "Brew Potion",
+      "type": "Item Creation",
+      "fighterBonus": false,
+      "srd": {
+        "prereq": "Caster level 3rd.",
+        "benefit": "You can create a potion of any 3rd-level or lower spell that you know and that targets one or more creatures. Brewing a potion takes one day. When you create a potion, you set the caster level, which must be sufficient to cast the spell in question and no higher than your own level. The base price of a potion is its spell level x its caster level x 50 gp. To brew a potion, you must spend 1/25 of this base price in XP and use up raw materials costing one half this base price. When you create a potion, you make any choices that you would normally make when casting the spell. Whoever drinks the potion is the target of the spell. Any potion that stores a spell with a costly material component or an XP cost also carries a commensurate cost. In addition to the costs derived from the base price, you must expend the material component or pay the XP when creating the potion.",
+        "normal": null,
+        "special": null,
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "no-op",
+        "note": "Magic-item crafting is pure caster/economy-layer bookkeeping (XP cost, gp raw materials, caster-level gates) with no real-time combat mapping. Parked until the item/economy layer exists."
+      }
+    },
+    {
+      "name": "Craft Magic Arms And Armor",
+      "type": "Item Creation",
+      "fighterBonus": false,
+      "srd": {
+        "prereq": "Caster level 5th.",
+        "benefit": "You can create any magic weapon, armor, or shield whose prerequisites you meet. Enhancing a weapon, suit of armor, or shield takes one day for each 1,000 gp in the price of its magical features. To enhance a weapon, suit of armor, or shield, you must spend 1/25 of its features' total price in XP and use up raw materials costing one-half of this total price. The weapon, armor, or shield to be enhanced must be a masterwork item that you provide. Its cost is not included in the above cost. You can also mend a broken magic weapon, suit of armor, or shield if it is one that you could make. Doing so costs half the XP, half the raw materials, and half the time it would take to craft that item in the first place.",
+        "normal": null,
+        "special": null,
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "no-op",
+        "note": "Magic-item crafting is pure caster/economy-layer bookkeeping (XP cost, gp raw materials, caster-level gates) with no real-time combat mapping. Parked until the item/economy layer exists."
+      }
+    },
+    {
+      "name": "Craft Rod",
+      "type": "Item Creation",
+      "fighterBonus": false,
+      "srd": {
+        "prereq": "Caster level 9th.",
+        "benefit": "You can create any rod whose prerequisites you meet. Crafting a rod takes one day for each 1,000 gp in its base price. To craft a rod, you must spend 1/25 of its base price in XP and use up raw materials costing one-half of its base price. Some rods incur extra costs in material components or XP, as noted in their descriptions. These costs are in addition to those derived from the rod's base price.",
+        "normal": null,
+        "special": null,
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "no-op",
+        "note": "Magic-item crafting is pure caster/economy-layer bookkeeping (XP cost, gp raw materials, caster-level gates) with no real-time combat mapping. Parked until the item/economy layer exists."
+      }
+    },
+    {
+      "name": "Craft Staff",
+      "type": "Item Creation",
+      "fighterBonus": false,
+      "srd": {
+        "prereq": "Caster level 12th.",
+        "benefit": "You can create any staff whose prerequisites you meet. Crafting a staff takes one day for each 1,000 gp in its base price. To craft a staff, you must spend 1/25 of its base price in XP and use up raw materials costing one-half of its base price. A newly created staff has 50 charges. Some staffs incur extra costs in material components or XP, as noted in their descriptions. These costs are in addition to those derived from the staff's base price.",
+        "normal": null,
+        "special": null,
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "no-op",
+        "note": "Magic-item crafting is pure caster/economy-layer bookkeeping (XP cost, gp raw materials, caster-level gates) with no real-time combat mapping. Parked until the item/economy layer exists."
+      }
+    },
+    {
+      "name": "Craft Wand",
+      "type": "Item Creation",
+      "fighterBonus": false,
+      "srd": {
+        "prereq": "Caster level 5th.",
+        "benefit": "You can create a wand of any 4th-level or lower spell that you know. Crafting a wand takes one day for each 1,000 gp in its base price. The base price of a wand is its caster level x the spell level x 750 gp. To craft a wand, you must spend 1/25 of this base price in XP and use up raw materials costing one-half of this base price. A newly created wand has 50 charges. Any wand that stores a spell with a costly material component or an XP cost also carries a commensurate cost. In addition to the cost derived from the base price, you must expend fifty copies of the material component or pay fifty times the XP cost.",
+        "normal": null,
+        "special": null,
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "no-op",
+        "note": "Magic-item crafting is pure caster/economy-layer bookkeeping (XP cost, gp raw materials, caster-level gates) with no real-time combat mapping. Parked until the item/economy layer exists."
+      }
+    },
+    {
+      "name": "Craft Wondrous Item",
+      "type": "Item Creation",
+      "fighterBonus": false,
+      "srd": {
+        "prereq": "Caster level 3rd.",
+        "benefit": "You can create any wondrous item whose prerequisites you meet. Enchanting a wondrous item takes one day for each 1,000 gp in its price. To enchant a wondrous item, you must spend 1/25 of the item's price in XP and use up raw materials costing half of this price. You can also mend a broken wondrous item if it is one that you could make. Doing so costs half the XP, half the raw materials, and half the time it would take to craft that item in the first place. Some wondrous items incur extra costs in material components or XP, as noted in their descriptions. These costs are in addition to those derived from the item's base price. You must pay such a cost to create an item or to mend a broken one.",
+        "normal": null,
+        "special": null,
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "no-op",
+        "note": "Magic-item crafting is pure caster/economy-layer bookkeeping (XP cost, gp raw materials, caster-level gates) with no real-time combat mapping. Parked until the item/economy layer exists."
+      }
+    },
+    {
+      "name": "Forge Ring",
+      "type": "Item Creation",
+      "fighterBonus": false,
+      "srd": {
+        "prereq": "Caster level 12th.",
+        "benefit": "You can create any ring whose prerequisites you meet. Crafting a ring takes one day for each 1,000 gp in its base price. To craft a ring, you must spend 1/25 of its base price in XP and use up raw materials costing one-half of its base price. You can also mend a broken ring if it is one that you could make. Doing so costs half the XP, half the raw materials, and half the time it would take to forge that ring in the first place. Some magic rings incur extra costs in material components or XP, as noted in their descriptions. You must pay such a cost to forge such a ring or to mend a broken one.",
+        "normal": null,
+        "special": null,
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "no-op",
+        "note": "Magic-item crafting is pure caster/economy-layer bookkeeping (XP cost, gp raw materials, caster-level gates) with no real-time combat mapping. Parked until the item/economy layer exists."
+      }
+    },
+    {
+      "name": "Scribe Scroll",
+      "type": "Item Creation",
+      "fighterBonus": false,
+      "srd": {
+        "prereq": "Caster level 1st.",
+        "benefit": "You can create a scroll of any spell that you know. Scribing a scroll takes one day for each 1,000 gp in its base price. The base price of a scroll is its spell level x its caster level x 25 gp. To scribe a scroll, you must spend 1/25 of this base price in XP and use up raw materials costing one-half of this base price. Any scroll that stores a spell with a costly material component or an XP cost also carries a commensurate cost. In addition to the costs derived from the base price, you must expend the material component or pay the XP when scribing the scroll.",
+        "normal": null,
+        "special": null,
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "no-op",
+        "note": "Magic-item crafting is pure caster/economy-layer bookkeeping (XP cost, gp raw materials, caster-level gates) with no real-time combat mapping. Parked until the item/economy layer exists."
+      }
+    },
+    {
+      "name": "Empower Spell",
+      "type": "Metamagic",
+      "fighterBonus": false,
+      "srd": {
+        "prereq": null,
+        "benefit": "All variable, numeric effects of an empowered spell are increased by one-half. Saving throws and opposed rolls are not affected, nor are spells without random variables. An empowered spell uses up a spell slot two levels higher than the spell's actual level.",
+        "normal": null,
+        "special": null,
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "no-op",
+        "note": "Metamagic: scales spell numbers at a +2 slot cost. Caster-layer-dependent (needs spells + spell slots). Parked; the +50%-to-numeric-effects idea could reinterpret as a damage modifier once spells exist."
+      }
+    },
+    {
+      "name": "Enlarge Spell",
+      "type": "Metamagic",
+      "fighterBonus": false,
+      "srd": {
+        "prereq": null,
+        "benefit": "You can alter a spell with a range of close, medium, or long to increase its range by 100%. An enlarged spell with a range of close now has a range of 50 ft. + 5 ft./level, while medium-range spells have a range of 200 ft. + 20 ft./level and long-range spells have a range of 800 ft. + 80 ft./level. An enlarged spell uses up a spell slot one level higher than the spell's actual level. Spells whose ranges are not defined by distance, as well as spells whose ranges are not close, medium, or long, do not have increased ranges.",
+        "normal": null,
+        "special": null,
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "no-op",
+        "note": "Metamagic: doubles spell range at a +1 slot cost. Caster-layer-dependent. Parked (range-doubling would reinterpret cleanly once spells are real-time projectiles/areas)."
+      }
+    },
+    {
+      "name": "Extend Spell",
+      "type": "Metamagic",
+      "fighterBonus": false,
+      "srd": {
+        "prereq": null,
+        "benefit": "An extended spell lasts twice as long as normal. A spell with a duration of concentration, instantaneous, or permanent is not affected by this feat. An extended spell uses up a spell slot one level higher than the spell's actual level.",
+        "normal": null,
+        "special": null,
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "no-op",
+        "note": "Metamagic: doubles spell duration at a +1 slot cost. Caster-layer-dependent. Parked (duration-doubling would reinterpret cleanly once timed spell effects exist)."
+      }
+    },
+    {
+      "name": "Heighten Spell",
+      "type": "Metamagic",
+      "fighterBonus": false,
+      "srd": {
+        "prereq": null,
+        "benefit": "A heightened spell has a higher spell level than normal (up to a maximum of 9th level). Unlike other metamagic feats, Heighten Spell actually increases the effective level of the spell that it modifies. All effects dependent on spell level (such as saving throw DCs and ability to penetrate a lesser globe of invulnerability) are calculated according to the heightened level. The heightened spell is as difficult to prepare and cast as a spell of its effective level.",
+        "normal": null,
+        "special": null,
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "no-op",
+        "note": "Metamagic: raises effective spell level (and save DCs). Caster-layer-dependent and tied to the save-vs-spell system. Parked."
+      }
+    },
+    {
+      "name": "Maximize Spell",
+      "type": "Metamagic",
+      "fighterBonus": false,
+      "srd": {
+        "prereq": null,
+        "benefit": "All variable, numeric effects of a spell modified by this feat are maximized. Saving throws and opposed rolls are not affected, nor are spells without random variables. A maximized spell uses up a spell slot three levels higher than the spell's actual level. An empowered, maximized spell gains the separate benefits of each feat: the maximum result plus one-half the normally rolled result.",
+        "normal": null,
+        "special": null,
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "no-op",
+        "note": "Metamagic: maximizes spell numbers at a +3 slot cost. Caster-layer-dependent. Parked; in a deterministic model where damage may already be fixed rather than rolled, 'maximize' would need rethinking."
+      }
+    },
+    {
+      "name": "Silent Spell",
+      "type": "Metamagic",
+      "fighterBonus": false,
+      "srd": {
+        "prereq": null,
+        "benefit": "A silent spell can be cast with no verbal components. Spells without verbal components are not affected. A silent spell uses up a spell slot one level higher than the spell's actual level.",
+        "normal": null,
+        "special": "Bard spells cannot be enhanced by this metamagic feat.",
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "no-op",
+        "note": "Metamagic: removes verbal components at a +1 slot cost. Depends on the spell-component subsystem that isn't modeled. Caster-layer-dependent; parked."
+      }
+    },
+    {
+      "name": "Still Spell",
+      "type": "Metamagic",
+      "fighterBonus": false,
+      "srd": {
+        "prereq": null,
+        "benefit": "A stilled spell can be cast with no somatic components. Spells without somatic components are not affected. A stilled spell uses up a spell slot one level higher than the spell's actual level.",
+        "normal": null,
+        "special": null,
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "no-op",
+        "note": "Metamagic: removes somatic components at a +1 slot cost. Depends on the spell-component subsystem that isn't modeled. Caster-layer-dependent; parked."
+      }
+    },
+    {
+      "name": "Widen Spell",
+      "type": "Metamagic",
+      "fighterBonus": false,
+      "srd": {
+        "prereq": null,
+        "benefit": "You can alter a burst, emanation, line, or spread shaped spell to increase its area. Any numeric measurements of the spell's area increase by 100%. A widened spell uses up a spell slot three levels higher than the spell's actual level. Spells that do not have an area of one of these four sorts are not affected by this feat.",
+        "normal": null,
+        "special": null,
+        "choice": null,
+        "stackable": false,
+        "source": "d20srd.org/srd/feats.htm"
+      },
+      "regauntless": {
+        "status": "no-op",
+        "note": "Metamagic: doubles spell area at a +3 slot cost. Caster-layer-dependent. Parked (area-doubling would reinterpret cleanly once AoE spells are real-time)."
+      }
+    }
+  ]
+}
