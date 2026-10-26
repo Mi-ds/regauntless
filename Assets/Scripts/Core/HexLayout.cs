@@ -37,30 +37,33 @@ namespace Regauntless.Core
             }
             else // flat-top
             {
-                x = Size * (1.5f * h.Q);
-                y = Size * (Mathf.Sqrt(3f) / 2f * h.Q + Mathf.Sqrt(3f) * h.R);
+                x = s * (1.5f * h.Q);
+                y = s * (Mathf.Sqrt(3f) / 2f * h.Q + Mathf.Sqrt(3f) * h.R);
             }
             return new Vector2(x + Origin.x, y + Origin.y);
         }
 
-        /// <summary>Pixel → fractional cube → rounded hex (for click-to-paint picking).</summary>
+        /// <summary>
+        /// Pixel → rounded hex. Exact algebraic inverse of <see cref="HexToPixel"/> (same spaced
+        /// scale s = Size*Spacing), so clicking a hex center returns that hex. For picking.
+        /// </summary>
         public HexCoord PixelToHex(Vector2 p)
         {
-            float s = Size * Spacing; // must match HexToPixel's spaced centers
+            float s = Size * Spacing;
             float px = (p.x - Origin.x) / s;
             float py = (p.y - Origin.y) / s;
             float q, r;
             if (PointyTop)
             {
-                q = (Mathf.Sqrt(3f) / 3f * px - 1f / 3f * py);
-                r = (2f / 3f * py);
+                // inverse of: px = √3·q + (√3/2)·r ; py = 1.5·r
+                r = py / 1.5f;
+                q = (px - Mathf.Sqrt(3f) / 2f * r) / Mathf.Sqrt(3f);
             }
-            else // flat-top
+            else // flat-top — inverse of: px = 1.5·q ; py = (√3/2)·q + √3·r
             {
-                q = (2f / 3f * px);
-                r = (-1f / 3f * px + Mathf.Sqrt(3f) / 3f * py);
+                q = px / 1.5f;
+                r = (py - Mathf.Sqrt(3f) / 2f * q) / Mathf.Sqrt(3f);
             }
-            // axial (q,r) → cube for rounding
             return HexCoord.CubeRound(q, -q - r, r);
         }
 

@@ -7,62 +7,51 @@ using Regauntless.Levels;
 namespace Regauntless.EditorTools
 {
     /// <summary>
-    /// Brutal-but-functional hex chunk paint tool (Space Run Galaxy-style). Pick a cell type from
-    /// the palette, click/drag hexes to paint, Save to a ChunkData asset. No polish, just works.
+    /// Chunk painter — two REAL data layers, document model (see .kiro/steering/levels.md):
     ///
+    ///   FLOOR layer : floor cells on the packed hex grid (what you paint = the footprint + types).
+    ///   WALL layer  : a BITSTREAM. Slot POSITIONS are DERIVED from the floor via
+    ///                 Bloom.WallSlots(floor, facing) (floor copy + half-bloom); we store only
+    ///                 one bit per slot (present/absent). No wall coordinates are stored — the
+    ///                 whole point is to replace computed geometry with a tiny datastream.
+    ///
+    /// The painter READS and EDITS data; it never treats the wall lattice as a live computation.
+    /// Load replaces the workspace entirely (no more "loads overtop"). Standard file dialogs.
     /// Open via: Regauntless ▸ Chunk Painter.
     /// </summary>
     public class ChunkPainterWindow : EditorWindow
     {
-        // --- grid / view ---
-        private int _radius = 5;                 // how many rings of hexes to show
-        private float _hexSize = 22f;            // pixels, center-to-corner
-        private float _spacing = 1.15f;          // >1 spreads centers apart → visible gaps between hexes
-        private readonly bool _pointyTop = false; // flat-top default (display only)
-        private Vector2 _pan = new Vector2(320, 260);
-        private int _viewRotation = 0;            // display rotation in 60° steps (0..5), data unchanged
-        private bool _showFloorLayer = true;      // layer panel: show floor grid
-        private bool _showWallLayer = true;       // overlay: floor-sized hexes on shared edges, crosswise
-        private bool _wallsOnTop = true;          // draw order: which layer renders in FRONT
+        private enum Layer { Floor, Walls }
 
-        // --- Hex orientation as a TRINARY (0 / 15 / 30), NOT a bool. ---------------------------
-        // By hexagon 6-fold symmetry there are only TWO tessellating orientations today:
-        //   0°  = aligned with the floor grid (flat-to-flat), and
-        //   30° = the crosswise "other" orientation (== 90° mod 60°; this is what makes wall
-        //         hexes lattice POINT-TO-POINT over the floor — see levels.md two-grid model).
-        // So a bool would cover current needs. We deliberately use a THREE-stop trit (0/15/30)
-        // to FUTURE-PROOF: 15° is the reserved in-between detent for future NON-tessellating
-        // elements (rotated sprites/props/decorations/directional features) that may want the
-        // half-step orientation. Model the fuller space now; use a subset today; no retrofit
-        // later. DO NOT "simplify" this to a bool — the middle stop is intentional. 🦊
-        private enum HexOrient { Deg0 = 0, Deg15 = 1, Deg30 = 2 }
-        private static float OrientDegrees(HexOrient o) => (int)o * 15f;   // 0 → 0°, 1 → 15°, 2 → 30°
+        // --- workspace (the one open document) ---
+        private readonly Dictionary<HexCoord, Cell> _floor = new Dictionary<HexCoord, Cell>();
+        private readonly HashSet<int> _wallsOn = new HashSet<int>();   // indices into the derived slot list
+        private int _wallFacing = 1;                                   // half-bloom facing for slot derivation
+        private string _openPath = null;                               // asset path of the open chunk (null = unsaved)
+        private string _chunkType = "generic";
+        private bool _dirty = false;
 
-        private HexOrient _wallOrient = HexOrient.Deg30;  // default 30°
-        private float _wallSizeFrac = 1.0f;               // same size as floor
-        private bool _wallNorth = false;         // move floor copy S (opposite the N-ward bloom) — see below
-        private int _wallFacing = 1;             // half-bloom NE/N/NW arc (dirs {1,2,3}); offset goes opposite (S)
+        // --- view ---
+        private int _radius = 5;
+        private float _hexSize = 22f;
+        private float _spacing = 1.15f;
+        private Vector2 _pan = new Vector2(360, 300);
+        private int _viewRotation = 0;
+        private Layer _active = Layer.Floor;
+        private bool _showFloor = true, _showWalls = true;
 
-        // --- paint state ---
+        // --- floor brush ---
         private CellType _brush = CellType.Floor;
-        private int _brushVariant = 0;
-        private readonly Dictionary<HexCoord, Cell> _cells = new Dictionary<HexCoord, Cell>();
 
-        // --- asset io ---
-        private ChunkData _target;
-
-        // --- palette colors (fallback if no CellTypeDefinition assets are present) ---
-        private static readonly Dictionary<CellType, Color> Fallback = new Dictionary<CellType, Color>
+        private static readonly Dictionary<CellType, Color> Palette = new Dictionary<CellType, Color>
         {
-            { CellType.None,      new Color(0.15f,0.15f,0.15f) },
             { CellType.Floor,     new Color(0.55f,0.55f,0.58f) },
-            { CellType.Wall,      new Color(0.25f,0.20f,0.18f) },
             { CellType.Generator, new Color(0.80f,0.25f,0.25f) },
             { CellType.Port,      new Color(0.25f,0.55f,0.85f) },
             { CellType.HeroSpawn, new Color(0.30f,0.75f,0.35f) },
             { CellType.Food,      new Color(0.90f,0.75f,0.25f) },
             { CellType.Exit,      new Color(0.85f,0.45f,0.85f) },
-            { CellType.Hole,      new Color(0.05f,0.05f,0.08f) }, // dark; in-game it's a bright light-well
+            { CellType.Hole,      new Color(0.05f,0.05f,0.08f) },
         };
 
         [MenuItem("Regauntless/Chunk Painter")]
@@ -70,255 +59,384 @@ namespace Regauntless.EditorTools
 
         private void OnGUI()
         {
-            DrawToolbar();
-            DrawLayerPanel();
-            DrawPalette();
-            DrawGrid();
+            DrawMenuBar();
+            DrawLayerBar();
+            if (_active == Layer.Floor) DrawFloorPalette();
+            else DrawWallBar();
+            DrawCanvas();
         }
 
-        private void DrawLayerPanel()
-        {
-            EditorGUILayout.BeginHorizontal(EditorStyles.helpBox);
-            GUILayout.Label("LAYERS:", EditorStyles.boldLabel, GUILayout.Width(60));
-            _showFloorLayer = GUILayout.Toggle(_showFloorLayer, "Floor", "Button", GUILayout.Width(80));
-            _showWallLayer  = GUILayout.Toggle(_showWallLayer,  "Walls", "Button", GUILayout.Width(80));
-            GUILayout.FlexibleSpace();
-            // draw-order: which layer is in front
-            GUILayout.Label("Front:", GUILayout.Width(44));
-            if (GUILayout.Button(_wallsOnTop ? "Walls ▲" : "Floor ▲", GUILayout.Width(80)))
-                _wallsOnTop = !_wallsOnTop;
-            GUILayout.Space(10);
-            // quick isolate buttons
-            if (GUILayout.Button("Floor only", GUILayout.Width(80))) { _showFloorLayer = true;  _showWallLayer = false; }
-            if (GUILayout.Button("Walls only", GUILayout.Width(80))) { _showFloorLayer = false; _showWallLayer = true;  }
-            if (GUILayout.Button("Both",       GUILayout.Width(60))) { _showFloorLayer = true;  _showWallLayer = true;  }
-            EditorGUILayout.EndHorizontal();
-        }
-
-        private void DrawToolbar()
+        // ---------------------------------------------------------------- menu (real File dropdown)
+        private void DrawMenuBar()
         {
             EditorGUILayout.BeginHorizontal(EditorStyles.toolbar);
-            _target = (ChunkData)EditorGUILayout.ObjectField(_target, typeof(ChunkData), false, GUILayout.Width(220));
-            if (GUILayout.Button("Load", EditorStyles.toolbarButton, GUILayout.Width(50))) Load();
-            if (GUILayout.Button("Save", EditorStyles.toolbarButton, GUILayout.Width(50))) Save();
-            if (GUILayout.Button("Save As", EditorStyles.toolbarButton, GUILayout.Width(70))) SaveAs();
-            GUILayout.FlexibleSpace();
-            GUILayout.Label($"rot: {_viewRotation * 60}°", EditorStyles.miniLabel);
-            GUILayout.Label($"cells: {_cells.Count}", EditorStyles.miniLabel);
-            if (GUILayout.Button("Clear", EditorStyles.toolbarButton, GUILayout.Width(50)))
-            { if (EditorUtility.DisplayDialog("Clear", "Erase all painted cells?", "Yes", "No")) _cells.Clear(); Repaint(); }
-            EditorGUILayout.EndHorizontal();
 
-            EditorGUILayout.BeginHorizontal();
-            _radius = EditorGUILayout.IntSlider("Grid radius", _radius, 1, 12);
-            _hexSize = EditorGUILayout.Slider("Hex size", _hexSize, 10f, 48f);
-            _spacing = EditorGUILayout.Slider("Spacing", _spacing, 1f, 1.6f);
-            _showWallLayer = EditorGUILayout.ToggleLeft("Wall layer (on edge-mids)", _showWallLayer, GUILayout.Width(190));
-            EditorGUILayout.EndHorizontal();
-
-            if (_showWallLayer)
+            if (GUILayout.Button("File", EditorStyles.toolbarDropDown, GUILayout.Width(44)))
             {
-                EditorGUILayout.BeginHorizontal();
-                _wallSizeFrac = EditorGUILayout.Slider("Wall size (×floor)", _wallSizeFrac, 0.1f, 1f);
-                // Trinary orientation switch (0 / 15 / 30) — see HexOrient comment above.
-                GUILayout.Label("Wall orient:", GUILayout.Width(80));
-                _wallOrient = (HexOrient)GUILayout.Toolbar((int)_wallOrient,
-                    new[] { "0°", "15°", "30°" }, GUILayout.Width(150));
-                EditorGUILayout.EndHorizontal();
-
-                EditorGUILayout.BeginHorizontal();
-                GUILayout.Label("Move floor copy:", GUILayout.Width(110));
-                if (GUILayout.Button(_wallNorth ? "North ▲" : "South ▼", GUILayout.Width(80)))
-                    _wallNorth = !_wallNorth;
-                _wallFacing = EditorGUILayout.IntSlider("Half-bloom facing", _wallFacing, 0, 5);
-                EditorGUILayout.EndHorizontal();
+                var menu = new GenericMenu();
+                menu.AddItem(new GUIContent("New"), false, NewChunk);
+                menu.AddItem(new GUIContent("Open…"), false, OpenChunk);
+                menu.AddSeparator("");
+                if (string.IsNullOrEmpty(_openPath)) menu.AddDisabledItem(new GUIContent("Save"));
+                else menu.AddItem(new GUIContent("Save"), false, Save);
+                menu.AddItem(new GUIContent("Save As…"), false, SaveAs);
+                menu.DropDown(new Rect(0, EditorStyles.toolbar.fixedHeight, 0, 0));
             }
+
+            GUILayout.Space(12);
+            string title = string.IsNullOrEmpty(_openPath) ? "(unsaved)" : System.IO.Path.GetFileNameWithoutExtension(_openPath);
+            GUILayout.Label((_dirty ? "*" : "") + title, EditorStyles.boldLabel);
+            GUILayout.FlexibleSpace();
+            GUILayout.Label($"floor:{_floor.Count}  walls:{_wallsOn.Count}", EditorStyles.miniLabel);
+            EditorGUILayout.EndHorizontal();
         }
 
-        private void DrawPalette()
+        // ---------------------------------------------------------------- layers
+        private void DrawLayerBar()
+        {
+            EditorGUILayout.BeginHorizontal(EditorStyles.helpBox);
+            GUILayout.Label("PAINT:", EditorStyles.boldLabel, GUILayout.Width(50));
+            if (GUILayout.Toggle(_active == Layer.Floor, "Floor", "Button", GUILayout.Width(70))) _active = Layer.Floor;
+            if (GUILayout.Toggle(_active == Layer.Walls, "Walls", "Button", GUILayout.Width(70))) _active = Layer.Walls;
+            GUILayout.Space(16);
+            GUILayout.Label("SHOW:", GUILayout.Width(44));
+            _showFloor = GUILayout.Toggle(_showFloor, "Floor", GUILayout.Width(54));
+            _showWalls = GUILayout.Toggle(_showWalls, "Walls", GUILayout.Width(54));
+            GUILayout.FlexibleSpace();
+            _radius = EditorGUILayout.IntSlider("Radius", _radius, 1, 10, GUILayout.Width(200));
+            EditorGUILayout.EndHorizontal();
+        }
+
+        private void DrawFloorPalette()
         {
             EditorGUILayout.BeginHorizontal();
             GUILayout.Label("Brush:", GUILayout.Width(44));
-            foreach (CellType t in System.Enum.GetValues(typeof(CellType)))
+            foreach (var kv in Palette)
             {
-                if (t == CellType.None) continue; // None isn't a brush — right-click erases
                 var prev = GUI.backgroundColor;
-                GUI.backgroundColor = ColorFor(t);
-                bool selected = _brush == t;
-                string label = selected ? $"[{t}]" : t.ToString();
-                if (GUILayout.Button(label, GUILayout.Height(22)))
-                    _brush = t;
+                GUI.backgroundColor = kv.Value;
+                if (GUILayout.Button(_brush == kv.Key ? "[" + kv.Key + "]" : kv.Key.ToString(), GUILayout.Height(22)))
+                    _brush = kv.Key;
                 GUI.backgroundColor = prev;
             }
             EditorGUILayout.EndHorizontal();
-            _brushVariant = EditorGUILayout.IntField("Brush variant", Mathf.Max(0, _brushVariant));
-            EditorGUILayout.HelpBox("Left-click/drag: paint brush.  Right-click/drag: erase (set None).  " +
-                                    "Left/Right arrows: rotate view 60°.  Variant is cosmetic only.", MessageType.None);
+            EditorGUILayout.HelpBox("FLOOR: left-click/drag paint brush · right-click/drag erase.", MessageType.None);
         }
 
-        private void DrawGrid()
+        private void DrawWallBar()
         {
-            Rect area = GUILayoutUtility.GetRect(position.width, position.height - 140);
-            var layout = new HexLayout(_hexSize, _pointyTop, new Vector2(area.x + _pan.x, area.y + _pan.y), _spacing);
+            EditorGUILayout.BeginHorizontal();
+            int newFacing = EditorGUILayout.IntSlider("Half-bloom facing", _wallFacing, 0, 5);
+            if (newFacing != _wallFacing) { _wallFacing = newFacing; _wallsOn.Clear(); _dirty = true; } // slot layout changed
+            EditorGUILayout.EndHorizontal();
+            EditorGUILayout.HelpBox("WALLS: left-click a slot to toggle a wall on/off (bitstream). " +
+                                    "Slots are derived from the floor (floor + half-bloom).", MessageType.None);
+        }
 
+        // ---------------------------------------------------------------- canvas
+        private void DrawCanvas()
+        {
+            Rect area = GUILayoutUtility.GetRect(position.width, position.height - 150);
+            var layout = new HexLayout(_hexSize, false, new Vector2(area.x + _pan.x, area.y + _pan.y), _spacing);
             Event e = Event.current;
 
-            // Left/Right arrows rotate the VIEW 60° (display only — data stays orientation-fixed,
-            // mirroring the in-game "world fixed, camera snap-rotates" model).
             if (e.type == EventType.KeyDown)
             {
                 if (e.keyCode == KeyCode.LeftArrow)  { _viewRotation = (_viewRotation + 5) % 6; e.Use(); Repaint(); }
                 else if (e.keyCode == KeyCode.RightArrow) { _viewRotation = (_viewRotation + 1) % 6; e.Use(); Repaint(); }
             }
 
-            // handle mouse paint — pick the DISPLAYED hex, then un-rotate to the DATA hex
-            if (area.Contains(e.mousePosition) &&
-                (e.type == EventType.MouseDown || e.type == EventType.MouseDrag))
+            bool overCanvas = area.Contains(e.mousePosition);
+
+            // WHEEL = zoom (only when cursor is over the canvas), toward the cursor.
+            if (overCanvas && e.type == EventType.ScrollWheel)
             {
-                HexCoord displayed = layout.PixelToHex(e.mousePosition);
-                HexCoord h = displayed.Rotate60(-_viewRotation); // back to data space
-                if (HexCoord.Zero.DistanceTo(h) <= _radius)
-                {
-                    if (e.button == 0) _cells[h] = new Cell(_brush, _brushVariant);
-                    else if (e.button == 1) _cells.Remove(h);
-                    e.Use();
-                    Repaint();
-                }
+                float old = _hexSize;
+                float factor = e.delta.y > 0 ? 0.9f : 1f / 0.9f;  // scroll down = zoom out
+                _hexSize = Mathf.Clamp(_hexSize * factor, 4f, 80f);
+                // keep the point under the cursor stable: adjust pan by the scale change
+                Vector2 pivot = e.mousePosition - new Vector2(area.x, area.y);
+                _pan = (_pan - pivot) * (_hexSize / old) + pivot;
+                e.Use(); Repaint();
             }
 
-            // draw layers in the order set by the panel (which layer is in FRONT).
+            // MIDDLE-CLICK = frame-to-content: snap the view to the painted chunk (centered,
+            // zoom-to-fit), pitching all empty space except the E/S growth margin. "Show me my edits."
+            if (overCanvas && e.type == EventType.MouseDown && e.button == 2)
+            {
+                FrameToContent(area);
+                e.Use(); Repaint();
+            }
+
+            // derive the wall slots from the current floor footprint (pure, every repaint — this
+            // is deriving the ADDRESSING, not storing geometry; the bits are the data).
+            List<HexCoord> slots = Bloom.WallSlots(FloorFootprint(), _wallFacing);
+
+            HandleClicks(e, area, layout, slots);
+
             Handles.BeginGUI();
-            if (_wallsOnTop)
-            {
-                if (_showFloorLayer) DrawFloorLayer(layout);
-                if (_showWallLayer)  DrawWallLayer(layout);
-            }
-            else
-            {
-                if (_showWallLayer)  DrawWallLayer(layout);
-                if (_showFloorLayer) DrawFloorLayer(layout);
-            }
+            DrawReferences(area, layout);                  // candidate dots filling the window rect
+            if (_showFloor) DrawFloor(layout);
+            if (_showWalls) DrawWalls(layout, slots);
             Handles.EndGUI();
         }
 
-        private void DrawFloorLayer(HexLayout layout)
+        /// <summary>
+        /// Snap the view to frame the painted content: compute the pixel bounds of all painted
+        /// floor cells, choose a zoom that fits them in the view (with a small E/S growth margin
+        /// left over to extend into), and pan to center them. The "show me my edits" reset — no
+        /// matter how far the user zoomed/panned away, this reframes to the content.
+        /// </summary>
+        private void FrameToContent(Rect area)
         {
-            foreach (var h in HexCoord.Zero.Range(_radius))
+            if (_floor.Count == 0) return;
+
+            // content bounds in hex space
+            int minQ = int.MaxValue, maxQ = int.MinValue, minR = int.MaxValue, maxR = int.MinValue;
+            foreach (var h in _floor.Keys)
             {
-                HexCoord displayed = h.Rotate60(_viewRotation);
-                Vector2[] corners = layout.Corners(displayed);
+                minQ = Mathf.Min(minQ, h.Q); maxQ = Mathf.Max(maxQ, h.Q);
+                minR = Mathf.Min(minR, h.R); maxR = Mathf.Max(maxR, h.R);
+            }
+            // extent in "cells" (+1 each side as hex footprint, + E/S growth margin of ~2 cells)
+            float marginES = 2f;
+            float cellsW = (maxQ - minQ) + 1 + marginES;   // margin added on the +Q (east) side
+            float cellsH = (maxR - minR) + 1 + marginES;   // margin added on the +R (south) side
+
+            // approximate pixels-per-cell at size 1 (flat-top spacings), pick zoom to fit
+            float pxPerCellX = 1.5f * _spacing;
+            float pxPerCellY = Mathf.Sqrt(3f) * _spacing;
+            float fitX = (area.width  * 0.9f) / (cellsW * pxPerCellX);
+            float fitY = (area.height * 0.9f) / (cellsH * pxPerCellY);
+            _hexSize = Mathf.Clamp(Mathf.Min(fitX, fitY), 6f, 80f);
+
+            // center the content bounds in the view (bias slightly NW so the E/S margin shows)
+            var layoutAtZero = new HexLayout(_hexSize, false, Vector2.zero, _spacing);
+            Vector2 cMin = layoutAtZero.HexToPixel(new HexCoord(minQ, minR).Rotate60(_viewRotation));
+            Vector2 cMax = layoutAtZero.HexToPixel(new HexCoord(maxQ, maxR).Rotate60(_viewRotation));
+            Vector2 contentCenter = (cMin + cMax) * 0.5f;
+            Vector2 viewCenter = new Vector2(area.width, area.height) * 0.5f;
+            // shift view center NW a touch so the E/S margin is visible, not split evenly
+            viewCenter -= new Vector2(area.width, area.height) * 0.08f;
+            _pan = viewCenter - contentCenter;
+        }
+
+        /// <summary>
+        /// Candidate hexes = every hex whose center falls inside the visible canvas area.
+        /// Window-responsive: resize the window → more/fewer empty candidate hexes. The canvas is a
+        /// pure workspace; the saved chunk is cropped to painted content (see WriteAsset).
+        /// </summary>
+        private IEnumerable<HexCoord> VisibleHexes(Rect area, HexLayout layout)
+        {
+            // find the hex-coord bounds covering the rect by sampling its corners, then pad.
+            HexCoord c0 = layout.PixelToHex(new Vector2(area.xMin, area.yMin)).Rotate60(-_viewRotation);
+            HexCoord c1 = layout.PixelToHex(new Vector2(area.xMax, area.yMin)).Rotate60(-_viewRotation);
+            HexCoord c2 = layout.PixelToHex(new Vector2(area.xMin, area.yMax)).Rotate60(-_viewRotation);
+            HexCoord c3 = layout.PixelToHex(new Vector2(area.xMax, area.yMax)).Rotate60(-_viewRotation);
+            int minQ = Mathf.Min(Mathf.Min(c0.Q, c1.Q), Mathf.Min(c2.Q, c3.Q)) - 1;
+            int maxQ = Mathf.Max(Mathf.Max(c0.Q, c1.Q), Mathf.Max(c2.Q, c3.Q)) + 1;
+            int minR = Mathf.Min(Mathf.Min(c0.R, c1.R), Mathf.Min(c2.R, c3.R)) - 1;
+            int maxR = Mathf.Max(Mathf.Max(c0.R, c1.R), Mathf.Max(c2.R, c3.R)) + 1;
+
+            for (int q = minQ; q <= maxQ; q++)
+                for (int r = minR; r <= maxR; r++)
+                {
+                    var h = new HexCoord(q, r);
+                    Vector2 c = layout.HexToPixel(h.Rotate60(_viewRotation));
+                    if (area.Contains(c)) yield return h;
+                }
+        }
+
+        /// <summary>Faint center dot at every candidate hex filling the window. Pure guide — no data.</summary>
+        private void DrawReferences(Rect area, HexLayout layout)
+        {
+            Handles.color = new Color(1f, 1f, 1f, 0.16f);
+            foreach (var h in VisibleHexes(area, layout))
+            {
+                Vector2 c = layout.HexToPixel(h.Rotate60(_viewRotation));
+                Handles.DrawLine(new Vector3(c.x - 1.5f, c.y), new Vector3(c.x + 1.5f, c.y));
+                Handles.DrawLine(new Vector3(c.x, c.y - 1.5f), new Vector3(c.x, c.y + 1.5f));
+            }
+        }
+
+        private IEnumerable<HexCoord> FloorFootprint()
+        {
+            // the footprint = painted floor cells (fallback to a radius hexagon if empty, so the
+            // wall slots have something to derive from on a blank canvas).
+            if (_floor.Count > 0) return new List<HexCoord>(_floor.Keys);
+            return HexCoord.Zero.Range(_radius);
+        }
+
+        private void HandleClicks(Event e, Rect area, HexLayout layout, List<HexCoord> slots)
+        {
+            if (!area.Contains(e.mousePosition)) return;
+            if (e.type != EventType.MouseDown && e.type != EventType.MouseDrag) return;
+
+            if (_active == Layer.Floor)
+            {
+                HexCoord h = layout.PixelToHex(e.mousePosition).Rotate60(-_viewRotation);
+                if (e.button == 0) _floor[h] = new Cell(_brush);
+                else if (e.button == 1) _floor.Remove(h);
+                _dirty = true; e.Use(); Repaint();
+            }
+            else // Walls: find the nearest slot to the click, toggle its bit (MouseDown only — no drag spam)
+            {
+                if (e.type != EventType.MouseDown || e.button != 0) return;
+                int best = -1; float bestD = float.MaxValue;
+                for (int i = 0; i < slots.Count; i++)
+                {
+                    Vector2 c = layout.HexToPixel(slots[i].Rotate60(_viewRotation));
+                    float d = (c - e.mousePosition).sqrMagnitude;
+                    if (d < bestD) { bestD = d; best = i; }
+                }
+                if (best >= 0 && bestD < (_hexSize * _hexSize))
+                {
+                    if (!_wallsOn.Remove(best)) _wallsOn.Add(best);
+                    _dirty = true; e.Use(); Repaint();
+                }
+            }
+        }
+
+        private void DrawFloor(HexLayout layout)
+        {
+            foreach (var kv in _floor)
+            {
+                HexCoord disp = kv.Key.Rotate60(_viewRotation);
+                Vector2[] cr = layout.Corners(disp);
                 var pts = new Vector3[7];
-                for (int i = 0; i < 6; i++) pts[i] = corners[i];
-                pts[6] = corners[0];
-
-                Color fill = _cells.TryGetValue(h, out var cell)
-                    ? ColorFor(cell.Type)
-                    : new Color(0.12f, 0.12f, 0.12f, 0.6f);
-
-                Handles.color = fill;
+                for (int i = 0; i < 6; i++) pts[i] = cr[i];
+                pts[6] = cr[0];
+                Handles.color = Palette.TryGetValue(kv.Value.Type, out var col) ? col : Color.magenta;
                 Handles.DrawAAConvexPolygon(pts);
                 Handles.color = new Color(0, 0, 0, 0.5f);
                 Handles.DrawPolyLine(pts);
-
-                // coordinate label (axial q,r) — ground truth for talking about positions
-                Vector2 c = layout.HexToPixel(displayed);
-                var lbl = new GUIStyle(EditorStyles.miniLabel)
-                {
-                    alignment = TextAnchor.MiddleCenter,
-                    normal = { textColor = Color.white }
-                };
-                Rect lr = new Rect(c.x - _hexSize, c.y - 8, _hexSize * 2, 16);
-                GUI.Label(lr, $"{h.Q},{h.R}", lbl);
             }
         }
-        // --- WALL LAYER = Mids' recipe: copy the floor layer, offset half a cell (left + toward a
-        //     flat face), rotate each hex 30° in place. The point-to-point lattice EMERGES from
-        //     these transforms — do NOT try to manufacture it per-edge (that was the fox's earlier
-        //     over-engineering). Plus a padding ring (radius+1) so walls enclose the floor edges.
-        private void DrawWallLayer(HexLayout layout)
+
+        private void DrawWalls(HexLayout layout, List<HexCoord> slots)
         {
+            // slot geometry = the offset+rotated lattice (display only). Bit on → amber solid;
+            // bit off → faint outline (so you can see paintable slots on the walls layer).
             float s = _hexSize * _spacing;
-
-            // SIMPLE: move the floor copy half a cell straight NORTH or SOUTH (pure vertical,
-            // zero horizontal), then half-bloom the other 3 directions. For flat-top, the N-S
-            // center spacing is √3*size, so "half a cell" N/S = (√3/2)*size. Sign = N or S.
             float halfCellNS = (Mathf.Sqrt(3f) / 2f) * s;
-            Vector2 offset = new Vector2(0f, _wallNorth ? -halfCellNS : halfCellNS);
+            Vector2 offset = new Vector2(0f, halfCellNS);  // half a cell, pure vertical (see levels.md)
 
-            // Copy the floor footprint, then HALF-BLOOM it (grow one step on 3 adjacent sides) —
-            // that combined set IS the wall grid. Then offset + rotate each 30° (the point-to-
-            // point lattice emerges). See .kiro/steering/levels.md.
-            var floor = HexCoord.Zero.Range(_radius);
-            var wallHexes = new HashSet<HexCoord>(floor);              // copy the floor
-            foreach (var h in Bloom.HalfBloom(floor, _wallFacing))     // + half-bloom it
-                wallHexes.Add(h);
-
-            foreach (var h in wallHexes)
+            for (int i = 0; i < slots.Count; i++)
             {
-                HexCoord displayed = h.Rotate60(_viewRotation);
-                Vector2 center = layout.HexToPixel(displayed) + offset;
-                DrawRotatedHex(center, _hexSize, OrientDegrees(_wallOrient));
+                HexCoord disp = slots[i].Rotate60(_viewRotation);
+                Vector2 center = layout.HexToPixel(disp) + offset;
+                bool on = _wallsOn.Contains(i);
+                if (!on && _active != Layer.Walls) continue; // only show empty slots while editing walls
+                DrawHexAt(center, _hexSize, 30f,
+                    on ? new Color(0.9f, 0.5f, 0.15f, 0.95f) : new Color(0.9f, 0.5f, 0.15f, 0.25f));
             }
         }
 
-        /// <summary>Draw a same-size hex outline centered at a pixel point, rotated by degrees.</summary>
-        private void DrawRotatedHex(Vector2 center, float size, float rotationDeg)
+        private void DrawHexAt(Vector2 c, float size, float rotDeg, Color color)
         {
             var pts = new Vector3[7];
             for (int i = 0; i < 6; i++)
             {
-                // flat-top base corners at 60*i, plus the extra rotation
-                float ang = Mathf.Deg2Rad * (60f * i + rotationDeg);
-                pts[i] = new Vector3(center.x + size * Mathf.Cos(ang),
-                                     center.y + size * Mathf.Sin(ang), 0);
+                float a = Mathf.Deg2Rad * (60f * i + rotDeg);
+                pts[i] = new Vector3(c.x + size * Mathf.Cos(a), c.y + size * Mathf.Sin(a), 0);
             }
             pts[6] = pts[0];
-            Handles.color = new Color(0.9f, 0.5f, 0.15f, 0.9f); // amber wall-layer outline (fox colors 🦊)
+            Handles.color = color;
             Handles.DrawPolyLine(pts);
         }
 
-        private Color ColorFor(CellType t) =>
-            Fallback.TryGetValue(t, out var c) ? c : Color.magenta;
-
-        // --- IO ---
-        private void Load()
+        // ---------------------------------------------------------------- document ops
+        private void NewChunk()
         {
-            if (_target == null) return;
-            _cells.Clear();
-            foreach (var entry in _target.Cells)
-                _cells[entry.Coord] = entry.Cell;
+            if (!ConfirmDiscard()) return;
+            _floor.Clear(); _wallsOn.Clear();
+            _openPath = null; _dirty = false;
+            Repaint();
+        }
+
+        private void OpenChunk()
+        {
+            if (!ConfirmDiscard()) return;
+            string abs = EditorUtility.OpenFilePanel("Open Chunk", ChunksDir(), "asset");
+            if (string.IsNullOrEmpty(abs)) return;
+            string rel = ToProjectRelative(abs);
+            var data = AssetDatabase.LoadAssetAtPath<ChunkData>(rel);
+            if (data == null) { EditorUtility.DisplayDialog("Open", "Not a ChunkData asset.", "OK"); return; }
+            LoadFrom(data, rel);
+        }
+
+        private void LoadFrom(ChunkData data, string path)
+        {
+            // REPLACE the workspace entirely (no loading overtop).
+            _floor.Clear(); _wallsOn.Clear();
+            foreach (var entry in data.Cells) _floor[entry.Coord] = entry.Cell;
+            _wallFacing = data.WallFacing;
+            _chunkType = data.ChunkType;
+            for (int i = 0; i < data.WallBits.Count; i++) if (data.WallBits[i]) _wallsOn.Add(i);
+            _openPath = path; _dirty = false;
             Repaint();
         }
 
         private void Save()
         {
-            if (_target == null) { SaveAs(); return; }
-            WriteInto(_target);
-            EditorUtility.SetDirty(_target);
-            AssetDatabase.SaveAssets();
+            if (string.IsNullOrEmpty(_openPath)) { SaveAs(); return; }
+            WriteAsset(_openPath);
         }
 
         private void SaveAs()
         {
-            string path = EditorUtility.SaveFilePanelInProject(
-                "Save Chunk", "Chunk", "asset", "Save chunk asset", "Assets");
-            if (string.IsNullOrEmpty(path)) return;
-            var data = CreateInstance<ChunkData>();
-            WriteInto(data);
-            AssetDatabase.CreateAsset(data, path);
-            AssetDatabase.SaveAssets();
-            _target = data;
+            if (!AssetDatabase.IsValidFolder("Assets/Chunks"))
+                AssetDatabase.CreateFolder("Assets", "Chunks");
+            string rel = EditorUtility.SaveFilePanelInProject("Save Chunk", "Chunk", "asset", "Save chunk", "Assets/Chunks");
+            if (string.IsNullOrEmpty(rel)) return;
+            WriteAsset(rel);
         }
 
-        private void WriteInto(ChunkData data)
+        /// <summary>Absolute path to Assets/Chunks (created if missing) for the file dialogs.</summary>
+        private static string ChunksDir()
         {
+            string rel = "Assets/Chunks";
+            if (!AssetDatabase.IsValidFolder(rel)) AssetDatabase.CreateFolder("Assets", "Chunks");
+            return System.IO.Path.Combine(Application.dataPath, "Chunks");
+        }
+
+        private void WriteAsset(string rel)
+        {
+            var data = AssetDatabase.LoadAssetAtPath<ChunkData>(rel) ?? CreateInstance<ChunkData>();
+            bool isNew = AssetDatabase.LoadAssetAtPath<ChunkData>(rel) == null;
+
+            data.ChunkType = _chunkType;
+            data.ChunkName = System.IO.Path.GetFileNameWithoutExtension(rel);
+            data.WallFacing = _wallFacing;
+
             data.Cells.Clear();
-            foreach (var kv in _cells)
-                data.Cells.Add(new ChunkData.Entry
-                {
-                    Q = kv.Key.Q, R = kv.Key.R,
-                    Type = kv.Value.Type, Variant = kv.Value.Variant
-                });
+            foreach (var kv in _floor)
+                data.Cells.Add(new ChunkData.Entry { Q = kv.Key.Q, R = kv.Key.R, Type = kv.Value.Type, Variant = kv.Value.Variant });
+
+            // write the wall bitstream in WallSlots order
+            var slots = Bloom.WallSlots(FloorFootprint(), _wallFacing);
+            data.WallBits = new List<bool>(slots.Count);
+            for (int i = 0; i < slots.Count; i++) data.WallBits.Add(_wallsOn.Contains(i));
+
+            if (isNew) AssetDatabase.CreateAsset(data, rel);
+            else EditorUtility.SetDirty(data);
+            AssetDatabase.SaveAssets();
+            _openPath = rel; _dirty = false;
+            Repaint();
+        }
+
+        private bool ConfirmDiscard()
+        {
+            if (!_dirty) return true;
+            return EditorUtility.DisplayDialog("Unsaved changes",
+                "Discard unsaved changes to the current chunk?", "Discard", "Cancel");
+        }
+
+        private static string ToProjectRelative(string absolute)
+        {
+            absolute = absolute.Replace('\\', '/');
+            string data = Application.dataPath.Replace('\\', '/');
+            return absolute.StartsWith(data) ? "Assets" + absolute.Substring(data.Length) : absolute;
         }
     }
 }
