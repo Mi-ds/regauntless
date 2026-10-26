@@ -551,7 +551,7 @@
             "4": "+ Slow (on a leg)",
             "5": "+ Slow (other leg — mired)"
           },
-          "removal": "ally's shot scrapes off / Bigby-style conjured-hand plucks (+capacity) / AoE fumigate-repel detaches a cluster. Self-clear impossible with full hands.",
+          "removal": "ally's shot scrapes off / Bigby-style conjured-hand plucks / AoE fumigate-repel. CASTER EXCEPTION: anti-latcher spells are Verbal-only/Focus (NO somatic) -> a caster self-casts out even with full hands (hands-independent); the 'can't self-clear' rule is MARTIAL-specific, caster = weasel-insurance. ENVIRONMENT: route to a water tile (wash/drown off) or vent/gas tile (environmental fumigate) -> map-as-participant, per-latcher-type, a few specific cases (ties to cell/hazard system).",
           "danger": "CONTEXTUAL — trivial alone; lethal stacked during a wave (Distract amplifies all other incoming)",
           "openKnobs": "does the ally scrape-shot HURT the ridden hero (rough) or clean-remove? ; default hands value"
         }

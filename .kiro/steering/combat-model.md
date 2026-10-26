@@ -125,15 +125,24 @@ wave is lethal (the Distract rung amplifies all the other incoming fire). Create
 priority call — keep fighting the wave, or peel off to help the ridden hero *because* they're
 now taking amplified damage.
 
-### Removal = a co-op demand (you can't self-clear with full hands)
-The latcher's whole reason to exist is to make the party reach into each other's kits:
+### Removal = a co-op demand (but with escape valves)
+The latcher's whole reason to exist is to make the party reach into each other's kits — BUT a
+full-hands hero isn't strictly helpless; there are escape valves:
 - **Ally's shot** scrapes one off (brute, universal — anyone can help). *[OPEN knob: does the
   cleaning shot also HURT the ridden hero (rough scrape, spicier) or clean-remove (no downside)?
   — Mids undecided.]*
-- **Conjured-hand spell** (Bigby-flavored "plucking fingers") — plucks one off / lends a hand
-  (= temporary +capacity). The caster's single-target answer.
-- **AoE fumigate / repel** — area effect that detaches / scares off a whole cluster (the panic
-  button for a 3-5 clump).
+- **Caster self/ally (hands-INDEPENDENT):** anti-latcher spells (Bigby-flavored "plucking
+  fingers" / fumigate) are deliberately **Verbal-only / Focus** — NO somatic component — so a
+  caster can cast their way out **even with both hands full of weasels** (a voice isn't a hand).
+  This makes the martial "can't self-clear with full hands" rule **MARTIAL-SPECIFIC**, and makes
+  the squishy Wizard/Cleric the party's **weasel-insurance** (self-cleanses AND rescues the
+  bruiser). Role-defining.
+- **Environment (the MAP is a participant):** a latched hero can route to terrain that strips
+  latchers — e.g. a **water tile** (wash/drown them off) or a **vent/gas tile** (environmental
+  fumigate). A small set of SPECIFIC cases (not a system), and **per-latcher-type** (water helps
+  a leech, drowns a weasel). Ties to the cell/hazard system (cf. Hole cell + authored set-piece
+  chunks in levels.md) — now terrain has a combat purpose. Rewards spatial awareness as a
+  self-rescue even for a full-hands martial.
 - **(Future)** high-hand-count or extra-attack classes natively manage more.
 
 (The spell answers live in the class/spell layer — NOT specced here; the latcher CREATES the
