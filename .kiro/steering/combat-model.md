@@ -128,9 +128,14 @@ now taking amplified damage.
 ### Removal = a co-op demand (but with escape valves)
 The latcher's whole reason to exist is to make the party reach into each other's kits — BUT a
 full-hands hero isn't strictly helpless; there are escape valves:
-- **Ally's shot** scrapes one off (brute, universal — anyone can help). *[OPEN knob: does the
-  cleaning shot also HURT the ridden hero (rough scrape, spicier) or clean-remove (no downside)?
-  — Mids undecided.]*
+- **Ally's shot** scrapes one off. SHARED-HITBOX RULE (resolves the old "does it hurt the host?"
+  knob): an attached latcher **shares the host hero's hitbox.** A friendly flat-shot that reaches
+  that hitbox would normally fizzle (faction-filter: can't damage the friendly) — but there's a
+  **co-located ENEMY (the latcher)**, so the shot resolves against IT instead (scrapes/damages the
+  latcher), **no harm to the host.** Covering fire = the free; any friendly shot reaching the hero
+  works (no need to flank for an angle — shared hitbox, so position-independent). Emergent comedy:
+  the rear hero "accidentally" peppering the stopped/ridden teammate is literally how they get
+  cleaned.
 - **Caster self/ally (hands-INDEPENDENT):** anti-latcher spells (Bigby-flavored "plucking
   fingers" / fumigate) are deliberately **Verbal-only / Focus** — NO somatic component — so a
   caster can cast their way out **even with both hands full of weasels** (a voice isn't a hand).
@@ -199,6 +204,14 @@ invent per-creature systems (follow the SRD). Our real-time expression of "a gra
   a button" branch (that'd be a player/AI design smell). It's a stat contest, not an input.
 - Also freed by **killing the grabber** (low-HP grabbers → focus-fire frees the held hero) or an
   **ally assist**.
+- **Covering fire frees you (SHARED-HITBOX rule):** a grabbing enemy coiled/attached to a hero
+  **shares the host's hitbox.** A teammate firing at the grabbed hero would normally fizzle
+  (faction-filter), but the **co-located enemy grabber** is a valid target, so the shots resolve
+  on the GRABBER — no harm to the host. Since a grabbed hero **stops dead**, the teammate behind
+  them is firing into a parked friendly body anyway — and those "wasted" shots chew the grabber →
+  the screwup IS the rescue. Position-independent (shared hitbox). A constrictor is low-HP + stops
+  moving once it coils (big still soft target) → "someone shoot the snake" is the PRIMARY out, the
+  self grapple-check is the backup.
 
 **Members (share the resolution, differ in payload):**
 - **Constrictor (snake):** bite-hit → **ROOT** (can't move) + ongoing **CONSTRICT DoT** each held
