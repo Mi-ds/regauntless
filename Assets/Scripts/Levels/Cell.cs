@@ -45,6 +45,13 @@ namespace Regauntless.Levels
 
         public bool IsPartOfChunk => Type != CellType.None;
 
+        // FUTURE (not yet modeled): a cell/zone may carry CIRCUMSTANCE MODIFIERS — authored ±5s
+        // applied to whoever stands on it (e.g. knee-high water = -5 move/saves). This is the
+        // dev-imposed-trigger source for the ±5 "circumstance pile" (see combat.md). Also the
+        // same hazard-tile layer as latcher-removal (water/vent), Web slow-floor, etc.
+        // (combat-model.md). Add as cell/zone data when the hazard system lands — do NOT branch
+        // gameplay on Variant for it; it's a Type/zone property, not cosmetic.
+
         public bool Equals(Cell other) => Type == other.Type && Variant == other.Variant;
         public override bool Equals(object obj) => obj is Cell c && Equals(c);
         public override int GetHashCode() => ((int)Type * 397) ^ Variant;

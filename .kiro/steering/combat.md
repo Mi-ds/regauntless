@@ -93,7 +93,30 @@ to-hit vs AC, damage dice, saves, nat-20 crits — full 3.5 RNG, warts and spice
 Prime Directive stays clean: a Controller emits "attack"; the resolver and its policy decide
 what that attack does.
 
-## Later / unresolved (do not over-build yet)
+## The circumstance pile — ±5 modifiers, additive, dev-authored
+
+3.5-as-played: a justified "advantage/disadvantage" was a flat **±5** on the roll (= 25% of a
+d20), and **every distinct reason stacks** into one additive pile. We keep the math, change only
+the *source of reasons*.
+
+- **One pile, additive.** A check's total = `base + Σ(all active ±5 circumstance sources)`.
+  Buffs (+5 each) and debuffs (−5 each) live in the **same pile** and sum — no "highest-only,"
+  no "doesn't stack." Count the reasons × 5.
+- **±5 is the unit, always.** One reason = one ±5 (= 25% swing on a d20). Stackable without an
+  enumerated cap. Legible + deterministic → drops straight into the RollPolicy comparison
+  (`10 + base + Σ±5` vs DC in Normal, etc.); the sim computes it trivially, the player eyeballs it.
+- **Sources are DEV-IMPOSED TRIGGERS, not live-DM improv.** No table to negotiate "the guard
+  likes me, +5." Instead the **level/content author pre-binds fiction → ±5** via authored
+  tile/zone/state triggers. Examples:
+  - **Knee-high water tile** → −5 to movement/saves while standing in it (sloshing, bad footing).
+  - High ground / shrine tile → +5 to the relevant roll. Darkness / smoke / mud / ice → each a
+    placed trigger with its defined ±5.
+- **Terrain carries circumstance modifiers.** This rides the SAME cell/hazard-tile layer as
+  water-strips-latchers, vent-fumigate, Web slow-floor, `Hole` (see combat-model.md + the levels
+  cell system). A tile isn't just walkable/not — it can carry ±5s applied to whoever stands on it.
+  → **the geometry itself tilts your rolls**; authored positional trade-offs (stand in the water
+  to shed leeches, but eat −5 saves while you're there). The map is a participant in the d20 math.
+- (A future social/announcer/crowd-favor layer *could* grant some "reasoned" +5s — a hook, not now.)
 
 - **Crits** exist naturally in Gremlin Mode (nat 20). In deterministic modes they currently
   don't trigger — revisit if we want a deterministic crit rule.
