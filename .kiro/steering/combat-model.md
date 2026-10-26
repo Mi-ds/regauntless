@@ -5,6 +5,11 @@ each to Gauntlet behavior. This is the model both the 2D game and the non-graphi
 (Spatial player skills — dodging, sightline play — are REAL in the 2D game but ABSTRACTED to
 probabilities in the numbers-sim; see note at bottom.)
 
+> **EDITION: SRD 3.5 (d20 OGL), not 5e.** Vocabulary follows 3.5: flat Fort/Ref/Will saves,
+> flat circumstance/morale modifiers (±N), BAB, ability-score damage. "Advantage/disadvantage"
+> in our usage = a flat **±5 to the roll** (the old table shorthand), NEVER the 5e roll-twice.
+> No proficiency bonus, no bounded accuracy.
+
 ## The actor turn = an Action-Point loop running a priority list
 
 Every actor (mob now; AI/human hero later — same framework, Prime Directive) takes a turn by
@@ -109,13 +114,31 @@ clear. SRD disease lasts days/weeks and clears on two consecutive resist saves o
   one bad check sends you back to the long clock.
 - **Natural cure = TWO consecutive passes** (5-min pass → 1-min pass). Any fail breaks the streak
   → back to 5-min. (= SRD's two-in-a-row.)
-- **Cure effect** (cleric / antidote pickup / shrine) ends it **instantly**, regardless of timer →
-  makes "a cure" a desirable in-run RESOURCE/objective.
+- **Cure effect** ends it (see Cleanse/ward taxonomy below) → makes "a cure" a desirable in-run
+  RESOURCE/objective.
 - **Metagame ride:** if you exit the dungeon still infected, it simply **rides into the metagame**
   (a condition on the sheet) until cured — no special rule, just "not yet cured." Cross-run stake.
 - vs POISON: poison = fast, ~40s self-clear, wait it out. Disease = slow (minutes), needs
   double-resist-or-cure, can follow you home. Same effect, different exit condition.
 - First instance: **Filth Fever** (dire rat bite) — Dex+Con stat-feel.
+
+**Cleanse / ward taxonomy (everything manipulates the SAME resist-save loop — no bespoke cures):**
+A persistent status's resist loop has knobs — *check timing* (5-min/1-min), *check roll* (with
+modifiers), *pass-streak* (2 to clear). Cures/wards just poke those knobs:
+- **Cure (spell, e.g. "Cure Disease") = a BURST of N forced saves fired at once.** Potency = N
+  (≈5 for a full cure → very likely lands the streak → clears). NOT an instant-erase; it
+  *accelerates the body's fight*. Open micro-knob: burst needs 2 CONSECUTIVE passes vs 2 TOTAL
+  (lean: total — a cure should feel reliable; keep "consecutive" for the slow natural grind).
+- **Resist / ward (aura, bard song) = TILT the loop** while active: a flat **+5 to the resist
+  checks** (NOTE: in our **SRD 3.5** vocab "advantage/disadvantage" means a flat **±5 circumstance
+  modifier**, NOT the 5e roll-twice — always a flat ±N, never a re-roll) and/or **auto-succeed the
+  5-min tier** → drop straight to the fast 1-min cadence → recover much faster. A ward doesn't
+  remove disease; it makes the body win the grind.
+- **Weak remedy / herb** = small forced-save burst (2-3) — decent odds, may not land it.
+- **Shrine / Heal** = big burst or a guaranteed streak (auto-clear).
+- **Immunity (e.g. Monk Diamond Body)** = the status flag NEVER SETS (upstream of the loop).
+- **General primitive:** any "cure/cleanse/remove-X" = a forced-save burst against a persistent
+  status; any "resist/ward-X" = a flat ±5 and/or tier-skip on its loop. Future cleanses slot in.
 
 ## Latcher / Attach archetype (the "get it off me!" enemy)
 
