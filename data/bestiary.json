@@ -57,6 +57,41 @@
       },
       "notes2D": "The 'upward variation' from the ghost/kobold: a real little soldier. Closes to melee (morningstar) but will throw javelins (flat shot) with LoS. Survives contact (not a detonator) -> brawler-ish, but weak (5hp). Flees when a battle turns (tactical AI -> optional for auto-crawler).",
       "notesSim": "5hp, AC15, melee 1d6 / ranged 1d4, speed 6 hexes/rd, +1 BAB. Fights back at contact (multi-round melee if it survives). Flat-shot firing discipline applies (holds if friendly/spawner blocks lane)."
+    },
+    {
+      "name": "Badger",
+      "cr": "1/2", "size": "Small", "type": "Animal",
+      "hp": 6, "hd": "1d8+2", "ac": 15, "touchAC": 14, "flatAC": 12,
+      "speedFt": 30, "burrowFt": 10, "init": 3,
+      "bab": 0, "grapple": -5,
+      "saves": { "fort": 4, "ref": 5, "will": 1 },
+      "abilities": { "str": 8, "dex": 17, "con": 15, "int": 2, "wis": 12, "cha": 6 },
+      "attacks": [
+        { "name": "Claw", "mode": "melee", "delivery": "contact", "toHit": 4, "damage": "1d2-1", "crit": "x2", "faction": "filtered" },
+        { "name": "Claw", "mode": "melee", "delivery": "contact", "toHit": 4, "damage": "1d2-1", "crit": "x2", "faction": "filtered" },
+        { "name": "Bite", "mode": "melee", "delivery": "contact", "toHit": -1, "damage": "1d3-1", "crit": "x2", "faction": "filtered" }
+      ],
+      "specials": [
+        "Low-light vision",
+        "Scent (always knows player location; LoS irrelevant)",
+        "Burrow 10ft (alternate movement — OFF the hex-lane plane; untargetable by lane-shots while underground)",
+        "Rage (Ex): on taking damage, next turn berserks until it or its foe is dead: +4 Str, +4 Con, -2 AC, CANNOT end voluntarily -> never flees"
+      ],
+      "movement": ["walk", "burrow"],
+      "archetype": "brawler (berserker/burrower)",
+      "behavior": {
+        "priorityList": [
+          "SCENT: always knows player pos, ignore LoS; move STRAIGHT toward player (INT 2, no clever pathing)",
+          "if a wall blocks the straight line -> burrow through/past it (don't path around)",
+          "at 3 hexes from player -> BURROW: dive (untargetable), spend remaining movement repositioning UNDERGROUND toward a free hex adjacent to the player",
+          "next round -> SURFACE for free (no AP cost) + full attack (2 claws + bite)",
+          "on contact: 3 attacks/turn; if damaged -> RAGE (buffed, reckless, fights to death)"
+        ],
+        "movementIntent": "close (relentless, LoS-independent)",
+        "contact": "melee"
+      },
+      "notes2D": "Relentless burrowing bruiser. Scent = can't juke it (ignores LoS, always comes straight). Digs through walls (cover useless). Burrow-closer is a 2-ROUND tell: at 3 hexes it dives (untargetable) + tunnels under a free adjacent hex; NEXT round surfaces free and mauls. Counter is PURELY out-DPS during the approach window (before the 3-hex burrow) — no juking, no cover, no LoS tricks. Harder than a ghost: walls don't help. Denying free adjacent exit hexes (corner/crowd) limits where it erupts. Underground = a shadow/bulge under the lit-from-below floor (telegraph; parked).",
+      "notesSim": "6hp, AC15, 3 melee attacks/turn (2x +4 1d2-1, bite -1 1d3-1), speed 6 hexes/rd, burrow 2 hexes/rd. Models: LoS-independent straight approach; at dist<=3 goes untargetable 1 round then guaranteed-contacts next round. Rage = damage-triggered buff state. FIRST multi-attack-per-turn creature (validates attacks-from-AP) and FIRST off-plane movement (burrow -> untargetable window)."
     }
   ]
 }
