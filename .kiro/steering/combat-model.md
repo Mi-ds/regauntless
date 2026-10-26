@@ -97,6 +97,26 @@ we own *what it does* to a Regauntless avatar).
 (Future statuses reuse the same shape; we DEFINE each one's feel as we meet the SRD creature that
 carries it.)
 
+**Disease (poison's PERSISTENT sibling — same effect, different clock):**
+Disease applies the **same kind of stat-feel effect as poison**, but it does NOT quickly self-
+clear. SRD disease lasts days/weeks and clears on two consecutive resist saves or a cure — we
+**fudge the timescale** for a dungeon run but keep the "grind until you beat it or get cured" feel:
+- **Effect:** same per-avatar stat-feel debuff as the matching poison (e.g. Filth Fever = the
+  Dex/Con feel). Persistent.
+- **Timer loop (fudged from days → minutes):** on infection, **5-minute** clock to the first
+  resist check. On a check: **PASS → shorten to a 1-minute recheck** (body fighting it off); **FAIL
+  → reset to the full 5-minute** clock (re-entrenched). It's a swingy grind — close to beating it,
+  one bad check sends you back to the long clock.
+- **Natural cure = TWO consecutive passes** (5-min pass → 1-min pass). Any fail breaks the streak
+  → back to 5-min. (= SRD's two-in-a-row.)
+- **Cure effect** (cleric / antidote pickup / shrine) ends it **instantly**, regardless of timer →
+  makes "a cure" a desirable in-run RESOURCE/objective.
+- **Metagame ride:** if you exit the dungeon still infected, it simply **rides into the metagame**
+  (a condition on the sheet) until cured — no special rule, just "not yet cured." Cross-run stake.
+- vs POISON: poison = fast, ~40s self-clear, wait it out. Disease = slow (minutes), needs
+  double-resist-or-cure, can follow you home. Same effect, different exit condition.
+- First instance: **Filth Fever** (dire rat bite) — Dex+Con stat-feel.
+
 ## Latcher / Attach archetype (the "get it off me!" enemy)
 
 Built from the SRD **Attach** ability (weasel/leech/tick/stirge). These are NOT spawner chaff —

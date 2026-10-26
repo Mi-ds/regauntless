@@ -723,6 +723,102 @@
       "archetype": "grappler (root+squeeze) — OUT OF SCOPE (CR2), data saved for datamine",
       "notes2D": "OUT OF CURRENT COMBAT SCOPE (smallest Constrictor is Medium CR2). Saved verbatim per the datamine. But it DEFINES the CONSTRICTOR archetype we designed with Mids: GRAB -> ROOT + DoT escalation. STAGE 1 (base): bite-hit -> grab -> hero is ROOTED (can't move; coiled in place). STAGE 2 (overflow/ongoing): while rooted, auto SQUEEZE damage each round (constrict DoT). ESCAPE = a GRAPPLE CHECK: when a rooted hero tries to move, the game blocks it and rolls a contested grapple check (under RollPolicy) — win = free, lose = still held + DoT ticks. Same grapple-check resolution as scorpion-grab + Santa-cat bull-rush (shared grab/grapple family, SRD-grounded). Solitary; not aggressive (flees) until it gets a hold. No poison (pure crush). Hard-lockdown single-target threat (vs web's soft slow): 'the thing that pins ONE hero and squeezes while the party must react / focus it down.' When scope later includes CR2 or we scale a smaller one, this is ready.",
       "notesSim": "OUT OF SCOPE (CR2). Recorded model for when wired: bite-hit -> ROOT (hero move-attempt triggers a contested grapple check under RollPolicy; fail = stays rooted) + CONSTRICT DoT each held round. Escape = win the grapple check / kill the snake / ally assist. Validates (future) the grab/grapple-check family resolution shared with scorpion + bull-rush. Low HP for CR (19) so focus-fire frees the held hero."
+    },
+    {
+      "name": "Dire Rat",
+      "srd": {
+        "_note": "Verbatim SRD 3.5, full page. Two columns: Dire Rat + Fiendish Dire Rat (CR 1/3 both). Introduces DISEASE (Filth Fever).",
+        "source": "d20srd.org/srd/monsters/direRat.htm",
+        "variants": [
+          { "variant": "Dire Rat", "sizeType": "Small Animal", "hd": "1d8+1 (5 hp)", "init": 3, "speed": "40 ft (8 sq), climb 20 ft", "ac": "15 (+1 size, +3 Dex, +1 natural), touch 14, flat 12", "baseAtk": 0, "grapple": -4, "attack": "Bite +4 melee (1d4 plus disease)", "space": "5 ft / 5 ft", "specialAttacks": "Disease", "sq": "Low-light vision, scent", "saves": { "fort": 3, "ref": 5, "will": 3 }, "abilities": { "str": 10, "dex": 17, "con": 12, "int": 1, "wis": 12, "cha": 4 }, "skills": "Climb +11, Hide +8, Listen +4, Move Silently +4, Spot +4, Swim +11", "feats": "Alertness, Weapon Finesse(B)", "environment": "Any", "org": "Solitary or pack (11-20)", "cr": "1/3", "alignment": "Always neutral", "advancement": "2-3 HD (Small); 4-6 HD (Medium)", "la": "-" },
+          { "variant": "Fiendish Dire Rat", "sizeType": "Small Magical Beast (Extraplanar)", "hd": "1d8+1 (5 hp)", "init": 3, "speed": "40 ft (8 sq), climb 20 ft", "ac": "15 (+1 size, +3 Dex, +1 natural), touch 14, flat 12", "baseAtk": 0, "grapple": -4, "attack": "Bite +4 melee (1d4 plus disease)", "space": "5 ft / 5 ft", "specialAttacks": "Disease, smite good", "sq": "Low-light vision, scent, darkvision 60 ft, resistance to cold 5/fire 5, spell resistance 6", "saves": { "fort": 3, "ref": 5, "will": 3 }, "abilities": { "str": 10, "dex": 17, "con": 12, "int": 3, "wis": 12, "cha": 4 }, "skills": "Climb +11, Hide +8, Listen +4, Move Silently +4, Spot +4, Swim +11", "feats": "Alertness, Weapon Finesse(B)", "environment": "Any evil-aligned plane", "org": "Solitary or pack (11-20)", "cr": "1/3", "alignment": "Always lawful evil", "advancement": "2-3 HD (Small); 4-6 HD (Medium)", "la": "-" }
+        ],
+        "flavor": "Dire rats are omnivorous scavengers but attack to defend nests/territory. Up to 4 ft long, 50+ lb.",
+        "combat": "Dire rat packs attack fearlessly, biting and chewing with sharp incisors.",
+        "disease": "Ex: Filth Fever — bite, Fortitude DC 11, incubation 1d3 days, damage 1d3 Dex and 1d3 Con. DC Con-based.",
+        "skillsText": "+8 racial Swim, +8 racial Climb (take 10 even if threatened); Dex for Climb & Swim."
+      },
+      "cr": "1/3", "size": "Small", "type": "Animal",
+      "hp": 5, "hd": "1d8+1", "ac": 15, "touchAC": 14, "flatAC": 12,
+      "speedFt": 40, "climbFt": 20, "init": 3,
+      "bab": 0, "grapple": -4,
+      "saves": { "fort": 3, "ref": 5, "will": 3 },
+      "abilities": { "str": 10, "dex": 17, "con": 12, "int": 1, "wis": 12, "cha": 4 },
+      "attacks": [
+        { "name": "Bite", "mode": "melee", "delivery": "contact", "toHit": 4, "damage": "1d4", "crit": "x2", "faction": "filtered", "onHit": "disease" }
+      ],
+      "specials": ["Low-light vision", "Scent (always-live vector)", "Climb 20ft (+ Swim)", "DISEASE: Filth Fever (first DISEASE mechanic — persistent, see combat-model.md 'Disease')", "Pack (11-20)"],
+      "archetype": "brawler (fast pack-hunter) + disease",
+      "behavior": {
+        "movementIntent": "close (fast, scent; pack 11-20, fearless)",
+        "contact": "bite + disease",
+        "sense": "scent (always-aimed vector, LoS-free)",
+        "statusEffect": {
+          "name": "disease: Filth Fever",
+          "srd": "bite, Fort DC 11, incubation 1d3 days, 1d3 Dex + 1d3 Con",
+          "mapping": "DISEASE = poison's PERSISTENT sibling (combat-model.md 'Disease'). Same stat-feel effect (Dex+Con) but does NOT self-clear: timer loop 5-min to first resist check; PASS -> 1-min recheck; FAIL -> reset to 5-min; natural cure = TWO consecutive passes; or an instant cure effect (cleric/antidote/shrine). Rides into the metagame if you exit still infected. Stat-feel (Dex+Con) still rides the OPEN Con/Str/Dex mappings.",
+          "feelNote": "fudged from SRD's 1d3-DAY incubation to a 5-min/1-min dungeon timer."
+        }
+      },
+      "notes2D": "Basically a DOG (fast scent pack-brawler, 40ft/8 hexes, pack 11-20) + DISEASE on bite. The pack is the Gauntlet rat-swarm; the bite plants Filth Fever = first PERSISTENT status (unlike poison's 40s blink, it grinds until double-resisted or cured, and can follow you OUT to the metagame). So a rat-pack isn't scary for its 1d4 bites — it's scary because a few bites land a lingering disease you must then CURE (makes in-run cure a resource/objective). Scent, climbs, fearless. First creature whose threat is a condition that OUTLASTS the fight.",
+      "notesSim": "5hp, AC15, bite +4 (1d4) + Filth Fever on hit (Fort DC 11). Models as fast pack-brawler (cf. Dog) whose bite rolls disease-infection. Disease = persistent status (5-min/1-min check loop, 2-in-a-row cure, or cure effect); stat-feel pending Con/Dex mapping. Validates the PERSISTENT status clock (vs poison's self-clear) + cross-run carry. Pack 11-20 = many infection rolls -> likely someone gets sick."
+    },
+    {
+      "name": "Stirge",
+      "srd": {
+        "_note": "Verbatim SRD 3.5, full page. Single-size. THE reference LATCHER: touch-attach + blood drain, self-detaches when full.",
+        "source": "d20srd.org/srd/monsters/stirge.htm",
+        "variant": "Stirge",
+        "sizeType": "Tiny Magical Beast",
+        "hd": "1d10 (5 hp)", "init": 4, "speed": "10 ft (2 sq), fly 40 ft (average)",
+        "ac": "16 (+2 size, +4 Dex), touch 16, flat-footed 12",
+        "baseAtk": 1, "grapple": "-11 (+1 when attached; +12 racial on grapple checks)",
+        "attack": "Touch +7 melee (attach)", "fullAttack": "Touch +7 melee (attach)",
+        "space": "2-1/2 ft / 0 ft", "specialAttacks": "Attach, blood drain",
+        "specialQualities": "Darkvision 60 ft, low-light vision",
+        "saves": { "fort": 2, "ref": 6, "will": 1 },
+        "abilities": { "str": 3, "dex": 19, "con": 10, "int": 1, "wis": 12, "cha": 6 },
+        "skills": "Hide +14, Listen +4, Spot +4",
+        "feats": "Alertness, Weapon Finesse(B)",
+        "environment": "Warm marshes",
+        "organization": "Colony (2-4), flock (5-8), or storm (9-14)",
+        "cr": "1/2", "treasure": "None", "alignment": "Always neutral", "advancement": "-", "la": "-",
+        "flavor": "Rust-red to reddish-brown, dirty yellow underside; pink-to-gray proboscis. ~1 ft body, ~2 ft wingspan, ~1 lb.",
+        "combat": "Lands on a victim, finds a vulnerable spot, plunges its proboscis. This is a TOUCH ATTACK; can target only Small or larger creatures.",
+        "attach": "Ex: a touch hit -> latch on with eight pincers (effectively grappling). Loses Dex to AC (AC 12) but holds tenaciously; +12 racial on grapple checks. Can be struck or grappled; to remove by grappling, achieve a pin.",
+        "bloodDrain": "Ex: drains 1d4 Con in any round it BEGINS attached. After dealing 4 total Con, detaches and flies off to digest. If the victim dies first, detaches and seeks a new target."
+      },
+      "cr": "1/2", "size": "Tiny", "type": "Magical Beast",
+      "hp": 5, "hd": "1d10", "ac": 16, "touchAC": 16, "flatAC": 12, "attachedAC": 12,
+      "speedFt": 10, "flyFt": 40, "init": 4,
+      "bab": 1, "grapple": -11,
+      "saves": { "fort": 2, "ref": 6, "will": 1 },
+      "abilities": { "str": 3, "dex": 19, "con": 10, "int": 1, "wis": 12, "cha": 6 },
+      "attacks": [
+        { "name": "Proboscis", "mode": "melee", "delivery": "contact", "toHit": 7, "damage": "0 (attach)", "crit": "x2", "faction": "filtered", "onHit": "attach", "note": "TOUCH attack — ignores armor, just needs to reach" }
+      ],
+      "specials": ["Darkvision 60ft", "FLIGHT (fly 40ft) — closes fast, ignores ground piles (see Eagle flier Q)", "Attach (touch) + Blood Drain (1d4 Con/round) — THE reference LATCHER; see combat-model.md 'Latcher'", "Self-detaches after draining 4 Con (satiated)"],
+      "archetype": "latcher (flying blood-drainer)",
+      "behavior": {
+        "priorityList": [
+          "FLIER: dart at a hero, TOUCH-attach (the attach IS the attack — no damage bite, just latch)",
+          "while attached: BLOOD DRAIN 1d4 Con/round -> inherits the latcher hands-capacity ladder (combat-model.md)",
+          "self-detaches when it has drained 4 Con total (flies off satiated) OR if the host dies (seeks new target)"
+        ],
+        "movementIntent": "close (fast flying latch)",
+        "contact": "attach (touch) -> ride + Con drain",
+        "latcher": {
+          "placement": "flocks — colony 2-4 / flock 5-8 / STORM 9-14 (a storm of stirges = the nightmare); could be hand-placed OR spawned",
+          "attackType": "TOUCH attach (ignores armor; needs Small+ target)",
+          "drain": "1d4 Con per round while attached (Con blood-drain)",
+          "selfDetach": "leaves after 4 total Con drained (unique vs weasel which rides till cleaned) — a stirge takes its fill and bugs off",
+          "removal": "SHARED-HITBOX: ally shot resolves on the co-located stirge (no host harm) / grapple-pin / caster V-only / environment. Same latcher ecosystem.",
+          "ladderNote": "inherits the hands-capacity ladder (distract/slow/DoT...) but its signature payload is the Con blood-drain DoT"
+        },
+        "statusEffect": { "name": "blood drain (Con)", "note": "Con-drain while attached; ties into the OPEN Con mapping. Blood loss = Con is the most thematically obvious of all the ability-damage types." }
+      },
+      "notes2D": "THE reference LATCHER (cleaner than the weasel — the attach IS the attack via a TOUCH hit, no damage bite). Flies in, latches, drains 1d4 Con/round, then LEAVES once full (4 Con) — a hit-and-run blood-drainer, not a ride-till-cleaned clinger. Storm of 9-14 = a swarm that each grabs a hero and sucks. Touch attack = armor doesn't save you, only not-being-reached does (so a flier that you must shoot down before it lands). Validates the Latcher archetype as a FLYING self-detaching variant + Con blood-drain. Removal = the shared-hitbox ally-shot (teammate shoots the stirge on you). Classic D&D nuisance; our latcher ecosystem handles it.",
+      "notesSim": "5hp, AC16 (touch 16 — evasive flier), touch-attach +7, then 1d4 Con/round until 4 Con drained -> self-detach. Models: fast flying approach, touch-attach (ignores AC/armor, high +7 to land), attached Con-DoT, auto-detach at 4 Con. Validates flying latcher + self-detach condition + Con drain. Flight abstracted (see Eagle). Con-feel mapping OPEN (blood-drain = the clearest Con case)."
     }
   ]
 }
