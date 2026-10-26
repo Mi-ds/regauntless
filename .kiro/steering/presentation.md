@@ -36,7 +36,40 @@ Levels are **lit from beneath the floor.** This is the distinctive look-and-feel
   modern atmosphere from beneath. (VERIFY-BY-EYE: this is a look that only the human-in-editor
   can judge — URP 2D lights / under-floor stage / faked reflection. Fox builds, Mids judges.)
 
-## Graphics are an information channel, not decoration
+## Avatars: shape-first — crosshatched primitives + a pixel-art HAT
+
+The no-illustrator reality is a HARD constraint (Mids is not a painter; scheduled art killed
+three prior projects — see art-survival.md). So the avatar direction turns that constraint into
+an AESTHETIC, and scopes the only hand-made art down to a slice Mids can actually make and enjoy.
+
+- **Chassis = a crosshatched PRIMITIVE, lit from below.** Hero = a **pyramid** — chosen because a
+  pyramid has an inherent FRONT: the apex/edge **points**, so the geometry itself shows FACING for
+  free (matters for dual-stick move-vs-aim + camera snap-rotation; a sphere/capsule can't). Enemies
+  = other primitives (cube / sphere / and the **V-wedge** collision footprint from combat-model.md
+  — the mechanic shape IS the visible shape). Angled faces catch the under-light dramatically → the
+  lit-from-below pillar does the shading for free.
+- **Surface = a crosshatch SHADER/material**, not hand-painted detail (the Nebulous trick: tiny
+  bitmap + parametric shader work = rich read, zero illustration). Gives an "inked tabletop game
+  piece" look — on-theme for the tabletop-fantasy / game-show framing.
+- **Identity = a PIXEL-ART HAT / prop** — the ONE bespoke, Mids-authored art slice. The chassis is
+  identical for everyone; the **hat on top is the entire character read**, parseable by silhouette
+  across a crowded horde. Mids can pixel "a decent hat or 15" — which comfortably covers 6 heroes +
+  alts/unlocks. The hat system flexes **ascetic → ostentatious**:
+  - Wizard = tall pointy hat · Valkyrie = winged helm · Warrior = big bucket helm · Elf = hood ·
+    **Monk = do-rag or bald dome** (the *absence* of a topper IS the read — minimalism as character)
+    · Cleric = mitre/halo · …
+- **Hats = the cosmetic-unlock / live-service currency** (vision.md): cheap to make, infinite to
+  collect, pure flavor, zero balance impact — "new hat dropped" is a complete reward, and it's
+  content Mids can personally produce forever. (The giant Santa-hat murder-cat boss = just
+  big-cat-primitive + a Santa hat. The whimsy is one pixel-hat away, always.)
+- **Art-survival-safe:** chassis is parametric (geometry + shader, revertible, Mids' superpower);
+  the only hand-made art is bounded pixel hats. NEVER a bespoke-illustration dependency on a
+  schedule. Shader-fiddle (glaze/shine/tessellation) to make a tile/avatar read "cold," "inked,"
+  etc. is ENCOURAGED (it's parametric play, not paint-grind) — the distinction that matters is
+  *shader-tune = good/fast/you; hand-paint-a-texture = the trap*.
+
+Framing: **"inked tabletop game pieces (crosshatched primitives) in funny hats, on a glowing
+board."** Legible, whimsical (whimsy = signal), on-theme, and fully Mids-executable.
 
 We have the resolution to put real, legible meaning into the visuals. Use it. But —
 
