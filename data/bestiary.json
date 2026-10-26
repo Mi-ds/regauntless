@@ -605,6 +605,65 @@
       },
       "notes2D": "VENOMOUS GRAPPLER. New vs centipede: (1) GRAB+CONSTRICT — a claw hit latches you into a grapple and crushes each round (held in place — positional lock, cousin of the latcher but mob-anchored not ride-along, and of bull-rush/grapple family); (2) TREMORSENSE — first ground-sense mob: it 'sees' any grounded hero with no LoS, but a FLYING hero is invisible to it (clean hard-counter — jump/levitate escapes a scorpion). Con-poison (vs centipede Dex-poison). Mindless vermin, charges. Colony/swarm (Tiny 8-16) like the centipede. Two OPEN feel-knobs: held-by-grapple mapping, and Con-poison mapping.",
       "notesSim": "In-scope 4/6 hp, AC14, 2 claws + poison sting. Models: tremorsense = always-aimed vs grounded hero (no LoS gate), BLIND to fliers; claw-hit -> grab (hero HELD, auto-crush/round until escape); sting -> Con-poison (DC 12). Validates grapple/held state + tremorsense sense-gate + a 2nd poison type. Two mappings (held, Con-poison) parked for Mids before full sim wiring."
+    },
+    {
+      "name": "Monstrous Spider",
+      "cr": "varies by size (in-scope: Tiny 1/4, Small 1/2)",
+      "srd": {
+        "_note": "Verbatim SRD 3.5, FULL page: all sizes + poison-by-size + web/escape tables + web/tremorsense text. Interpret Tiny/Small (CR<1). Introduces WEB. Two TYPES: hunter (roams, +10ft, no web weapon) vs web-spinner (traps, has web).",
+        "source": "d20srd.org/srd/monsters/monstrousSpider.htm",
+        "flavor": "All monstrous spiders are aggressive predators using poisonous bites to subdue prey. Two types: HUNTERS (rove; can spin webs only as lairs, cannot weaponize) and WEB-SPINNERS (trap). A hunting spider has base land speed 10 ft faster than the stat block.",
+        "sizeTable": [
+          { "variant": "Tiny",       "sizeType": "Tiny Vermin",       "hd": "1/2 d8 (2 hp)",   "init": 3, "speed": "20 ft (4 sq), climb 10 ft", "ac": "15 (+2 size, +3 Dex), touch 15, flat 12",         "baseAtk": 0,  "grapple": -12, "attack": "Bite +5 melee (1d3-4 plus poison)",  "space": "2-1/2 ft / 0 ft", "sq": "Darkvision 60 ft, tremorsense 60 ft, vermin traits", "saves": { "fort": 2, "ref": 3, "will": 0 }, "abilities": { "str": 3,  "dex": 17, "con": 10, "int": null, "wis": 10, "cha": 2 }, "org": "Colony (8-16)",            "cr": "1/4" },
+          { "variant": "Small",      "sizeType": "Small Vermin",      "hd": "1d8 (4 hp)",      "init": 3, "speed": "30 ft (6 sq), climb 20 ft", "ac": "14 (+1 size, +3 Dex), touch 14, flat 11",         "baseAtk": 0,  "grapple": -6,  "attack": "Bite +4 melee (1d4-2 plus poison)",  "space": "5 ft / 5 ft",     "sq": "Darkvision 60 ft, tremorsense 60 ft, vermin traits", "saves": { "fort": 2, "ref": 3, "will": 0 }, "abilities": { "str": 7,  "dex": 17, "con": 10, "int": null, "wis": 10, "cha": 2 }, "org": "Colony (2-5) or swarm (6-11)", "cr": "1/2" },
+          { "variant": "Medium",     "sizeType": "Medium Vermin",     "hd": "2d8+2 (11 hp)",   "init": 3, "speed": "30 ft (6 sq), climb 20 ft", "ac": "14 (+3 Dex, +1 natural), touch 13, flat 11",      "baseAtk": 1,  "grapple": 1,   "attack": "Bite +4 melee (1d6 plus poison)",    "space": "5 ft / 5 ft",     "sq": "Darkvision 60 ft, tremorsense 60 ft, vermin traits", "saves": { "fort": 4, "ref": 3, "will": 0 }, "abilities": { "str": 11, "dex": 17, "con": 12, "int": null, "wis": 10, "cha": 2 }, "org": "Solitary or colony (2-5)", "cr": "1" },
+          { "variant": "Large",      "sizeType": "Large Vermin",      "hd": "4d8+4 (22 hp)",   "init": 3, "speed": "30 ft (6 sq), climb 20 ft", "ac": "14 (-1 size, +3 Dex, +2 natural), touch 12, flat 11", "baseAtk": 3, "grapple": 9,  "attack": "Bite +4 melee (1d8+3 plus poison)",  "space": "10 ft / 5 ft",    "sq": "Darkvision 60 ft, tremorsense 60 ft, vermin traits", "saves": { "fort": 5, "ref": 4, "will": 1 }, "abilities": { "str": 15, "dex": 17, "con": 12, "int": null, "wis": 10, "cha": 2 }, "org": "Solitary or colony (2-5)", "cr": "2" },
+          { "variant": "Huge",       "sizeType": "Huge Vermin",       "hd": "8d8+16 (52 hp)",  "init": 3, "speed": "30 ft (6 sq), climb 20 ft", "ac": "16 (-2 size, +3 Dex, +5 natural), touch 11, flat 13", "baseAtk": 6, "grapple": 18, "attack": "Bite +9 melee (2d6+6 plus poison)",  "space": "15 ft / 10 ft",   "sq": "Darkvision 60 ft, tremorsense 60 ft, vermin traits", "saves": { "fort": 8, "ref": 5, "will": 2 }, "abilities": { "str": 19, "dex": 17, "con": 14, "int": null, "wis": 10, "cha": 2 }, "org": "Solitary or colony (2-5)", "cr": "5" },
+          { "variant": "Gargantuan", "sizeType": "Gargantuan Vermin", "hd": "16d8+32 (104 hp)","init": 3, "speed": "30 ft (6 sq), climb 20 ft", "ac": "19 (-4 size, +3 Dex, +10 natural), touch 9, flat 16", "baseAtk": 12, "grapple": 31, "attack": "Bite +15 melee (2d8+10 plus poison)", "space": "20 ft / 15 ft", "sq": "Darkvision 60 ft, tremorsense 60 ft, vermin traits", "saves": { "fort": 12, "ref": 8, "will": 5 }, "abilities": { "str": 25, "dex": 17, "con": 14, "int": null, "wis": 10, "cha": 2 }, "org": "Solitary", "cr": "8" },
+          { "variant": "Colossal",   "sizeType": "Colossal Vermin",   "hd": "32d8+64 (208 hp)","init": 2, "speed": "30 ft (6 sq), climb 20 ft", "ac": "22 (-8 size, +2 Dex, +18 natural), touch 4, flat 20", "baseAtk": 24, "grapple": 50, "attack": "Bite +26 melee (4d6+15 plus poison)", "space": "40 ft / 30 ft", "sq": "Darkvision 60 ft, tremorsense 60 ft, vermin traits", "saves": { "fort": 20, "ref": 12, "will": 10 }, "abilities": { "str": 31, "dex": 15, "con": 14, "int": null, "wis": 10, "cha": 2 }, "org": "Solitary", "cr": "11" }
+        ],
+        "poison": {
+          "type": "Ex", "text": "Poisonous bite; initial AND secondary damage; DCs Con-based. (NOTE: spider poison damages STR.)",
+          "bySize": [
+            { "size": "Tiny", "fortDC": 10, "damage": "1d2 Str" }, { "size": "Small", "fortDC": 10, "damage": "1d3 Str" },
+            { "size": "Medium", "fortDC": 12, "damage": "1d4 Str" }, { "size": "Large", "fortDC": 13, "damage": "1d6 Str" },
+            { "size": "Huge", "fortDC": 16, "damage": "1d8 Str" }, { "size": "Gargantuan", "fortDC": 20, "damage": "2d6 Str" },
+            { "size": "Colossal", "fortDC": 28, "damage": "2d8 Str" }
+          ]
+        },
+        "web": {
+          "type": "Ex",
+          "text": "Wait in webs/trees, lower on silk, leap onto prey. Web-spinners throw a web 8/day (like a net; max range 50 ft, increment 10 ft; vs targets up to one size larger). Entangled creature escapes w/ Escape Artist or bursts w/ Strength (both standard actions; DCs below, Con-based, Str DC +4 racial). Web-spinners make sticky sheets 5-60 ft square (position to snare fliers or ground prey). Approaching creatures DC 20 Spot to notice a web or stumble in. +5 to escape/burst if something to grab. Each 5-ft section has HP below + DR 5/-. Spider moves across its own web at climb speed and pinpoints anything touching its web.",
+          "escapeTable": [
+            { "size": "Tiny", "escapeArtistDC": 10, "breakDC": 14, "hp": 2 }, { "size": "Small", "escapeArtistDC": 10, "breakDC": 14, "hp": 4 },
+            { "size": "Medium", "escapeArtistDC": 12, "breakDC": 16, "hp": 6 }, { "size": "Large", "escapeArtistDC": 13, "breakDC": 17, "hp": 12 },
+            { "size": "Huge", "escapeArtistDC": 16, "breakDC": 20, "hp": 14 }, { "size": "Gargantuan", "escapeArtistDC": 20, "breakDC": 24, "hp": 16 },
+            { "size": "Colossal", "escapeArtistDC": 28, "breakDC": 32, "hp": 18 }
+          ]
+        },
+        "tremorsense": "Ex: detect/pinpoint any creature within 60 ft in contact with the ground, OR within any range in contact with the spider's webs.",
+        "skillsText": "+4 racial Hide & Spot, +8 racial Climb; take 10 on Climb even if threatened; Str-or-Dex for Climb. Hunters: +10 Jump, +8 Spot. Web-spinners: +8 Hide & Move Silently when using webs."
+      },
+      "_interpretedScope": "Tiny (1/4), Small (1/2). Larger sizes archived, not interpreted. SRD net-entangle + hidden-sheet DROPPED in favor of our clean two-stage sticky-floor web (see combat-model.md 'Web').",
+      "archetype": "venomous zone-controller (web-spinner) / fast venomous brawler (hunter)",
+      "sizes": {
+        "Tiny":  { "cr": "1/4", "hp": 2, "ac": 15, "touchAC": 15, "flatAC": 12, "speedFt": 20, "climbFt": 10, "init": 3, "bab": 0, "grapple": -12, "attacks": [ { "name": "Bite", "mode": "melee", "delivery": "contact", "toHit": 5, "damage": "1d3-4", "crit": "x2", "faction": "filtered", "onHit": "poison" } ], "poison": { "fortDC": 10, "damage": "1d2 Str" } },
+        "Small": { "cr": "1/2", "hp": 4, "ac": 14, "touchAC": 14, "flatAC": 11, "speedFt": 30, "climbFt": 20, "init": 3, "bab": 0, "grapple": -6,  "attacks": [ { "name": "Bite", "mode": "melee", "delivery": "contact", "toHit": 4, "damage": "1d4-2", "crit": "x2", "faction": "filtered", "onHit": "poison" } ], "poison": { "fortDC": 10, "damage": "1d3 Str" } }
+      },
+      "specials": ["Darkvision 60ft", "TREMORSENSE 60ft ground + ANY range on its own webs (web = sensory network; see combat-model.md sensing)", "Climb (Str or Dex)", "WEB (Ex, web-spinners only) -> OUR two-stage Web-lob: see combat-model.md 'Web'", "Poison bite (STR-damage; 3rd poison type)", "Vermin traits (mindless, Int Ø)"],
+      "types": {
+        "hunter": "roams, +10ft land speed, NO web weapon -> fast venomous brawler (approach + poison bite). Behavior flag.",
+        "web-spinner": "holds/traps, HAS Web-lob -> zone-controller / corner-breaker. Behavior flag."
+      },
+      "behavior": {
+        "movementIntent": "web-spinner: hold/zone; hunter: close fast",
+        "contact": "bite+poison",
+        "sense": "TREMORSENSE (grounded targets, LoS-free; BLIND to fliers) + pinpoints anything on its own web (web = alarm net). Fliers evade tremorsense BUT a flier touching a web is still sensed.",
+        "web": "WEB-SPINNER ONLY. Web-lob (combat-model.md 'Web'): STAGE 1 splat = 2 sticky hexes (target + behind), -80% move while standing on them, persists, decays ~40s after THIS spider dies (caster-linked). STAGE 2 overflow = web lands on an already-webbed hero -> ATTACK-slow debuff ON them. Faction: slows heroes + other mobs; this spider immune to its own web. ROLE: corner-breaker (pins footing + pushes your line + defangs) — the answer to hold-the-sightline tactics.",
+        "statusEffect": { "name": "poison (Str)", "note": "3rd poison variant (Str-damage). Reuse status framework; Str-feel mapping OPEN (centipede=Dex->move-slow; scorpion=Con->?; spider=Str->maybe damage-dealt reduction / weaken hits — Mids' call)." }
+      },
+      "notes2D": "WEB is the headliner — first battlefield-modifying enemy. 'Slows your FEET, then slows your GUN' two-stage (splat terrain -80% move; re-web an already-webbed hero -> attack-slow ON them). The WEB-SPINNER is a CORNER-BREAKER / zone-controller: it answers the party's hold-a-sightline-and-drain tactic by gumming footing + pushing the line back, re-webbing as it advances, keeping heroes exposed to the horde. Caster-linked decay (~40s after THE spider dies) = kill it and its webs rot -> clearing the room clears the gunk. HUNTER variant = no web, just a fast venomous brawler (behavior flag). Tremorsense (ground, LoS-free, blind to fliers) + web-as-sensory-net (anything on a web is pinpointed, even fliers). 3rd poison type (Str). Climbs. Mindless. Contextual threat (web matters only amid a horde/hold). OPEN: Str-poison mapping.",
+      "notesSim": "In-scope 2/4 hp, AC14-15, bite + Str-poison. Web-spinner models the Web-lob two-stage (terrain -80% move; overflow attack-slow) — a POSITIONING sim concern more than a damage one (pins/defangs, feeds the wave/corner/push loop; hard to capture in a pure stand-still duel sim, flag as spatial). Hunter models as fast venomous brawler. Tremorsense = grounded-target aim (no LoS), flier-blind. Validates: delivery that paints terrain, two-stage terrain->on-hero escalation, caster-linked status decay, zone-control role. OPEN: Str-poison feel."
     }
   ]
 }

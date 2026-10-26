@@ -149,6 +149,42 @@ full-hands hero isn't strictly helpless; there are escape valves:
 demand, real SRD spells FILL it later. What's banked now is the archetype + the hands-capacity
 primitive + the removal-demand hooks. OPEN knobs: scrape-hurts-hero?, default hands value.)
 
+## Web (two-stage: slow your FEET, then slow your GUN) — the corner-breaker
+
+From the SRD monstrous spider's **Web**. Our version drops the SRD net-entangle/hidden-sheet and
+uses a clean **two-stage** model (same {base, overflow} grammar as poison/latcher): *first
+application paints the floor; re-application onto an already-webbed hero escalates onto the
+person.*
+
+- **Delivery = Web-lob:** an **air projectile** (arcs overhead — like a lob but its own type),
+  lands at the target's hex.
+- **Stage 1 — SPLAT (terrain):** paints **2 sticky hexes** — the target's hex + the hex BEHIND
+  it (along the web's path, so it gums your RETREAT). While standing on a sticky hex: **−80%
+  movement** (you crawl at ~20%). It's **floor, not a root** — step off and you're free (no
+  escape check). **Persists**, and **decays ~40s after the spider that threw it DIES**
+  (caster-linked — kill the spider and its webs rot on a timer, so clearing the room clears the
+  gunk; ~40s is the same feel-knob as poison, stored as rounds/ticks).
+- **Stage 2 — OVERFLOW (on the hero):** if a web lands on a hero **already standing on web**, it
+  mostly lands on THEM → becomes a **sticky status ON the hero: ATTACK-slowed** (fire/attack rate
+  cut), travelling with them; clears on timer / spider death.
+- **Two different axes (the elegance):** Stage 1 wrecks **movement** (can't reposition/escape),
+  Stage 2 wrecks **offense** (can't shoot). A doubly-webbed hero is **pinned AND defanged.**
+  Player read: *"web slows your feet — but RUN, because the next one slows your gun."*
+- **Faction:** slows heroes AND other mobs; the **throwing spider is immune to its own web**
+  (treads it at climb speed) → you can bait OTHER mobs into it, but the spider owns the terrain.
+- **ROLE — corner-breaker / zone-control:** Web is NOT a damage tool; it's **positioning denial**
+  that feeds the wave/corner/push loop. The spider is the ANSWER to the hold-a-sightline-and-
+  drain-the-wave tactic: it gums your footing so you can't hold cleanly and (as a tanky bruiser)
+  **pushes your line back** off the corner, re-webbing as it advances → forces constant
+  repositioning → keeps re-exposing heroes to the horde. Classic scene: the party runs, the
+  rear-guard is stuck on web taking hits while the rest pull back, everyone shuffles around the
+  corner slowed, re-establishes the hold... until the spider pushes them off it again.
+- **Contextual** (like poison/latcher): web alone is nothing; web *while holding a line against a
+  horde* is what wrecks you.
+- **Hunter vs web-spinner (behavior flag):** SRD splits spiders into **hunters** (roam, +10 ft
+  speed, NO web weapon — pure fast venomous brawler) and **web-spinners** (hold/trap, HAVE
+  web-lob). One stat chassis, a flag picks which.
+
 ## Ranged-delivery taxonomy (one primitive, several delivery physics)
 
 An attack/spell picks a DELIVERY TYPE. Both mob attacks and hero/spell attacks reuse these:
@@ -159,6 +195,7 @@ An attack/spell picks a DELIVERY TYPE. Both mob attacks and hero/spell attacks r
 | **Lob / burst** | fireball | area (circle/zone) @ a landing hex | slow (~⅓ shot), **ARCS** | targets a hex, **no LoS needed** | nothing (arcs over cover) — **dodge the zone** | **faction-BLIND** |
 | **Cone** | cone of cold | cone from caster | ~instant | direction from self | shape fills area | (TBD) |
 | **LoS bolt** | magic missile, acid arrow | single target | fast, flies **overhead** | **needs LoS** | walls (LoS), not bodies | (TBD) |
+| **Web-lob** | monstrous spider web | lands @ target hex → **2 sticky hexes** (target + hex-behind) | slow, air projectile (arcs, not a true lob) | targets a hex | — | slows heroes AND mobs; **throwing spider immune to own web** |
 
 v1 focus: **flat shot + lob** (Gauntlet-grounded). Cone + LoS-bolt arrive with the caster/spell layer.
 
