@@ -287,7 +287,7 @@
         }
       },
       "notes2D": "First VENOMOUS mob + first STATUS-EFFECT delivery. Mindless vermin (Int Ø) = dead-simple AI: straight-line approach, bite, done — no kiting, no LoS logic. Damage is trivial (Str penalty -> ~1/bite); the THREAT is the poison, not the hit. Climb speed = reaches over/around cover (walls less useful vs it). Colony/swarm organization (Tiny 8-16) = spawner CHAFF that's dangerous by poison + chain MICRO-STUN (base slow then overflow stun), not per-hit damage. SIZE LADDER (Tiny->Small->Medium->...) is the SRD's own scaling curve — a clean source for 'level scales the monster' using one archetype.",
-      "notesSim": "In-scope: 1/2/4 hp, AC14, single bite/round (low/no damage) + poison-on-hit. Models: mindless straight approach (no LoS gate); on contact roll bite, on hit apply poison (Fort DC 10 vs hero). Poison EFFECT depends on Mids' mapping decision (slow debuff vs pool-DoT) — sim can't model it until that's set. Swarm = many cheap units; validates contact-phase + status stacking. Poison save math: hero Fort vs fixed DC 10."
+      "notesSim": "In-scope: 1/2/4 hp, AC14, single bite/round (low/no damage) + poison-on-hit. Models: mindless straight approach (no LoS gate); on contact roll bite, on hit apply poison (Fort DC 10 vs hero). Poison EFFECT RESOLVED: Dex-damage -> move-slow (combat-model.md); real Dex tracked, 0=incap. Swarm = many cheap units; validates contact-phase + status stacking. Poison save math: hero Fort vs fixed DC 10."
     },
     {
       "name": "Dog",
@@ -600,11 +600,11 @@
         "movementIntent": "close (mindless, charges; tremorsense aims it)",
         "contact": "grab+crush+poison",
         "sense": "TREMORSENSE — aims at any GROUNDED target in range (no LoS needed); a FLYING/levitating hero is INVISIBLE to it (hard counter). First tremorsense creature (we predicted this sense-type).",
-        "grabConstrict": "on a claw hit -> grab the hero (grapple); while grabbed, auto-crush damage each round + hero is HELD (a positional/grapple status — SRD escape = break the grapple). Maps to our grapple/displacement family (shared with bull-rush etc.). HELD-feel mapping is an OPEN knob (like poison was).",
-        "statusEffect": { "name": "poison (Con)", "note": "second poison variant — SRD damages CON not DEX. Reuse the status framework; Con-feel mapping OPEN (centipede poison = move-slow for Dex; a Con analog might be max-pool/stamina chip or a different debuff — Mids' call)." }
+        "grabConstrict": "on a claw hit -> grab the hero (grapple); while grabbed, auto-crush damage each round + hero is HELD. RESOLVED: uses the grab/grapple-check family (combat-model.md) — a held hero's move attempt triggers a contested grapple check under RollPolicy (win=free); freed primarily by an ally shooting the grabber (shared-hitbox) since it's low-HP + stationary once it commits.",
+        "statusEffect": { "name": "poison (Con)", "note": "Con-damage poison. RESOLVED (see combat-model.md 'Ability-score damage'): Con damage lowers the PARTY-POOL MAX, attributed to the stung hero (greyed band at the top of the shared HP bar; caps healing, overflow drains only if full). Real Con number tracked; 0 = INCAP. Recovers +1/level or via a cure." }
       },
       "notes2D": "VENOMOUS GRAPPLER. New vs centipede: (1) GRAB+CONSTRICT — a claw hit latches you into a grapple and crushes each round (held in place — positional lock, cousin of the latcher but mob-anchored not ride-along, and of bull-rush/grapple family); (2) TREMORSENSE — first ground-sense mob: it 'sees' any grounded hero with no LoS, but a FLYING hero is invisible to it (clean hard-counter — jump/levitate escapes a scorpion). Con-poison (vs centipede Dex-poison). Mindless vermin, charges. Colony/swarm (Tiny 8-16) like the centipede. Two OPEN feel-knobs: held-by-grapple mapping, and Con-poison mapping.",
-      "notesSim": "In-scope 4/6 hp, AC14, 2 claws + poison sting. Models: tremorsense = always-aimed vs grounded hero (no LoS gate), BLIND to fliers; claw-hit -> grab (hero HELD, auto-crush/round until escape); sting -> Con-poison (DC 12). Validates grapple/held state + tremorsense sense-gate + a 2nd poison type. Two mappings (held, Con-poison) parked for Mids before full sim wiring."
+      "notesSim": "In-scope 4/6 hp, AC14, 2 claws + poison sting. Models: tremorsense = always-aimed vs grounded hero (no LoS gate), BLIND to fliers; claw-hit -> grab (hero HELD, auto-crush/round until escape); sting -> Con-poison (DC 12). Validates grapple/held state + tremorsense sense-gate + a 2nd poison type. Both RESOLVED: held = grapple-check family; Con-poison = party-pool-max band (combat-model.md)."
     },
     {
       "name": "Monstrous Spider",
@@ -663,7 +663,7 @@
         "statusEffect": { "name": "poison (Str)", "note": "3rd poison variant (Str-damage). Reuse status framework; Str-feel mapping OPEN (centipede=Dex->move-slow; scorpion=Con->?; spider=Str->maybe damage-dealt reduction / weaken hits — Mids' call)." }
       },
       "notes2D": "WEB is the headliner — first battlefield-modifying enemy. 'Slows your FEET, then slows your GUN' two-stage (splat terrain -80% move; re-web an already-webbed hero -> attack-slow ON them). The WEB-SPINNER is a CORNER-BREAKER / zone-controller: it answers the party's hold-a-sightline-and-drain tactic by gumming footing + pushing the line back, re-webbing as it advances, keeping heroes exposed to the horde. Caster-linked decay (~40s after THE spider dies) = kill it and its webs rot -> clearing the room clears the gunk. HUNTER variant = no web, just a fast venomous brawler (behavior flag). Tremorsense (ground, LoS-free, blind to fliers) + web-as-sensory-net (anything on a web is pinpointed, even fliers). 3rd poison type (Str). Climbs. Mindless. Contextual threat (web matters only amid a horde/hold). OPEN: Str-poison mapping.",
-      "notesSim": "In-scope 2/4 hp, AC14-15, bite + Str-poison. Web-spinner models the Web-lob two-stage (terrain -80% move; overflow attack-slow) — a POSITIONING sim concern more than a damage one (pins/defangs, feeds the wave/corner/push loop; hard to capture in a pure stand-still duel sim, flag as spatial). Hunter models as fast venomous brawler. Tremorsense = grounded-target aim (no LoS), flier-blind. Validates: delivery that paints terrain, two-stage terrain->on-hero escalation, caster-linked status decay, zone-control role. OPEN: Str-poison feel."
+      "notesSim": "In-scope 2/4 hp, AC14-15, bite + Str-poison. Web-spinner models the Web-lob two-stage (terrain -80% move; overflow attack-slow) — a POSITIONING sim concern more than a damage one (pins/defangs, feeds the wave/corner/push loop; hard to capture in a pure stand-still duel sim, flag as spatial). Hunter models as fast venomous brawler. Tremorsense = grounded-target aim (no LoS), flier-blind. Validates: delivery that paints terrain, two-stage terrain->on-hero escalation, caster-linked status decay, zone-control role. Str-poison RESOLVED: -shot-damage band."
     },
     {
       "name": "Viper Snake",
@@ -703,7 +703,7 @@
         "statusEffect": { "name": "poison (Con, 1d6)", "note": "Con-poison like scorpion but a BIG die (1d6 init+secondary). Reuse status framework; Con-feel mapping still OPEN. Viper's threat is the poison, not the ~1 bite." }
       },
       "notes2D": "VENOMOUS SKIRMISHER — the glass-cannon viper. Almost no HP (1-4) and trivial bite damage, but HIGH initiative (strikes first) + the strongest poison die at this tier (1d6 Con). Scent (always-live vector). SRD flavor = bite-and-retreat (not aggressive) -> could model as a darter that stabs then kites, but in our brainless model it's simpler: a fast-striking venomous biter whose danger is the Con-poison it leaves behind. Climbs. Solitary. Contrast: centipede=Dex-poison swarm chaff; viper=Con-poison lone striker. OPEN: Con-poison mapping (shared with scorpion).",
-      "notesSim": "In-scope 1/4 hp, AC17 (evasive), bite +5/+4 (~1 dmg) + 1d6 Con poison DC 10. Models: scent approach, high init (acts first), bite applies the strongest low-tier poison. Validates Con-poison + a glass-cannon (dies instantly, but gets its venom in first). OPEN: Con-poison feel."
+      "notesSim": "In-scope 1/4 hp, AC17 (evasive), bite +5/+4 (~1 dmg) + 1d6 Con poison DC 10. Models: scent approach, high init (acts first), bite applies the strongest low-tier poison. Validates Con-poison (party-pool-max band) + a glass-cannon (dies instantly, gets its venom in first)."
     },
     {
       "name": "Constrictor Snake",
@@ -756,12 +756,12 @@
         "statusEffect": {
           "name": "disease: Filth Fever",
           "srd": "bite, Fort DC 11, incubation 1d3 days, 1d3 Dex + 1d3 Con",
-          "mapping": "DISEASE = poison's PERSISTENT sibling (combat-model.md 'Disease'). Same stat-feel effect (Dex+Con) but does NOT self-clear: timer loop 5-min to first resist check; PASS -> 1-min recheck; FAIL -> reset to 5-min; natural cure = TWO consecutive passes; or an instant cure effect (cleric/antidote/shrine). Rides into the metagame if you exit still infected. Stat-feel (Dex+Con) still rides the OPEN Con/Str/Dex mappings.",
+          "mapping": "DISEASE = poison's PERSISTENT sibling (combat-model.md 'Disease'). Same stat-feel effect (Dex+Con) but does NOT self-clear: timer loop 5-min to first resist check; PASS -> 1-min recheck; FAIL -> reset to 5-min; natural cure = TWO consecutive passes; or an instant cure effect (cleric/antidote/shrine). Rides into the metagame if you exit still infected. Stat-feel RESOLVED: Dex -> movement slow, Con -> party-pool-max band (combat-model.md 'Ability-score damage'); 0 in either = INCAP. Filth Fever chews BOTH axes.",
           "feelNote": "fudged from SRD's 1d3-DAY incubation to a 5-min/1-min dungeon timer."
         }
       },
       "notes2D": "Basically a DOG (fast scent pack-brawler, 40ft/8 hexes, pack 11-20) + DISEASE on bite. The pack is the Gauntlet rat-swarm; the bite plants Filth Fever = first PERSISTENT status (unlike poison's 40s blink, it grinds until double-resisted or cured, and can follow you OUT to the metagame). So a rat-pack isn't scary for its 1d4 bites — it's scary because a few bites land a lingering disease you must then CURE (makes in-run cure a resource/objective). Scent, climbs, fearless. First creature whose threat is a condition that OUTLASTS the fight.",
-      "notesSim": "5hp, AC15, bite +4 (1d4) + Filth Fever on hit (Fort DC 11). Models as fast pack-brawler (cf. Dog) whose bite rolls disease-infection. Disease = persistent status (5-min/1-min check loop, 2-in-a-row cure, or cure effect); stat-feel pending Con/Dex mapping. Validates the PERSISTENT status clock (vs poison's self-clear) + cross-run carry. Pack 11-20 = many infection rolls -> likely someone gets sick."
+      "notesSim": "5hp, AC15, bite +4 (1d4) + Filth Fever on hit (Fort DC 11). Models as fast pack-brawler (cf. Dog) whose bite rolls disease-infection. Disease = persistent status (5-min/1-min check loop, 2-in-a-row cure, or cure effect); stat-feel RESOLVED (Dex->move, Con->pool-max band). Validates the PERSISTENT status clock (vs poison's self-clear) + cross-run carry. Pack 11-20 = many infection rolls -> likely someone gets sick."
     },
     {
       "name": "Stirge",
@@ -815,10 +815,10 @@
           "removal": "SHARED-HITBOX: ally shot resolves on the co-located stirge (no host harm) / grapple-pin / caster V-only / environment. Same latcher ecosystem.",
           "ladderNote": "inherits the hands-capacity ladder (distract/slow/DoT...) but its signature payload is the Con blood-drain DoT"
         },
-        "statusEffect": { "name": "blood drain (Con)", "note": "Con-drain while attached; ties into the OPEN Con mapping. Blood loss = Con is the most thematically obvious of all the ability-damage types." }
+        "statusEffect": { "name": "blood drain (Con)", "note": "Con-drain while attached. RESOLVED (combat-model.md 'Ability-score damage'): Con lowers the party-pool MAX -> the stirge literally EATS THE TOP of the shared HP bar (a gorgeous legible 'it's draining you' read; greyed band grows as it feeds). Real Con tracked; 0 = INCAP. Blood loss = Con is the clearest/most thematic ability-damage case." }
       },
       "notes2D": "THE reference LATCHER (cleaner than the weasel — the attach IS the attack via a TOUCH hit, no damage bite). Flies in, latches, drains 1d4 Con/round, then LEAVES once full (4 Con) — a hit-and-run blood-drainer, not a ride-till-cleaned clinger. Storm of 9-14 = a swarm that each grabs a hero and sucks. Touch attack = armor doesn't save you, only not-being-reached does (so a flier that you must shoot down before it lands). Validates the Latcher archetype as a FLYING self-detaching variant + Con blood-drain. Removal = the shared-hitbox ally-shot (teammate shoots the stirge on you). Classic D&D nuisance; our latcher ecosystem handles it.",
-      "notesSim": "5hp, AC16 (touch 16 — evasive flier), touch-attach +7, then 1d4 Con/round until 4 Con drained -> self-detach. Models: fast flying approach, touch-attach (ignores AC/armor, high +7 to land), attached Con-DoT, auto-detach at 4 Con. Validates flying latcher + self-detach condition + Con drain. Flight abstracted (see Eagle). Con-feel mapping OPEN (blood-drain = the clearest Con case)."
+      "notesSim": "5hp, AC16 (touch 16 — evasive flier), touch-attach +7, then 1d4 Con/round until 4 Con drained -> self-detach. Models: fast flying approach, touch-attach (ignores AC/armor, high +7 to land), attached Con-DoT, auto-detach at 4 Con. Validates flying latcher + self-detach condition + Con drain. Flight abstracted (see Eagle). Con-feel RESOLVED: drains the top of the party-pool max (eats the HP bar)."
     }
   ]
 }

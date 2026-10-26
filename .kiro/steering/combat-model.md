@@ -71,10 +71,63 @@ it is not usually a *chosen* action, it's what happens when units occupy adjacen
 
 ## Status effects (per-avatar flags; SRD condition → our FEEL)
 
-SRD on-hit conditions (poison, disease, paralysis, fear, …) rarely map 1:1 — our heroes are
-**statless on the field** (HeroStats = move/fire/armor; the character sheet is the metagame). So we
+SRD on-hit conditions (poison, disease, paralysis, fear, …) rarely map 1:1 — our heroes have no
+live *presentation-layer* stats (HeroStats = move/fire/armor; the character sheet is the metagame).
+BUT heroes DO carry real **Str/Dex/Con** numbers from the sheet — see Ability damage below. So we
 **define the FEEL**, house-rule style (SRD is authority on *when* it triggers — the save/trigger —
 we own *what it does* to a Regauntless avatar).
+
+### Ability-score damage (poison/disease/drain → our FEEL, over a REAL tracked stat)
+
+Many low-CR SRD attacks deal **ability-score damage** (not HP): "1d6 Con," "1d3 Dex + 1d3 Con,"
+etc. We track the **real stat number** (heroes have Str/Dex/Con) and subtract from it — the
+debuff "feel" is **derived from the current value**. Each physical stat maps to the hero facet it
+governs:
+
+| SRD ability damage | Regauntless FEEL (while > 0, scales with loss) | axis | at **0** |
+|---|---|---|---|
+| **Dex** | movement slows (−~2 hexes/point-ish, toward frozen) | movement | **INCAP** |
+| **Str** | shot-hit damage down (−~20% band, toward nothing) | offense | **INCAP** |
+| **Con** | lowers the **party-pool MAX**, attributed to this hero: a greyed/locked band at the TOP of the shared HP bar. Caps where you can heal to; if current HP is *above* the new max (rare — only if full) the overflow **drains off the top**. Everyday feel = "can't top off, ceiling shrinking." | survival | **INCAP** |
+
+- **0 in ANY physical stat = INCAP** — one state: can't move, can't act. (SRD flavors differ —
+  Con 0 = dead etc. — we collapse to a single down-state.)
+- **Feel is the UI read of the real number** (legible-through-feel, presentation.md). Cure restores
+  the number; the feel follows.
+- **Not an accumulator spiral** at the *flag* level — but the underlying stat genuinely decrements
+  per hit toward 0, so repeated venom/drain is a real **ticking-toward-incap** stakes curve.
+
+### Incap = DOWN (map anchor / carry) — a positional problem, not removal
+A downed hero is NOT out of the run. Their body is a thing on the map the party must deal with:
+- **Map anchor:** the body stays put; the party is **tethered** to the spot (can't just abandon it
+  / can't progress past). Everyone still up keeps full firepower.
+- **Carry:** a teammate picks the body up → party can **move again**, BUT the **carrier can't shoot
+  while carrying** (hands full — same "hands" primitive as the latcher). (A caster may still cast
+  **V-only/Focus** while carrying — hands-independent, consistent with latcher self-cleanse.)
+- **Emergent "cover-and-carry extraction":** you typically do BOTH — one hero holds the anchor
+  laying cover fire while another carries the downed ally toward safety/a cure/the exit, rest free.
+  This squad maneuver is PRODUCED by the primitives (anchor + carry + cover fire + shared pool),
+  not scripted — same family as bait-and-flank / converge-and-grind. Scales tension by party size
+  (4 heroes, 1 down + someone latched/webbed → not enough hands → tips toward wipe).
+- **All heroes down / pool gone = wipe = run ends.**
+
+### Recovery (SRD "rest" fudged to crawl-pace; or Restoration-cures)
+SRD ability DAMAGE heals ~1/night rest (or instantly via Restoration); ability DRAIN needs
+Restoration. Fudged to our timescale:
+- **Natural: +1 to each damaged ability, per hero, PER LEVEL CLEARED** (the inter-level breather =
+  the "night's rest"). Event-driven, not a hidden regen clock — legible. A bad poisoning lingers
+  across several levels (attrition weight) unless cured.
+- **Restoration-equivalent CURES** (cleric / shrine / antidote / the save-burst cleanse) restore
+  immediately (the Restoration path).
+- **Incap is stickier than the sub-lethal damage:** hitting 0 **latches** the down-state — you do
+  NOT self-rise just because the source (e.g. 40s poison) faded; needs an **active revive** (ally
+  action / cure / stat pushed back above 0). The +1/level heals *sub-lethal* damage; it doesn't
+  self-revive a hero pinned down mid-level.
+- **Metagame ride:** unrecovered ability damage (and incap, if you somehow exit) carries to the
+  metagame like disease — cured/rested between runs.
+
+Sources so far: centipede → Dex · scorpion/viper/stirge(blood-drain)/dire-rat(disease) → Con ·
+spider → Str. (Poison = ~40s source-clock; disease = persistent per its own loop.)
 
 **General shape** — every on-hit status is per-avatar and non-pool, described by:
 ```
