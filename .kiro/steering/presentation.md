@@ -71,6 +71,23 @@ an AESTHETIC, and scopes the only hand-made art down to a slice Mids can actuall
 Framing: **"inked tabletop game pieces (crosshatched primitives) in funny hats, on a glowing
 board."** Legible, whimsical (whimsy = signal), on-theme, and fully Mids-executable.
 
+### Two deliberate fidelity tracks (not a mismatch — the style)
+
+- **Environment / tiles = HI-REZ.** Rich texture maps, detailed walls/floors, the lit-from-below
+  stage, crisp status/damage pop-ups — this track carries the production value. SAFE for Mids
+  because environment art is **tileable / buyable / generatable / shader-driven** (material work,
+  not character illustration); asset packs + shader-fiddle + the Nebulous trick get a lavish set
+  with no bespoke-per-thing pipeline. (The reserved pop-up readouts above assume this fidelity —
+  a clean pop-up reads as intentional punctuation against a detailed scene.)
+- **Characters = SIMPLE.** Kids'-blocks primitives + pixel-art hats (above). The one track kept
+  deliberately minimal, because detailed/rigged/animated characters are the pipeline that kills
+  projects — and because simple high-contrast actors stay READABLE against the busy hi-rez ground
+  (detailed-chars-on-detailed-ground = 40-enemy visual soup).
+- **The contrast IS the aesthetic:** **simple painted miniatures on a gorgeously-crafted board.**
+  Tabletop/boardgame-honest (the meeple is simple, the board is detailed — intentional, not
+  inconsistent), on-theme for the game-show/tabletop framing, and it does double duty as the
+  genre's legibility requirement (always pick the heroes/mobs out of the scene).
+
 We have the resolution to put real, legible meaning into the visuals. Use it. But —
 
 ## Legible through *feel*, not readouts
