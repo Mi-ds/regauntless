@@ -129,6 +129,41 @@ Restoration. Fudged to our timescale:
 Sources so far: centipede → Dex · scorpion/viper/stirge(blood-drain)/dire-rat(disease) → Con ·
 spider → Str. (Poison = ~40s source-clock; disease = persistent per its own loop.)
 
+### Reviving the incapped — the SRD Heal skill as a contextual button (NOT a bespoke system)
+
+Mid-run revive (clear incap: push the zeroed stat **0 → 1**, "fragile-up" — they're conscious and
+moving but one tick from dropping again) is just the **SRD Heal skill (its First-Aid use)**, not a
+new mechanic. **1985 concept, modern-UI execution:** a **contextual "First Aid" button lights up**
+when a hero *who has Heal capability* is adjacent to a downed ally → press → Heal check → revive.
+The button is a **reader of the character sheet** (feats/skills-as-data, combat.md), not a special
+case. Rank/investment **scales quality** (speed/reliability/how much it restores). This closes the
+cover-and-carry loop (carry the body to whoever has First Aid).
+
+**WHO can revive = a BUILD outcome (metagame-is-the-game). Acquisition spectrum:**
+| Path | Effect | SRD or house |
+|---|---|---|
+| **Medical Background** (char-creation pick) | start with **Heal 1** AND **Heal becomes a CLASS skill for you** (buy at 1 pt/rank native, full ranks — not the cross-class penalty) | house (Backgrounds layer) |
+| **Native class-skill Heal** | 1 pt/rank (Cleric/Druid/Ranger/Paladin/Bard have it on-list) | SRD |
+| **Cross-class** (off-list, no background) | 2 pt/rank, capped at half max ranks | SRD |
+| **Feat** | *Self-Sufficient* (+2 Heal) | SRD |
+| **Feat** | *Field Medic* (a dedicated medic feat) | house-added (feats-as-data) |
+| **Prestige class** | *Doctor* — specialist: strong Heal + revive class features | house-added |
+
+- **Class features layer on top of the skill baseline:** Cleric *heal spell* (fast/ranged/
+  resourced), Paladin *aura* (passive/positional) = better revives for those classes, on top of
+  the universal "has-Heal-ranks → First-Aid button."
+- **Backgrounds system (general pattern):** a background = **a starting rank + reclassifying that
+  skill to native (1 pt/rank) for you.** Reusable for any skill (Scholar→Knowledge, Scout→Survival,
+  …); Medical Background is the first instance. Also pure game-show-contestant flavor ("our next
+  contestant — a former field medic…").
+- **SRD-honesty flag:** Heal skill, cross-class 2× cost, *Self-Sufficient* = transcribed SRD 3.5.
+  *Field Medic* feat, *Doctor* prestige class, and the Backgrounds layer = **house-added content**
+  (legit under feats/classes/skills-as-data — "add more as we go"), NOT pretend-SRD.
+
+### Parked incap knobs (non-blocking)
+- Exact revive Heal-check DC / how many points a good check restores (≥1?); tether range for the
+  "map anchor"; whether carry has a speed penalty. All tuning, not architecture.
+
 **General shape** — every on-hit status is per-avatar and non-pool, described by:
 ```
 { baseEffect      : applied when the flag goes OFF -> ON (clean target)
