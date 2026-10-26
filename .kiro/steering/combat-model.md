@@ -7,8 +7,8 @@ probabilities in the numbers-sim; see note at bottom.)
 
 > **EDITION: SRD 3.5 (d20 OGL), not 5e.** Vocabulary follows 3.5: flat Fort/Ref/Will saves,
 > flat circumstance/morale modifiers (±N), BAB, ability-score damage. "Advantage/disadvantage"
-> in our usage = a flat **±5 to the roll** (the old table shorthand), NEVER the 5e roll-twice.
-> No proficiency bonus, no bounded accuracy.
+> in our usage = a flat **±5** to the roll (= 25% of a d20; one reason = one ±5, stackable per
+> reason), NEVER the 5e roll-twice. No proficiency bonus, no bounded accuracy.
 
 ## The actor turn = an Action-Point loop running a priority list
 
