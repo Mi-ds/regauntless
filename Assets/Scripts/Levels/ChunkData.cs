@@ -39,27 +39,17 @@ namespace Regauntless.Levels
         [Tooltip("The painted cells. Floor cells define the footprint; unpainted hexes are outside.")]
         public List<Entry> Cells = new List<Entry>();
 
-        [Serializable]
-        public struct WallEntry
-        {
-            public int Q;
-            public int R;
-            public int Dir;    // canonical (hex,dir) wall edge
-            public int Variant;
-            public WallEdge Edge => new WallEdge(new HexCoord(Q, R), Dir);
-        }
+        // --- WALL LAYER = a BITSTREAM, not coordinates. --------------------------------------
+        // The wall-slot POSITIONS are re-derived from the floor every load (Bloom.WallSlots:
+        // floor copy + half-bloom = "the floor footprint as a bitstream with slightly more
+        // positions"). We store ONLY the bits (1 = wall present at that slot, 0 = not), in
+        // Bloom.WallSlots order. No wall coordinates are stored — this is the whole point:
+        // replace computation-stored-as-geometry with a tiny datastream. (See levels.md.)
+        [Tooltip("Facing used to derive the wall-slot layout (which 3 sides the half-bloom grows).")]
+        public int WallFacing = 1;
 
-        [Tooltip("Walls as canonical (hex,dir) edges. Sparse — ~3 owned per hex. See WallEdge.")]
-        public List<WallEntry> Walls = new List<WallEntry>();
-
-        /// <summary>Build a set of the present wall edges (canonicalized).</summary>
-        public HashSet<WallEdge> ToWallSet()
-        {
-            var set = new HashSet<WallEdge>();
-            foreach (var w in Walls)
-                set.Add(w.Edge.Canonical());
-            return set;
-        }
+        [Tooltip("Wall bitstream: 1 bit per slot in Bloom.WallSlots(floor, WallFacing) order.")]
+        public List<bool> WallBits = new List<bool>();
 
         /// <summary>Build a fast lookup from the serialized list. Call once at load.</summary>
         public Dictionary<HexCoord, Cell> ToMap()

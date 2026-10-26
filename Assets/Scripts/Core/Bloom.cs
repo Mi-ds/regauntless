@@ -61,5 +61,27 @@ namespace Regauntless.Core
         /// <summary>Convenience: half-bloom a single hex (its footprint = just itself).</summary>
         public static List<HexCoord> HalfBloom(HexCoord center, int facing)
             => HalfBloom(new[] { center }, facing);
+
+        /// <summary>
+        /// WALL SLOTS — the second layer's addressable positions, DERIVED from the floor footprint
+        /// (see .kiro/steering/levels.md). The wall layer is "the floor turned into a bitstream with
+        /// slightly more positions": it's a COPY of the floor + the HALF-BLOOM extension. So the slot
+        /// count = floor.Count + halfBloom.Count. The wall LAYER DATA is then just a bitstream, one
+        /// bit per slot in THIS order — no coordinates are stored; they're always re-derived here.
+        ///
+        /// Order is deterministic (floor cells sorted, then half-bloom cells sorted) so bit i always
+        /// maps to the same slot for a given floor. Pure/engine-free; this is computation that
+        /// generates the ADDRESSING, while the bits are the stored datastream.
+        /// </summary>
+        public static List<HexCoord> WallSlots(IEnumerable<HexCoord> floor, int facing)
+        {
+            var floorSet = new HashSet<HexCoord>(floor);
+            var slots = new List<HexCoord>(floorSet);        // copy of the floor
+            slots.AddRange(HalfBloom(floorSet, facing));     // + the half-bloom extension
+
+            // deterministic order: by (q, then r). Stable for a given floor → stable bit mapping.
+            slots.Sort((a, b) => a.Q != b.Q ? a.Q.CompareTo(b.Q) : a.R.CompareTo(b.R));
+            return slots;
+        }
     }
 }
