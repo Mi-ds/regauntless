@@ -61,6 +61,39 @@ it is not usually a *chosen* action, it's what happens when units occupy adjacen
 - **Brawler** — closes, survivable multi-round melee. *Counter: out-fight at contact, or shoot down.*
 - (More to be cataloged as we walk further SRD monsters.)
 
+## Status effects (per-avatar flags; SRD condition → our FEEL)
+
+SRD on-hit conditions (poison, disease, paralysis, fear, …) rarely map 1:1 — our heroes are
+**statless on the field** (HeroStats = move/fire/armor; the character sheet is the metagame). So we
+**define the FEEL**, house-rule style (SRD is authority on *when* it triggers — the save/trigger —
+we own *what it does* to a Regauntless avatar).
+
+**General shape** — every on-hit status is per-avatar and non-pool, described by:
+```
+{ baseEffect      : applied when the flag goes OFF -> ON (clean target)
+  overflowEffect  : applied when re-hit while ALREADY ON (can't "turn it more on")
+  selfCure        : feel-tuned duration; REFRESHED on each re-apply; clears itself }
+```
+- **Per-avatar, NOT the shared pool.** The survival pool is the collective health-clock; status
+  sticks to the individual hero who got hit (the Warrior is poisoned; the Elf isn't). Pool =
+  shared survival; status = personal, positional consequence.
+- **Non-damage** (poison at least): status DEGRADES function, it doesn't chip HP. It kills you
+  *indirectly* (broken tempo → caught by the swarm), which is scarier than a tick.
+- **Binary flag + overflow, NOT an additive accumulator** (house style — no stacking counters).
+  First hit sets the flag; further hits spill into the overflow effect.
+
+**Poison (first defined status):**
+- **baseEffect:** −10 ft / −2 hexes movement speed while poisoned.
+- **overflowEffect:** re-hit while already poisoned → **micro-stun** (brief AP/tick loss). A swarm
+  (centipedes) can chain-stun a poisoned hero — that's the swarm threat, not a deeper slow.
+- **selfCure:** **~40s default** (FEEL knob; stored as rounds/ticks internally so it survives
+  tick-rate changes and the numbers-sim can use it). Each new bite **refreshes** the timer →
+  lasts through the fight + a little spillover, then clears. "While you fight these, maybe the
+  next room too."
+
+(Future statuses reuse the same shape; we DEFINE each one's feel as we meet the SRD creature that
+carries it.)
+
 ## Ranged-delivery taxonomy (one primitive, several delivery physics)
 
 An attack/spell picks a DELIVERY TYPE. Both mob attacks and hero/spell attacks reuse these:

@@ -279,10 +279,14 @@
         "statusEffect": {
           "name": "poison",
           "srd": "Fort save or take Dex damage, initial AND secondary (hits twice unless saved)",
-          "mappingDECISION": "OPEN — SRD 'Dex damage' has no direct analog in our statless hero model. Candidate mappings: (a) SLOW/WEAKEN debuff: reduce hero move speed + fire rate for a duration [Kira's lean — honest Dex analog + arcade-classic], (b) damage-over-time tick on the shared survival pool, (c) other. NEEDS Mids' call before sim wires it."
+          "mapping": "RESOLVED (Mids house-rule — SRD Dex-damage has no analog in our statless hero, so we define the FEEL): poison is a PER-AVATAR, NON-DAMAGE status FLAG (sticks to the bitten hero, NOT the shared pool). Follows the general on-hit status shape {baseEffect, overflowEffect, selfCure} — see combat-model.md 'Status effects'.",
+          "baseEffect": "flag OFF->ON: -10 ft / -2 hexes movement speed while poisoned. Binary, NOT additive.",
+          "overflowEffect": "re-hit while already ON: micro-stun (brief AP/tick loss) — a swarm of centipedes can chain-stun a poisoned hero. Not a deeper slow.",
+          "selfCure": "~40s default (FEEL knob; stored internally as rounds/ticks so it survives tick-rate changes & the numbers-sim can use it). Each new bite REFRESHES the timer -> stays on through the fight + a little spillover, then clears on its own.",
+          "simNote": "sim thinks in rounds: express ~40s as N rounds at normal pace. Model = per-hero bool + refresh-on-rehit + the -2hex move penalty; micro-stun = lose some AP on a re-hit round."
         }
       },
-      "notes2D": "First VENOMOUS mob + first STATUS-EFFECT delivery. Mindless vermin (Int Ø) = dead-simple AI: straight-line approach, bite, done — no kiting, no LoS logic. Damage is trivial (Str penalty -> ~1/bite); the THREAT is the poison, not the hit. Climb speed = reaches over/around cover (walls less useful vs it). Colony/swarm organization (Tiny 8-16) = spawner CHAFF that's dangerous by poison STACKING, not per-hit damage. SIZE LADDER (Tiny->Small->Medium->...) is the SRD's own scaling curve — a clean source for 'level scales the monster' using one archetype.",
+      "notes2D": "First VENOMOUS mob + first STATUS-EFFECT delivery. Mindless vermin (Int Ø) = dead-simple AI: straight-line approach, bite, done — no kiting, no LoS logic. Damage is trivial (Str penalty -> ~1/bite); the THREAT is the poison, not the hit. Climb speed = reaches over/around cover (walls less useful vs it). Colony/swarm organization (Tiny 8-16) = spawner CHAFF that's dangerous by poison + chain MICRO-STUN (base slow then overflow stun), not per-hit damage. SIZE LADDER (Tiny->Small->Medium->...) is the SRD's own scaling curve — a clean source for 'level scales the monster' using one archetype.",
       "notesSim": "In-scope: 1/2/4 hp, AC14, single bite/round (low/no damage) + poison-on-hit. Models: mindless straight approach (no LoS gate); on contact roll bite, on hit apply poison (Fort DC 10 vs hero). Poison EFFECT depends on Mids' mapping decision (slow debuff vs pool-DoT) — sim can't model it until that's set. Swarm = many cheap units; validates contact-phase + status stacking. Poison save math: hero Fort vs fixed DC 10."
     },
     {
