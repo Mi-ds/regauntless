@@ -92,6 +92,12 @@
       },
       "notes2D": "Relentless burrowing bruiser. Scent = can't juke it (ignores LoS, always comes straight). Digs through walls (cover useless). Burrow-closer is a 2-ROUND tell: at 3 hexes it dives (untargetable) + tunnels under a free adjacent hex; NEXT round surfaces free and mauls. Counter is PURELY out-DPS during the approach window (before the 3-hex burrow) — no juking, no cover, no LoS tricks. Harder than a ghost: walls don't help. Denying free adjacent exit hexes (corner/crowd) limits where it erupts. Underground = a shadow/bulge under the lit-from-below floor (telegraph; parked).",
       "notesSim": "6hp, AC15, 3 melee attacks/turn (2x +4 1d2-1, bite -1 1d3-1), speed 6 hexes/rd, burrow 2 hexes/rd. Models: LoS-independent straight approach; at dist<=3 goes untargetable 1 round then guaranteed-contacts next round. Rage = damage-triggered buff state. FIRST multi-attack-per-turn creature (validates attacks-from-AP) and FIRST off-plane movement (burrow -> untargetable window)."
+    },
+    {
+      "name": "Bat",
+      "cr": "1/10", "size": "Diminutive", "type": "Animal",
+      "archetype": "noncombat",
+      "notes2D": "NONCOMBAT — no attack (1 hp, flies). Not a threat mob; excluded from the enemy roster. Recorded so it reads as evaluated-and-excluded, not an oversight. (Could exist later as ambient fauna/decoration — poppable flavor — but is NOT a spawner threat.)"
     }
   ]
 }
