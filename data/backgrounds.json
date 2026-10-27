@@ -1,0 +1,60 @@
+{
+  "_comment": "Regauntless BACKGROUNDS — the third character-creation grant source (Race/Class/Background; see character-creation.md). HOUSE-AUTHORED content: NOT transcribed from any SRD (there is no backgrounds system in SRD 3.5; 5e's are mostly closed WotC content). These use familiar archetype TROPES (pirate, soldier, medic, cultist) as inspiration but the MECHANICS and wording are our own, built on our own primitives (skills.json / feats.json / the +-5 circumstance pile in combat.md). Keeps the project license-clean (OGL 3.5 + original house content, no closed 5e material). A background grants: grantedFeats (perks AND drawbacks — disadvantages = negative feats), skillsMadeNative (reclassify a skill to class-skill/1pt-per-rank + a starting rank), and flavor. Backgrounds are USUALLY perk+drawback (teeth), but may be pure-upside (Medical). The 'Backgrounds pattern' (seed rank + reclassify-to-native) is reusable for any skill.",
+  "_schema": {
+    "name": "string",
+    "flavor": "string — the trope/characterization (game-show-contestant color)",
+    "grantedFeats": "[{feat: key -> feats.json, kind: perk|drawback, houseAuthored: bool, effect: short plain-language effect}]",
+    "skillsMadeNative": "[{skill: key -> skills.json, startingRank: int, note}] — reclassify to native (1pt/rank) for this char + seed rank (character-creation.md Backgrounds pattern)",
+    "note": "mapping / design note"
+  },
+  "backgrounds": [
+    {
+      "name": "Pirate",
+      "flavor": "A sea-raider's life: quick to grab loot, lousy at polite company. (The one Grukk the Half-Orc Fighter runs.)",
+      "grantedFeats": [
+        { "feat": "Greedy",   "kind": "perk",     "houseAuthored": true, "effect": "+10% to looted gold/coin value." },
+        { "feat": "Unsavory", "kind": "drawback", "houseAuthored": true, "effect": "-5 circumstance (the 3.5 'disadvantage' = flat -5, combat.md) on social interactions." }
+      ],
+      "skillsMadeNative": [
+        { "skill": "Climb", "startingRank": 1, "note": "rigging & rope — Climb becomes class-native (1pt/rank) + start at 1" },
+        { "skill": "Swim",  "startingRank": 1, "note": "sea legs — Swim native + start at 1" }
+      ],
+      "note": "Perk+drawback package with teeth: loot bonus bought with social penalty. Greedy/Unsavory are house feats (need entries in feats.json when the feat-authoring pass happens). Social -5 lives in the circumstance pile (only bites IF a social-check context exists; combat.md)."
+    },
+    {
+      "name": "Soldier",
+      "flavor": "Drilled in a real army — disciplined, hard to rattle, knows one weapon cold. The professional.",
+      "grantedFeats": [
+        { "feat": "Weapon Focus", "kind": "perk", "houseAuthored": false, "effect": "SRD feat (feats.json). Granted with a chosen weapon (choice set at creation) — the drilled-in weapon. +1 attack (reinterpret per combat.md)." },
+        { "feat": "Steady",       "kind": "perk", "houseAuthored": true,  "effect": "+5 circumstance to resist FEAR / morale-break effects (discipline under fire)." }
+      ],
+      "skillsMadeNative": [
+        { "skill": "Intimidate", "startingRank": 1, "note": "command presence — Intimidate native + start at 1" }
+      ],
+      "note": "Pure-ish upside (a professional's competence), balanced by spending a background pick rather than a drawback. Weapon Focus is SRD; Steady is a house feat (fear-resist +5). No drawback — not every background needs one (character-creation.md: usually paired, not required)."
+    },
+    {
+      "name": "Medical",
+      "flavor": "Battlefield surgeon / field medic before the Gauntlet. The one who can patch you up.",
+      "grantedFeats": [
+        { "feat": "Self-Sufficient", "kind": "perk", "houseAuthored": false, "effect": "SRD feat (feats.json): +2 Heal, +2 Survival." }
+      ],
+      "skillsMadeNative": [
+        { "skill": "Heal", "startingRank": 1, "note": "THE medic enabler (character-creation.md / combat-model.md revive): Heal becomes class-native (1pt/rank, not cross-class 2x) + start at 1 -> the First-Aid revive button lights up from level 1." }
+      ],
+      "note": "The canonical pure-upside background (character-creation.md example). Its whole value = cheap Heal scaling + a starting rank, making ANY class a viable field medic. No drawback. This is what makes 'who's the medic' a build choice."
+    },
+    {
+      "name": "Raised in a Cult",
+      "flavor": "Grew up in a fervent sect — picked up real liturgy and a little genuine divine power, plus some baggage. (The honest-named version of the sanitized 'acolyte'.)",
+      "grantedFeats": [
+        { "feat": "Divine Casting", "kind": "perk",     "houseAuthored": true, "effect": "Grants divine casting at the DABBLER envelope (character-creation.md: a reduced caster progression, ~half slots / low caster level / capped tier) — NOT full cleric casting. Proof a background can grant a class feature." },
+        { "feat": "Zealous",        "kind": "drawback", "houseAuthored": true, "effect": "-5 circumstance on WILL saves vs effects that play on faith/fear/charm-of-conviction (true-believer blind spot). (Tunable; placeholder drawback.)" }
+      ],
+      "skillsMadeNative": [
+        { "skill": "Concentration", "startingRank": 1, "note": "liturgical focus — Concentration native + start at 1 (helps the dabbler casting)" }
+      ],
+      "note": "The 'capability from a non-class source' proof case (character-creation.md: Warrior-raised-in-a-cult can cast). Divine Casting is a house-granted feat carrying the DABBLER caster envelope (defer the actual progression numbers to the caster layer). Perk+drawback: power bought with a will-save blind spot. Skips a separate 'Acolyte' background — this IS that trope, better-named."
+    }
+  ]
+}
