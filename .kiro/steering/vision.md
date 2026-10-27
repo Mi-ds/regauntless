@@ -158,6 +158,45 @@ the team curates with love. This is the structural inverse of the prior-art fail
 deciding *for* a community it didn't understand and rug-pulling it): we open the doors and let the
 people who love the material make the material.
 
+### The Creator Program (self-funding user-acquisition + content pipeline, one loop)
+
+A single flywheel that is **marketing, content, and talent-acquisition at once — and pays for
+itself.** (Support-A-Creator crossed with UGC voice-packs.)
+
+- **The offer (any creator, marquee → "even the lame ones"):** a **free account + creator creds/
+  badges** (`celeb` / `voice` / `pbp-commentator` tags — see the account-entitlements note below)
+  **+ a set of LINES to read** → they become a **guest-host / voice (booth) pack** (announcer.md).
+- **They record the lines** (low effort, and it's native content for them) → **they plug the game
+  for free**, because being *in* the game IS content for a creator ("check it out guys, I'm a
+  guest host") — their promo format *is* the pack they made.
+- **Referral rev-share:** players enter the creator's **name/code** at signup → the creator earns
+  **referral pay on players they bring.** So they're *financially* motivated, not just vanity-
+  motivated.
+- **Why it's self-funding UA:** you pay creators **out of the players THEY bring** (referral cut),
+  not out of pocket. A creator who brings nobody costs ~nothing (an account flag); one who brings
+  thousands earns from those thousands. The marketing budget *is* the value created.
+- **Scales to every tier:** small creators especially love being "in a game" (the badge/flex is
+  the pay); big names come later via the paid/licensed lane. Cheap-and-eager → paid-marquee arc
+  mirrors the growth staircase.
+- **Exemplar:** a Warzone self-announcer (makes shorts of himself commentating his own matches) —
+  he already *is* a one-man booth; hand him a better stage, he does it "for an account and a song,"
+  and recording-the-commentary (his native format) markets the game for free. The ideal *first*
+  guest host: zero ramp, built-in audience funnel, pipeline-proof.
+- **Talent-comp model:** early/creator tier is paid in **access + exposure + badges + their voice-
+  pack + referral share** (near-free); marquee/licensed tier is paid in **real rev-share + scoped
+  license + script-approval** (post-traction). Two lanes, cheap→expensive.
+- **Anti-Turbine:** you *invite* the creator community in and pay them fairly out of the value they
+  generate — the inverse of a studio hoarding control.
+
+### Account entitlements / credential tags (flagged future-system)
+The mechanism under all of the above: accounts carry **role/credential TAGS** (`celeb`, `voice`,
+`pbp-commentator`, `dm`, `modder`, `founder`, …) that grant **entitlements** (use-this-pack,
+wear-this-flair, access **DM host mode**, get **API/mod access**, referral-code attribution) and
+double as **visible credentials.** One backend serves: guest-host comp (tagged account + pack
+entitlement), the growth-staircase gates (`dm`→host mode, `modder`→API), the cosmetic economy
+(owns-this-pack), and the Creator Program (referral codes). Not built yet — flagged so the pieces
+(booth packs, cosmetics, growth stages, creator comp) all point at the same primitive.
+
 ## The roster — SIX heroes (PC-first)
 
 Not four. **Six** playable classes — and 6 *rhymes with the hexagon* (6 edges / 6 directions;
