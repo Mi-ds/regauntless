@@ -242,7 +242,7 @@
     },
     "lootedLoadout": {
       "weapon": "Greataxe",
-      "armor": "Scale Mail",
+      "armor": "Scale mail",
       "shield": null,
       "_note": "EXAMPLE of gear looted during the run (the level-1 basement/chest). With these: AC 15, attacks with Greataxe (1d12 x3). Demonstrates build(naked) vs state(geared) split."
     }
