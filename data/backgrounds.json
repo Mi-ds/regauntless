@@ -110,6 +110,32 @@
         }
       ],
       "note": "The 'capability from a non-class source' proof case (character-creation.md: Warrior-raised-in-a-cult can cast). Divine Casting is a house-granted feat carrying the DABBLER caster envelope (defer the actual progression numbers to the caster layer). Perk+drawback: power bought with a will-save blind spot. Skips a separate 'Acolyte' background — this IS that trope, better-named."
+    },
+    {
+      "name": "Lesser Noble",
+      "flavor": "Third-ish son of the ninth-ish family of a barony you were never going to run. The title skips you by roughly a dozen funerals, so you did the math and left. Good manners, empty purse, and the unshakeable sense that someone else should be carrying this.",
+      "grantedFeats": [
+        {
+          "feat": "Well-Bred",
+          "kind": "perk",
+          "houseAuthored": true,
+          "effect": "+5 circumstance on social interactions (the clean inverse of Pirate's Unsavory). You have the name, the manners, and the bearing — doors open a crack."
+        },
+        {
+          "feat": "Soft Hands",
+          "kind": "mixed",
+          "houseAuthored": true,
+          "effect": "TWO-SIDED (videogame feat, not sourcebook-balanced): -5 circumstance on Str/hardship/manual-labor checks (never worked a day), BUT +5 circumstance on Dex-FINESSE checks (Sleight of Hand / Disable Device / Open Lock / delicate fine-motor work — soft uncalloused hands are DEFT, raised for cards and fencing, not shoveling). NOT combat Dex-to-hit — the finicky-hands skills. Drawback and perk in one feat."
+        }
+      ],
+      "skillsMadeNative": [
+        {
+          "skill": "Knowledge",
+          "startingRank": 1,
+          "note": "a courtly education — Knowledge (nobility/history flavor) native + start at 1. Characterful more than combat-relevant (out-of-genre-ish), but the social + finesse perks are the real draw."
+        }
+      ],
+      "note": "The 'spare heir' origin: noble POLISH without noble money/power (he'll never inherit -> adventuring). Natural perk+drawback from the premise: raised refined (Well-Bred +5 social, deft hands) but useless at grunt labor (Soft Hands -5). 'kind:mixed' feat = our house license to make dirty/double-sided feats (character-creation.md). Adds house feats Well-Bred + Soft Hands to the feats.json to-author list."
     }
   ]
 }

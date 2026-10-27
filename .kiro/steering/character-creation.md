@@ -96,6 +96,23 @@ Stats are **point-buy**: **Race sets the size of the build-point pool**, you spe
 abilities, then racial stat-mods apply. (Point-buy over rolled stats fits the deterministic/legible
 ethos — `combat.md`. CONFIRM if ever revisited; this is the working assumption.)
 
+## House feats can be DIRTY — it's a videogame, not a sourcebook
+
+SRD feats are balanced for a *tabletop economy* (scarce feat slots, careful costing). **We do not
+owe that balance.** House-authored feats can be **dirtier, chunkier, double-sided, flavor-first** —
+the SRD is our mechanics *vocabulary and tone*, NOT a balance cage.
+- A house feat may **do two things at once** / mix a perk and a quirk in **one** feat
+  (`kind: "mixed"`), rather than being a timid flat `+2`.
+- Example: **Soft Hands** (Lesser Noble background) = **−5 on Str/hardship/manual-labor** AND
+  **+5 on Dex-finesse checks** (deft uncalloused hands) — a real tradeoff with a personality,
+  in a single feat. The drawback *is* a perk from another angle (very Pip-Boy).
+- Balance is handled at the **videogame** level (difficulty modes, encounter tuning, the shared
+  pool), not by making every feat individually tabletop-fair.
+- **Still honest** (presentation.md voice rule): the *mechanics* stay exact; only the *costing
+  discipline* is relaxed. Dirty ≠ lying about the numbers.
+- Authors/subagents writing house feats: **lean into flavor + double-sided tradeoffs; don't
+  flatten everything to a clean symmetric bonus.**
+
 ## SRD-honesty (what's transcribed vs house-added)
 - **SRD 3.5 (transcribe):** the feat system, class features, racial mods, Hit Dice, proficiencies,
   skills + cross-class 2×-cost, UMD, partial-caster progressions, point-buy, *Self-Sufficient* feat.
