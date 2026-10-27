@@ -182,6 +182,47 @@
         "note": "PURELY visual. Distrusts anything clean or new; scuffs/grimes his kit until it looks not-worth-stealing. Same gear as anyone, desaturated/worn material pass. No mechanical effect. (Put a Noble and a Street Rat in the SAME armor set -> noble reads sparkly, urchin reads grimy, identical stats.)"
       },
       "note": "The slum/urchin origin + low-origin counterpart to Lesser Noble. KEY PRINCIPLE (jagged picks): a background grabs DIVERGENT PARTIAL scraps of skills, not matched halves and never a full class kit -- Hide-not-MoveSilently, SleightOfHand-not-OpenLock. The gaps ARE the character; the Rogue CLASS is where mastery/completeness lives. Perk is economy-flavored (consumables + shop discount) to stay mechanically distinct from the other backgrounds. Adds house feats Situational Awareness, Five-Finger Discount, Gutter-Born to the feats.json to-author list. Flags future systems: consumables-restore-pool + shop/economy."
+    },
+    {
+      "name": "Nerd-Raised",
+      "flavor": "Your parents were the kind of nerds who color-coded the bookshelf and considered 'go outside' a punishment. You can read six dead languages and conjure a small, apologetic flame — but you've never thrown a punch that landed or won an argument that wasn't a citation. Thanks, Mom and Dad.",
+      "grantedFeats": [
+        {
+          "feat": "Well-Read",
+          "kind": "perk",
+          "houseAuthored": true,
+          "effect": "+2 to Knowledge and Spellcraft checks (read everything, good schools). Steady competence bump (+2, not a +-5)."
+        },
+        {
+          "feat": "Arcane Dabble",
+          "kind": "perk",
+          "houseAuthored": true,
+          "effect": "Grants ARCANE casting at the DABBLER envelope (the arcane mirror of Raised-in-a-Cult's Divine Casting: reduced progression, ~half slots, low caster level, capped tier -- NOT full wizard casting). Fills the arcane-dabble gap so any class can sling a few cantrips/1st-level arcane spells. Progression numbers deferred to the caster layer (character-creation.md)."
+        },
+        {
+          "feat": "Indoor Kid",
+          "kind": "drawback",
+          "houseAuthored": true,
+          "effect": "-2 (flat, broad) to: athletics/physical (Climb/Jump/Swim-type), Grapple, and the rough-social skills (Intimidate, Persuade/Diplomacy). Mild-but-everywhere -- the indoor-childhood tax. Distinct TEXTURE from Lesser Noble's Soft Hands (one sharp two-sided -5/+5): the Nerd is uniformly-slightly-behind, not pointedly deft."
+        }
+      ],
+      "skillsMadeNative": [
+        {
+          "skill": "Knowledge",
+          "startingRank": 1,
+          "note": "the education -- Knowledge native + start at 1"
+        },
+        {
+          "skill": "Spellcraft",
+          "startingRank": 1,
+          "note": "arcane literacy (supports the dabble) -- Spellcraft native + start at 1"
+        }
+      ],
+      "cosmetic": {
+        "gearTreatment": "fussy",
+        "note": "PURELY visual: over-maintained, labeled, color-coordinated kit -- pristine but faintly impractical. Same gear, same stats. Optional/minor."
+      },
+      "note": "The arcane-dabbler EGGHEAD origin -- fills the ARCANE gap (Raised-in-a-Cult feeds divine; this feeds arcane). Egghead counterpart to Lesser Noble: Noble = manners/finesse (sharp two-sided feat), Nerd = knowledge/arcane (broad mild -2 cluster). Perks: Well-Read (+2 Know/Spellcraft) + Arcane Dabble. Drawback: Indoor Kid (-2 athletics/grapple/intimidate/persuade). Adds house feats Well-Read, Arcane Dabble, Indoor Kid to the feats.json to-author list. NOTE: grantedFeats holds the perks; grantedDrawbackFeat holds the drawback for clarity (same pile mechanically -- source-agnostic feats)."
     }
   ]
 }
