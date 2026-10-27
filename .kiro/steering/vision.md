@@ -123,6 +123,41 @@ You've lovingly built your roster watching them compete; now grab the stick. The
 is built into the fiction (audience → contestant). Demo progression should carry into the
 full game (on-ramp, not a walled sampler).
 
+### The holistic growth staircase (ONE engine, lit up one seat at a time)
+
+The project grows in **sequential stages, each a natural outgrowth of the last — same codebase,
+one more Controller/host seat lit up, never a rewrite** (the Prime Directive makes every step a
+controller swap, not a new product):
+
+1. **Single-player auto-crawler** — AI-driven party, human plays the metagame. (Phase 1; proves
+   the core loop AND the engine.)
+2. **Player takes control** — a human swaps in and drives a hero. (Prime-Directive payoff: a
+   runtime controller swap.)
+3. **Multiplayer together** — multiple humans, each driving a hero. (More controllers on the one
+   intent pipeline.)
+4. **DM host mode** — an **alternate multiplayer HOST** that can spawn / possess / script / react.
+   NOT a separate product — one more seat, slotting into the Controller seam + the
+   spawner/trigger-field systems (`spawners-and-triggers.md`) that already exist.
+5. **Open the gates** — once the game's been out a while: **publish API + docs + full mod access**
+   → *"what do all you nerds want to make?"* The **community builds the content** (modules / worlds
+   / campaigns); the team shifts to **curator** — take submissions (email → evaluate → ship the
+   good ones as approved official patches). **Growth-by-community, not by the team** (the
+   NWN-Aurora / Steam-Workshop / Bethesda-mods model).
+
+**Why this is SAFE, not scope-death:** (a) strictly sequential — each stage ships and proves
+before the next; core-loop-first all the way up (stage 1 proves everything). (b) The architecture
+*already* enforces it — the Controller seam (AI/player/DM all emit the same `HeroIntent`),
+data-as-content (bestiary/feats/classes/backgrounds as editable data), and the trigger-script
+layer were built this way from the start; the growth is "light the next seat," not "build a new
+thing." (c) Stage 5 **outsources the infinite content demand to the players** — the exact thing
+that kills solo projects — so it grows *without* the team.
+
+**The soul of it (anti-Turbine):** *"you're all D&D nerds — here's the engine, YOU tell us what to
+build, we'll official-patch the best of it."* The community becomes the taste-in-the-room en masse;
+the team curates with love. This is the structural inverse of the prior-art failure (a studio
+deciding *for* a community it didn't understand and rug-pulling it): we open the doors and let the
+people who love the material make the material.
+
 ## The roster — SIX heroes (PC-first)
 
 Not four. **Six** playable classes — and 6 *rhymes with the hexagon* (6 edges / 6 directions;
