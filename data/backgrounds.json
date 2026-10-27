@@ -6,7 +6,8 @@
     "grantedFeats": "[{feat: key -> feats.json, kind: perk|drawback, houseAuthored: bool, effect: short plain-language effect}]",
     "skillsMadeNative": "[{skill: key -> skills.json, startingRank: int, note}] — reclassify to native (1pt/rank) for this char + seed rank (character-creation.md Backgrounds pattern)",
     "note": "mapping / design note",
-    "cosmetic": "{gearTreatment: polished|dingy|..., note} — PURELY visual flavor lens on the SAME gear (a cosmetic material/shader treatment, like Cell.Variant). ZERO mechanical effect — same armor = same AC etc. (determinism rule, presentation.md). Noble's kit reads sparkly, urchin's reads grimy, identical stats."
+    "cosmetic": "{gearTreatment: polished|dingy|..., note} — PURELY visual flavor lens on the SAME gear (a cosmetic material/shader treatment, like Cell.Variant). ZERO mechanical effect — same armor = same AC etc. (determinism rule, presentation.md). Noble's kit reads sparkly, urchin's reads grimy, identical stats.",
+    "startingCivvies": "string — PURELY COSMETIC (AC 0, zero mechanical effect). The 'yanked into the dungeon in THIS' outfit, the first joke the game tells. Primary skin keyed off background; race/class/gender flavor-modify. Moddable. (Players start un-geared; real kit is looted in the level-1 tutorial.)"
   },
   "backgrounds": [
     {
@@ -38,7 +39,8 @@
           "note": "sea legs — Swim native + start at 1"
         }
       ],
-      "note": "Perk+drawback package with teeth: loot bonus bought with social penalty. Greedy/Unsavory are house feats (need entries in feats.json when the feat-authoring pass happens). Social -5 lives in the circumstance pile (only bites IF a social-check context exists; combat.md)."
+      "note": "Perk+drawback package with teeth: loot bonus bought with social penalty. Greedy/Unsavory are house feats (need entries in feats.json when the feat-authoring pass happens). Social -5 lives in the circumstance pile (only bites IF a social-check context exists; combat.md).",
+      "startingCivvies": "A loincloth. He sleeps freeeeeely. (Half-orc dignity sold separately.)"
     },
     {
       "name": "Army Brat",
@@ -64,7 +66,8 @@
           "note": "camp life — Survival native + start at 1 (bivouac skills, not battlefield command)"
         }
       ],
-      "note": "Reframed from 'Soldier' (which is a PROFESSION = the Fighter class, not an origin). A background is WHERE YOU CAME FROM, not what you're trained as. Army Brat = military UPBRINGING: weapon familiarity + unshakability + camp skills, absorbed as a kid. Keeps the clean line: class = trained-as, background = came-from. Steady is a house feat (fear-resist +5). No drawback (usually-paired-not-required)."
+      "note": "Reframed from 'Soldier' (which is a PROFESSION = the Fighter class, not an origin). A background is WHERE YOU CAME FROM, not what you're trained as. Army Brat = military UPBRINGING: weapon familiarity + unshakability + camp skills, absorbed as a kid. Keeps the clean line: class = trained-as, background = came-from. Steady is a house feat (fear-resist +5). No drawback (usually-paired-not-required).",
+      "startingCivvies": "Regulation-issue long johns, buttoned to the throat. Reveille does not wait for pants."
     },
     {
       "name": "Medical",
@@ -84,7 +87,8 @@
           "note": "THE medic enabler (character-creation.md / combat-model.md revive): Heal becomes class-native (1pt/rank, not cross-class 2x) + start at 1 -> the First-Aid revive button lights up from level 1."
         }
       ],
-      "note": "The canonical pure-upside background (character-creation.md example). Its whole value = cheap Heal scaling + a starting rank, making ANY class a viable field medic. No drawback. This is what makes 'who's the medic' a build choice."
+      "note": "The canonical pure-upside background (character-creation.md example). Its whole value = cheap Heal scaling + a starting rank, making ANY class a viable field medic. No drawback. This is what makes 'who's the medic' a build choice.",
+      "startingCivvies": "A hospital gown. Open at the back, as is tradition. You of all people should know better."
     },
     {
       "name": "Raised in a Cult",
@@ -110,7 +114,8 @@
           "note": "liturgical focus — Concentration native + start at 1 (helps the dabbler casting)"
         }
       ],
-      "note": "The 'capability from a non-class source' proof case (character-creation.md: Warrior-raised-in-a-cult can cast). Divine Casting is a house-granted feat carrying the DABBLER caster envelope (defer the actual progression numbers to the caster layer). Perk+drawback: power bought with a will-save blind spot. Skips a separate 'Acolyte' background — this IS that trope, better-named."
+      "note": "The 'capability from a non-class source' proof case (character-creation.md: Warrior-raised-in-a-cult can cast). Divine Casting is a house-granted feat carrying the DABBLER caster envelope (defer the actual progression numbers to the caster layer). Perk+drawback: power bought with a will-save blind spot. Skips a separate 'Acolyte' background — this IS that trope, better-named.",
+      "startingCivvies": "A plain initiate's shift with suspicious stitching you've stopped asking about."
     },
     {
       "name": "Lesser Noble",
@@ -140,7 +145,8 @@
       "cosmetic": {
         "gearTreatment": "polished",
         "note": "PURELY visual. Keeps his kit gleaming out of reflex — even a rusted gauntlet gets buffed. Same gear, shinier material pass. No mechanical effect."
-      }
+      },
+      "startingCivvies": "A silk dressing-robe and one slipper. You didn't even get to pack. Someone will hear about this."
     },
     {
       "name": "Street Rat",
@@ -181,7 +187,8 @@
         "gearTreatment": "dingy",
         "note": "PURELY visual. Distrusts anything clean or new; scuffs/grimes his kit until it looks not-worth-stealing. Same gear as anyone, desaturated/worn material pass. No mechanical effect. (Put a Noble and a Street Rat in the SAME armor set -> noble reads sparkly, urchin reads grimy, identical stats.)"
       },
-      "note": "The slum/urchin origin + low-origin counterpart to Lesser Noble. KEY PRINCIPLE (jagged picks): a background grabs DIVERGENT PARTIAL scraps of skills, not matched halves and never a full class kit -- Hide-not-MoveSilently, SleightOfHand-not-OpenLock. The gaps ARE the character; the Rogue CLASS is where mastery/completeness lives. Perk is economy-flavored (consumables + shop discount) to stay mechanically distinct from the other backgrounds. Adds house feats Situational Awareness, Five-Finger Discount, Gutter-Born to the feats.json to-author list. Flags future systems: consumables-restore-pool + shop/economy."
+      "note": "The slum/urchin origin + low-origin counterpart to Lesser Noble. KEY PRINCIPLE (jagged picks): a background grabs DIVERGENT PARTIAL scraps of skills, not matched halves and never a full class kit -- Hide-not-MoveSilently, SleightOfHand-not-OpenLock. The gaps ARE the character; the Rogue CLASS is where mastery/completeness lives. Perk is economy-flavored (consumables + shop discount) to stay mechanically distinct from the other backgrounds. Adds house feats Situational Awareness, Five-Finger Discount, Gutter-Born to the feats.json to-author list. Flags future systems: consumables-restore-pool + shop/economy.",
+      "startingCivvies": "Filthy rags and, improbably, exactly one shoe. It's the good shoe."
     },
     {
       "name": "Nerd-Raised",
@@ -222,7 +229,8 @@
         "gearTreatment": "fussy",
         "note": "PURELY visual: over-maintained, labeled, color-coordinated kit -- pristine but faintly impractical. Same gear, same stats. Optional/minor."
       },
-      "note": "The arcane-dabbler EGGHEAD origin -- fills the ARCANE gap (Raised-in-a-Cult feeds divine; this feeds arcane). Egghead counterpart to Lesser Noble: Noble = manners/finesse (sharp two-sided feat), Nerd = knowledge/arcane (broad mild -2 cluster). Perks: Well-Read (+2 Know/Spellcraft) + Arcane Dabble. Drawback: Indoor Kid (-2 athletics/grapple/intimidate/persuade). Adds house feats Well-Read, Arcane Dabble, Indoor Kid to the feats.json to-author list. NOTE: grantedFeats holds the perks; grantedDrawbackFeat holds the drawback for clarity (same pile mechanically -- source-agnostic feats)."
+      "note": "The arcane-dabbler EGGHEAD origin -- fills the ARCANE gap (Raised-in-a-Cult feeds divine; this feeds arcane). Egghead counterpart to Lesser Noble: Noble = manners/finesse (sharp two-sided feat), Nerd = knowledge/arcane (broad mild -2 cluster). Perks: Well-Read (+2 Know/Spellcraft) + Arcane Dabble. Drawback: Indoor Kid (-2 athletics/grapple/intimidate/persuade). Adds house feats Well-Read, Arcane Dabble, Indoor Kid to the feats.json to-author list. NOTE: grantedFeats holds the perks; grantedDrawbackFeat holds the drawback for clarity (same pile mechanically -- source-agnostic feats).",
+      "startingCivvies": "An oversized 'I <3 SPELLCRAFT' nightshirt, slippers, and your glasses (cracked)."
     },
     {
       "name": "Treehugger",
@@ -263,7 +271,8 @@
         "gearTreatment": "overgrown",
         "note": "PURELY visual: weathered, mossy, nature-worn kit -- looks grown-into rather than bought. Same gear, same stats. Optional."
       },
-      "note": "The wilderness/feral origin (combined druid+ranger scraps; bard-adjacent stuff deliberately parked). WEAK-ECHO principle: a background is a diluted echo of a class capability, never the full kit -- Treehugger echoes Ranger/Druid woodcraft+tracking weakly (cf. Medical~Cleric, Nerd/Cult~casters, Army Brat~Fighter). Headline = Animal Kinship (first MOB-BEHAVIOR-modifying perk; type:Animal-only, which makes the creature-TYPE metadata gate a real mechanic + role). No primal caster-dabble (that stays with the Druid class; this is the beast/scout background). Adds house feats Animal Kinship + Woodcraft to the feats.json to-author list; drawback Feral below."
+      "note": "The wilderness/feral origin (combined druid+ranger scraps; bard-adjacent stuff deliberately parked). WEAK-ECHO principle: a background is a diluted echo of a class capability, never the full kit -- Treehugger echoes Ranger/Druid woodcraft+tracking weakly (cf. Medical~Cleric, Nerd/Cult~casters, Army Brat~Fighter). Headline = Animal Kinship (first MOB-BEHAVIOR-modifying perk; type:Animal-only, which makes the creature-TYPE metadata gate a real mechanic + role). No primal caster-dabble (that stays with the Druid class; this is the beast/scout background). Adds house feats Animal Kinship + Woodcraft to the feats.json to-author list; drawback Feral below.",
+      "startingCivvies": "A leaf. Possibly just the one leaf. Nature provides, barely."
     },
     {
       "name": "Average Normal Player Character",
@@ -282,7 +291,8 @@
         "gearTreatment": "plain",
         "note": "PURELY visual: aggressively off-the-rack, no flair. The control-group look. Same gear, same stats."
       },
-      "note": "The BASELINE / NULL background -- the deliberate anti-gimmick 'I don't want a background special, just a sliver of durability' pick. Every OTHER background trades specialization for a drawback; ANPC trades everything for one tiny, safe, universal perk and NO drawback, NO native skills. It's the floor-and-lift philosophy (design-notes/floor-and-lift.md) as a pickable option: the base hero is a deliberate floor, and this background IS that floor. The meta-joke name ('Average Normal Player Character') is intentional. FLAGS a future system: per-hero STAMINA / action-economy (planned, not built; != survival pool)."
+      "note": "The BASELINE / NULL background -- the deliberate anti-gimmick 'I don't want a background special, just a sliver of durability' pick. Every OTHER background trades specialization for a drawback; ANPC trades everything for one tiny, safe, universal perk and NO drawback, NO native skills. It's the floor-and-lift philosophy (design-notes/floor-and-lift.md) as a pickable option: the base hero is a deliberate floor, and this background IS that floor. The meta-joke name ('Average Normal Player Character') is intentional. FLAGS a future system: per-hero STAMINA / action-economy (planned, not built; != survival pool).",
+      "startingCivvies": "The most aggressively generic beige undergarments ever rendered. The control group's control outfit."
     }
   ]
 }

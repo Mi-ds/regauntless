@@ -93,6 +93,20 @@ an AESTHETIC, and scopes the only hand-made art down to a slice Mids can actuall
 Framing: **"inked tabletop game pieces (crosshatched primitives) in funny hats, on a glowing
 board."** Legible, whimsical (whimsy = signal), on-theme, and fully Mids-executable.
 
+### Starting civvies — the first joke the game tells (AC 0, cosmetic-only)
+Players start **un-geared** (real kit is looted in the level-1 tutorial — "get your gear out of the
+basement"). So at creation you're in **civilian clothes = an AC-0, PURELY COSMETIC garment** (zero
+mechanical effect — determinism rule; naked AC is just 10 + Dex + size). The *skin* is a **lookup
+keyed off your creation combo** — primary by **background**, flavor-modified by race/class/gender —
+and it's the **first gag the game lands**, before you've done anything: sets the irreverent
+Pip-Boy tone immediately. Examples (backgrounds.json `startingCivvies`): Pirate → a loincloth ("he
+sleeps freeeeeely"); Lesser Noble → silk dressing-robe + one slipper ("you didn't even pack");
+Treehugger → a leaf (possibly just the one); ANPC → aggressively generic beige briefs. Lean in
+HARD — it's free (a cosmetic lookup over data you already have), on-theme (you're a contestant
+yanked into the Gauntlet in whatever you were wearing), and **community-extensible** (modders add
+more starting-civvies skins — the growth path, vision.md). Rides the same cosmetic layer as the
+polished/dingy gear-lens and the hats.
+
 ### Two deliberate fidelity tracks (not a mismatch — the style)
 
 - **Environment / tiles = HI-REZ.** Rich texture maps, detailed walls/floors, the lit-from-below

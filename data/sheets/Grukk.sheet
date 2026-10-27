@@ -185,19 +185,26 @@
       }
     ],
     "loadout": {
-      "weapon": "Greataxe",
-      "armor": "Scale Mail",
-      "shield": null
+      "weapon": null,
+      "armor": null,
+      "shield": null,
+      "startingCivvies": "loincloth (from Pirate background; AC 0, cosmetic-only — 'he sleeps freeeeeely')",
+      "_note": "Players START UN-GEARED (civvies, AC 0 garment). Real kit is LOOTED in the level-1 tutorial (get your gear from the basement / chest / first vermin). Found gear lives in state.lootedLoadout during a run, not here in build."
     },
     "derivedCache": {
+      "_note": "INNATE L1 numbers (naked/civvies). Gear modifies these in-run (see state.lootedLoadout).",
       "hitDie": "d10",
+      "hpAtL1": "12  (MAX hit die 10 at L1 + Con mod +2) — contributes to the shared party survival pool (survival.md), NOT a personal bar",
+      "poolContribution": 12,
       "bab": 1,
       "saves": {
         "fort": 4,
-        "ref": 0,
-        "will": 0
+        "ref": 1,
+        "will": 1,
+        "_derivation": "Fighter good-Fort/poor-Ref/poor-Will: base Fort+2/Ref+0/Will+0, + ability mods Con+2/Dex+1/Wis+1"
       },
-      "poolContribution": 12,
+      "acNaked": 11,
+      "_acDerivation": "10 + Dex +1 + no armor (civvies AC 0) + no size mod (Medium). Looting Scale Mail in-run -> AC 15 (10 + 4 armor + 1 Dex).",
       "proficiencies": {
         "weapons": [
           "simple",
@@ -231,6 +238,12 @@
       "str": 0,
       "dex": 0,
       "con": 0
+    },
+    "lootedLoadout": {
+      "weapon": "Greataxe",
+      "armor": "Scale Mail",
+      "shield": null,
+      "_note": "EXAMPLE of gear looted during the run (the level-1 basement/chest). With these: AC 15, attacks with Greataxe (1d12 x3). Demonstrates build(naked) vs state(geared) split."
     }
   },
   "metagame": {
