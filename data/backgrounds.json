@@ -5,7 +5,8 @@
     "flavor": "string — the trope/characterization (game-show-contestant color)",
     "grantedFeats": "[{feat: key -> feats.json, kind: perk|drawback, houseAuthored: bool, effect: short plain-language effect}]",
     "skillsMadeNative": "[{skill: key -> skills.json, startingRank: int, note}] — reclassify to native (1pt/rank) for this char + seed rank (character-creation.md Backgrounds pattern)",
-    "note": "mapping / design note"
+    "note": "mapping / design note",
+    "cosmetic": "{gearTreatment: polished|dingy|..., note} — PURELY visual flavor lens on the SAME gear (a cosmetic material/shader treatment, like Cell.Variant). ZERO mechanical effect — same armor = same AC etc. (determinism rule, presentation.md). Noble's kit reads sparkly, urchin's reads grimy, identical stats."
   },
   "backgrounds": [
     {
@@ -135,7 +136,52 @@
           "note": "a courtly education — Knowledge (nobility/history flavor) native + start at 1. Characterful more than combat-relevant (out-of-genre-ish), but the social + finesse perks are the real draw."
         }
       ],
-      "note": "The 'spare heir' origin: noble POLISH without noble money/power (he'll never inherit -> adventuring). Natural perk+drawback from the premise: raised refined (Well-Bred +5 social, deft hands) but useless at grunt labor (Soft Hands -5). 'kind:mixed' feat = our house license to make dirty/double-sided feats (character-creation.md). Adds house feats Well-Bred + Soft Hands to the feats.json to-author list."
+      "note": "The 'spare heir' origin: noble POLISH without noble money/power (he'll never inherit -> adventuring). Natural perk+drawback from the premise: raised refined (Well-Bred +5 social, deft hands) but useless at grunt labor (Soft Hands -5). 'kind:mixed' feat = our house license to make dirty/double-sided feats (character-creation.md). Adds house feats Well-Bred + Soft Hands to the feats.json to-author list.",
+      "cosmetic": {
+        "gearTreatment": "polished",
+        "note": "PURELY visual. Keeps his kit gleaming out of reflex — even a rusted gauntlet gets buffed. Same gear, shinier material pass. No mechanical effect."
+      }
+    },
+    {
+      "name": "Street Rat",
+      "flavor": "Raised by the city's leftovers — if it wasn't nailed down, it was lunch. You can melt into a crowd, lift a purse clean, and spot trouble a block off. You never learned to move quiet or crack a real lock, though; the gutter teaches scraps, not trades. Shopkeepers lock the cabinet when you walk in. They're right to.",
+      "grantedFeats": [
+        {
+          "feat": "Situational Awareness",
+          "kind": "perk",
+          "houseAuthored": true,
+          "effect": "+2 to Search and Spot (a steady competence bump, NOT a +-5 circumstance — grew up watching for marks, guards, and the thing in the alley). Always-on street-eyes."
+        },
+        {
+          "feat": "Five-Finger Discount",
+          "kind": "perk",
+          "houseAuthored": true,
+          "effect": "ECONOMY perk (two hooks): (1) 'stolen food tastes better' -> gets MORE from party healing-consumables used on him (bigger restore of the shared pool / stamina bars at the clinic/rest step); (2) small consumables (potions/food/drink) cost less / sometimes free in shops. Non-combat; the scrappy-survivor edge = stretch every scrap. NOTE: references the consumables-restore-the-pool mechanic (survival.md, implied-not-specced) + a shop/economy system (not specced) -> flagged dependencies."
+        },
+        {
+          "feat": "Gutter-Born",
+          "kind": "drawback",
+          "houseAuthored": true,
+          "effect": "-5 circumstance on social interactions in 'respectable' contexts (you read as a thief). Presumably fine/+ among the rough crowd. The low-origin inverse of Lesser Noble's Well-Bred."
+        }
+      ],
+      "skillsMadeNative": [
+        {
+          "skill": "Hide",
+          "startingRank": 1,
+          "note": "JAGGED pick: Hide but NOT Move Silently -- he can tuck out of sight, never learned to move quiet. (The Rogue CLASS has the full stealth kit; a background gets scraps.)"
+        },
+        {
+          "skill": "Sleight of Hand",
+          "startingRank": 1,
+          "note": "JAGGED pick: pickpocket/lift but NOT Open Lock -- nimble fingers for purses, never learned real lockwork."
+        }
+      ],
+      "cosmetic": {
+        "gearTreatment": "dingy",
+        "note": "PURELY visual. Distrusts anything clean or new; scuffs/grimes his kit until it looks not-worth-stealing. Same gear as anyone, desaturated/worn material pass. No mechanical effect. (Put a Noble and a Street Rat in the SAME armor set -> noble reads sparkly, urchin reads grimy, identical stats.)"
+      },
+      "note": "The slum/urchin origin + low-origin counterpart to Lesser Noble. KEY PRINCIPLE (jagged picks): a background grabs DIVERGENT PARTIAL scraps of skills, not matched halves and never a full class kit -- Hide-not-MoveSilently, SleightOfHand-not-OpenLock. The gaps ARE the character; the Rogue CLASS is where mastery/completeness lives. Perk is economy-flavored (consumables + shop discount) to stay mechanically distinct from the other backgrounds. Adds house feats Situational Awareness, Five-Finger Discount, Gutter-Born to the feats.json to-author list. Flags future systems: consumables-restore-pool + shop/economy."
     }
   ]
 }

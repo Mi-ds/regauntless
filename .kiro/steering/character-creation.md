@@ -75,6 +75,28 @@ capability is universal; the **magnitude is attached to the grant source.**
 
 ## Backgrounds: perks AND drawbacks (packages with teeth)
 
+**A background grants JAGGED, PARTIAL scraps — never a full class kit.** Class = mastery/
+completeness (trained-as); background = where-you-came-from, and you picked up *bits of this and
+that*. So a background grabs **divergent partial pieces**, deliberately mismatched, with gaps —
+e.g. Street Rat gets **Hide but NOT Move Silently**, **Sleight of Hand but NOT Open Lock**. The
+**gaps are the character**, and they keep a background from ever reading as "class-lite" (the Rogue
+*class* has the complete stealth kit; the urchin *background* has scraps). Same line as Army Brat
+(one weapon + camp survival, not the Fighter kit) and Medical (Heal + Self-Sufficient, not the
+Cleric kit).
+
+**Magnitude discipline:** not every modifier is a ±5 "advantage." A ±5 is a *circumstance/
+advantage* (big, situational); a plain **+2** is a *steady competence bump* (SRD +2-to-skills
+style, always-on). Pick the right size — Situational Awareness is a +2 (passive street-eyes), not a
+±5.
+
+**Cosmetic gear-lens (purely visual, zero mechanics).** A background can carry a `cosmetic`
+treatment that **skins the SAME gear differently** — put a Lesser Noble and a Street Rat in the
+identical armor set and the noble's reads **polished/gilt**, the urchin's reads **dingy/grimy**,
+with **identical stats.** It's a material/shader param (same separation as `Cell.Variant`:
+cosmetic NEVER touches gameplay — determinism, presentation.md), rides the crosshatch-material art
+direction (a tint/wear pass, no bespoke art), and doubles as free characterization + a
+live-service cosmetic hook. **Hard rule: the sparkle does NOTHING mechanical** (shiny ≠ +AC).
+
 Backgrounds are not pure-upside. A background can pair a **perk** with a **drawback**, making the
 pick a real decision. Examples:
 - **Pirate:** *Greedy* feat → +10% looted gold/coin **AND** *Unsavory* drawback → −Cha in social
