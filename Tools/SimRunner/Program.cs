@@ -95,6 +95,13 @@ class SimRunner {
         string mobName   = args.Length > 1 ? args[1] : "Goblin";
         string mobSize   = args.Length > 2 ? args[2] : "Small";
 
+        // ── GAUNTLET MODE: one hero vs the entire fightable CR<1 bestiary ──
+        if (sheetPath == "--all" || mobName == "--all" || (args.Length>0 && args[0]=="--all")) {
+            string sp = (args.Length > 1 && args[1] != "--all") ? args[1] : Path.Combine(DataDir,"sheets","Grukk.sheet");
+            RunGauntlet(sp);
+            return;
+        }
+
         var hero = BuildHeroFromSheet(sheetPath, out string heroDesc);
         var mob  = BuildMobFromBestiary(mobName, mobSize, out string mobDesc);
 
@@ -122,6 +129,78 @@ class SimRunner {
         Console.WriteLine($"  Gremlin(RNG) : {100.0*wins/N:F1}% win over {N} runs, avg {(double)rounds/N:F1} rounds\n");
 
         Console.WriteLine("[done] usage: dotnet run -c Release [sheetPath] [mobName] [mobSize]");
+    }
+
+    // ── GAUNTLET: hero vs the entire fightable CR<1 bestiary, as a matrix ──
+    static void RunGauntlet(string sheetPath) {
+        var heroGeared = BuildHeroFromSheet(sheetPath, out string heroDesc);
+        var heroNaked  = BuildHeroNaked(sheetPath, out string nakedDesc);
+        var mobs = EnumerateFightableMobs();
+
+        Console.WriteLine("=== REGAUNTLESS — Gauntlet: one hero vs the whole CR<1 bestiary ===\n");
+        Console.WriteLine($"GEARED: {heroDesc}");
+        Console.WriteLine($"NAKED : {nakedDesc}");
+        Console.WriteLine($"\nfightable stat-blocks: {mobs.Count}  (noncombat stubs + CR>=1 w/o interpreted attacks auto-skip)\n");
+
+        int N = 3000;
+        Console.WriteLine($"{"MOB",-30}{"hp/ac",-8}{"det(N)",-8}{"GEARED",-18}{"NAKED",-18}");
+        Console.WriteLine($"{"",-30}{"",-8}{"",-8}{"win% / rnds",-18}{"win% / rnds",-18}");
+        Console.WriteLine(new string('-', 82));
+        foreach (var (label, make) in mobs) {
+            var m0 = make();
+            string hpac = $"{m0.MaxHp}/{m0.AC}";
+            var (gw, gr, gdet) = Sweep(heroGeared, make, N);
+            var (nw, nr, ndet) = Sweep(heroNaked,  make, N);
+            Console.WriteLine($"{label,-30}{hpac,-8}{(gdet?"det:W":"det:L"),-8}{gw.ToString("F0")+"% / "+gr.ToString("F1"),-18}{nw.ToString("F0")+"% / "+nr.ToString("F1"),-18}");
+        }
+        Console.WriteLine(new string('-', 82));
+        Console.WriteLine("det = Normal/take-10 deterministic result (W/L). win% = Gremlin/RNG win rate over N="+N+". rnds = avg rounds.");
+        Console.WriteLine("NOTE: 'det:L' at take-10 often = the to-hit WALL (can't-hit stalemate), not a death — see run-loss-model.md.");
+    }
+
+    static (double winPct, double avgRounds, bool detWin) Sweep(Combatant hero, Func<Combatant> makeMob, int N) {
+        var hd = Clone(hero); var md = makeMob();
+        bool detWin = Sim.Fight(hd, md, DiceMode.Take10, null);
+        int wins = 0; long rounds = 0;
+        for (int i=0;i<N;i++){ var hh=Clone(hero); var mm=makeMob(); var lg=new List<string>(); if(Sim.Fight(hh,mm,DiceMode.RNG,lg)) wins++; rounds+=lg.Count(x=>x.StartsWith(" -- round")); }
+        return (100.0*wins/N, (double)rounds/N, detWin);
+    }
+
+    // every monster/size that HAS attacks (noncombat stubs + uninterpreted CR>=1 skip naturally)
+    static List<(string label, Func<Combatant> make)> EnumerateFightableMobs() {
+        var root = JsonDocument.Parse(File.ReadAllText(Path.Combine(DataDir,"bestiary.json"))).RootElement;
+        var list = new List<(string,Func<Combatant>)>();
+        foreach (var m in root.GetProperty("monsters").EnumerateArray()) {
+            string name = m.GetProperty("name").GetString();
+            if (m.TryGetProperty("sizes", out var sizes)) {
+                foreach (var sp in sizes.EnumerateObject()) {
+                    if (sp.Value.TryGetProperty("attacks", out var a) && a.GetArrayLength() > 0) {
+                        string sz = sp.Name; string nm = name;
+                        list.Add(($"{name} ({sz})", () => BuildMobFromBestiary(nm, sz, out _)));
+                    }
+                }
+            } else if (m.TryGetProperty("attacks", out var a) && a.GetArrayLength() > 0) {
+                string nm = name;
+                list.Add((name, () => BuildMobFromBestiary(nm, null, out _)));
+            }
+        }
+        return list;
+    }
+
+    // naked variant: innate block, fists only (no looted gear) — the "start of the tutorial" hero
+    static Combatant BuildHeroNaked(string path, out string desc) {
+        var sheet = JsonDocument.Parse(File.ReadAllText(path)).RootElement;
+        var build = sheet.GetProperty("build");
+        string name = sheet.GetProperty("identity").GetProperty("name").GetString();
+        var dc = build.GetProperty("derivedCache");
+        int strMod = build.GetProperty("abilities").GetProperty("mods").GetProperty("str").GetInt32();
+        int bab = dc.GetProperty("bab").GetInt32();
+        int hp = dc.GetProperty("poolContribution").GetInt32();
+        int ac = dc.GetProperty("acNaked").GetInt32();
+        var hero = new Combatant { Name = name+"(naked)", MaxHp = hp, Hp = hp, AC = ac };
+        hero.Attacks.Add(new Attack { Name = "Fists", ToHit = bab + strMod, Dmg = Combine(DamageExpr.Parse("1d3"), strMod) });
+        desc = $"{name} NAKED — HP {hp}, AC {ac}, Fists +{bab+strMod} (1d3+Str{strMod:+0;-0;0})";
+        return hero;
     }
 
     // ── build a Combatant from a resolved sheet: use the INNATE naked block + the looted weapon ──
