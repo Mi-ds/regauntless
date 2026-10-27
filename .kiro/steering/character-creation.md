@@ -142,6 +142,23 @@ against each other.
 **Do NOT re-litigate A-vs-B balance** — they're siblings in the same power band (A reshapes breadth;
 B locks a fixed layout but guarantees your 2 key stats). Pick the rolling *process* you enjoy.
 
+- **Method C — MEOW MODE (point-buy, the no-dice option):** SRD 3.5 **Purchase method**, verbatim
+  (OGL-clean): every ability **starts at 8**, spend from a pool until it's gone, escalating cost —
+  9=1 / 10=2 / 11=3 / 12=4 / 13=5 / 14=6 / 15=8 / 16=10 / 17=13 / 18=16 (total-point cost; cheap to
+  14, steep above). **Zero variance, total control** — build exactly what you want, no gremlin.
+  Default pool **28** (tunable config — SRD "standard" is 25; 28 = a touch stronger, fits a horde
+  crawler + floor-and-lift; this is the LONE survivor of the old 28-vs-32 question). Racial mods
+  apply on top as usual.
+  - **Name/tone:** the deliberate contrast to **Gremlin Mode** (combat's max-RNG tier, combat.md):
+    *Gremlin bites, Meow purrs.* The safe/cuddle/"pussy" char-gen option — affectionately so. The
+    name + deadpan "no dice, no risk" framing is player-facing Pip-Boy flavor; the mechanics are
+    just honest SRD point-buy. (Different AXIS from Gremlin — char-gen vs combat RollPolicy — but a
+    deliberate tonal naming pair.)
+
+**Three methods, player picks at creation: Draft / Fate / Meow.** Draft+Fate are the variance-
+forward rolls (comparable power band); Meow is the no-variance point-buy for control players (and
+control moods). All three land in a comparable power band; it's a style/temperament choice.
+
 (Dead: the old point-buy / 28-vs-32-pool question — we roll instead. The 28-vs-32 analogy is only
 to explain "two comparable textures," not a point-buy system.)
 

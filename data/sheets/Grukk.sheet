@@ -18,8 +18,8 @@
       "level": "int (total character level = Σ class levels)",
       "xp": "int",
       "abilities": {
-        "_note": "ROLLED 3d6 (not point-buy; character-creation.md). 'method' = Draft|Fate. 'rolled' = the kept/assigned 3d6 scores BEFORE racial mods. 'racialMods' = from race. 'final' = cached rolled+racialMods. Str/Dex/Con are the combat-tracked triad (combat-model.md ability-damage). For Fate: 'fateLog' records the down-the-line order + the 2 veto rounds.",
-        "method": "Draft (8 roll, drop 2 lowest, arrange) | Fate (6 in order, then 2 rounds: pick a stat, roll new 3d6, KEEP THE BETTER)",
+        "_note": "ROLLED 3d6 (not point-buy; character-creation.md). 'method' = Draft|Fate|Meow (Meow = SRD point-buy, no dice). 'rolled' = the kept/assigned 3d6 scores BEFORE racial mods. 'racialMods' = from race. 'final' = cached rolled+racialMods. Str/Dex/Con are the combat-tracked triad (combat-model.md ability-damage). For Fate: 'fateLog' records the down-the-line order + the 2 veto rounds.",
+        "method": "Draft (8 roll, drop 2 lowest, arrange) | Fate (6 in order, 2 rounds roll-new-keep-better) | Meow (point-buy, start 8, default pool 28)",
         "rolled": "{str,dex,con,int,wis,cha} — the 3d6 results as kept/assigned, pre-racial-mods",
         "racialMods": "{...} from race",
         "final": "{...} cached = rolled + racialMods",
