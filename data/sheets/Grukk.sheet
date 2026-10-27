@@ -26,7 +26,7 @@
         "fateLog": "(Fate only) optional: the in-order roll + which stats were kept-better'd each round (new vs original)",
         "mods": "{str,dex,con,int,wis,cha} cached ability MODIFIERS = floor((final-10)/2). Downstream (saves/skills/attack/AC) use these."
       },
-      "feats": "[{feat: key -> feats.json, source: race|class|background|chosen, choice: (for choose-a-weapon/school/skill feats) or null}] — the source-agnostic feat pile (character-creation.md). 'class features' appear here with source:class.",
+      "feats": "[{feat:key->feats.json, source: chosen-general|chosen-<class>-bonus|racial-bonus|background|chosen, choice:(for choose-a-X feats) or null}] -- source names the SLOT it filled (char-creation.md feat acquisition). Prereq-gated.",
       "skills": "[{skill:key->skills.json, ranks, classSkill:bool, source:where the ranks came from (purchased/granted), keyAbility}]. Skill-point BUDGET = class skillPointsPerLevel formula with Int mod (Fighter: (2+Int)x4 at L1, min 1/lvl). Background grants (native-reclassify + starting ranks) are SEPARATE from the purchased budget. Class skill = 1pt/rank; cross-class = 2pt/rank, half max. Max ranks at L1 = level+3.",
       "loadout": {
         "weapon": "key -> equipment.json",
@@ -142,12 +142,12 @@
     "feats": [
       {
         "feat": "Power Attack",
-        "source": "chosen",
+        "source": "chosen-general",
         "choice": null
       },
       {
         "feat": "Weapon Focus",
-        "source": "class",
+        "source": "chosen-fighter-bonus",
         "choice": "Greataxe"
       },
       {
@@ -220,7 +220,8 @@
         ]
       }
     },
-    "_skillBudgetNote": "L1 Fighter, Int -1: (2 + -1) x4 = 4 purchased skill points. Spent: Intimidate 3 + Climb 1 = 4. Climb's other rank + all of Swim = Pirate grants (not from budget). A LEGAL spend, not an 'optimal' one -- players spend how they play; the UI enforces rules (budget/cost/max-ranks), not choices."
+    "_skillBudgetNote": "L1 Fighter, Int -1: (2 + -1) x4 = 4 purchased skill points. Spent: Intimidate 3 + Climb 1 = 4. Climb's other rank + all of Swim = Pirate grants (not from budget). A LEGAL spend, not an 'optimal' one -- players spend how they play; the UI enforces rules (budget/cost/max-ranks), not choices.",
+    "_featBudgetNote": "L1 Half-Orc Fighter feat budget = 1 general + 1 fighter-bonus (NO human bonus -- half-orc). Filled: Power Attack (chosen-general; prereq Str 13 ok @17) + Weapon Focus/Greataxe (chosen-fighter-bonus; prereq prof+BAB+1 ok). Greedy+Unsavory = Pirate background grants (off-budget). All prereqs met. LEGAL."
   },
   "state": {
     "abilityDamage": {

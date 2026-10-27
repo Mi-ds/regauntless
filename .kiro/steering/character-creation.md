@@ -23,6 +23,27 @@ granted.* So:
 - A character is just the **accumulated feat pile + stat modifiers**, regardless of how each entry
   got there. Multiclass / prestige / unlocks / items all just **grant more feats** into the one pile.
 
+### How many feats you GET (SRD acquisition — the selection budget)
+The pile fills from **SLOTS** (chosen) + **GRANTS** (free). SRD rules, transcribed:
+- **Character feats:** everyone gets **1 at level 1**, then **+1 every 3 levels** (char levels 3, 6,
+  9, 12, …). Freely chosen from any feat whose **prereqs** you meet.
+- **Human bonus feat:** Humans get **+1 feat at level 1** (racial grant). Other races don't.
+- **Fighter bonus feats:** a Fighter gets a **bonus feat at L1 and every even fighter level**
+  (2,4,6…), chosen from the **fighter-bonus list** (feats tagged `fighterBonus:true` in feats.json).
+  Other classes have their own bonus-feat grants (Wizard item-creation/metamagic, Monk's bonus
+  picks, etc.) — all just class-granted feat slots.
+- **Background grants:** off-budget (a background's feats don't spend your chosen slots). Source-tag
+  `background`.
+- **PREREQ-GATING is universal:** any feat (chosen OR granted) requires its `srd.prereq` be met
+  (ability score / prior feat / BAB / class level). The UI gates selection on prereqs; a feat chain
+  (Power Attack → Cleave → Great Cleave) unlocks as prereqs are satisfied.
+- **Record the SLOT each feat filled** on the sheet (`chosen-general | chosen-<class>-bonus |
+  racial-bonus | background | ...`) — matters for validation + level-up.
+- *Worked (Grukk, L1 Half-Orc Fighter):* budget = **1 general + 1 fighter-bonus** (no human bonus —
+  he's a half-orc). Chosen: Power Attack (general; prereq Str 13 ✓ @17) + Weapon Focus/Greataxe
+  (fighter-bonus; prereq prof + BAB+1 ✓). Plus background grants Greedy + Unsavory (off-budget).
+
+
 ## The three creation axes = grant sources (data bundles)
 
 You pick **Race / Class / Background**. Each is a bundle that injects feats + modifiers into the one
