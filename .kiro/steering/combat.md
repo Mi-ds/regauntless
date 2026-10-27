@@ -120,8 +120,15 @@ the *source of reasons*.
 
 - **Crits — RESOLVED (see "Crits" section below).** They exist in Gremlin Mode via nat-20 AND in
   deterministic modes as a **forced/triggered effect** (not RNG). No longer open.
-- **Where BAB/AC live in deterministic play** beyond fire-rate (BAB) and the to-hit
-  comparison (AC): AC-as-damage-mitigation is a candidate but not locked.
+- **Where BAB/AC live in deterministic play — RESOLVED.** BAB feeds fire-rate AND the to-hit
+  comparison; **AC stays a to-hit GATE** (`value + mods vs AC`), NOT damage-mitigation. The sim
+  confirmed this produces hard can't-hit **walls** when `value+mods < AC` (a lone L1 Grukk +4 can't
+  touch a Goblin AC 15 at take-10) — and that is **intentional**, not a bug: it's the SRD CR/EL
+  "over-CR = you need the party/tools" statement expressed at the to-hit layer. A lone hero stalls;
+  the **party breaks the wall** (flanking +2 / auras / buffs / auto-hit magic like Magic Missile
+  that ignores AC / DR-pierce). AC-as-mitigation is REJECTED — it'd erase the legible gate. See
+  `../design-notes/run-loss-model.md` (the whole loss model = the SRD CR/attrition framework
+  transposed; the to-hit wall is one of its three loss conditions).
 - **Low-level 3.5 swinginess** (6-HP level-1 death) is a difficulty/starting-level knob, not
   an architecture decision.
 
