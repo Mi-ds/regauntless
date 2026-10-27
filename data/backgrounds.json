@@ -10,7 +10,7 @@
   "backgrounds": [
     {
       "name": "Pirate",
-      "flavor": "A sea-raider's life: quick to grab loot, lousy at polite company. (The one Grukk the Half-Orc Fighter runs.)",
+      "flavor": "Loot first, apologize never. Your mother would be ashamed; your coin purse is thrilled. Polite society remains an unsolved problem.",
       "grantedFeats": [
         {
           "feat": "Greedy",
@@ -41,7 +41,7 @@
     },
     {
       "name": "Army Brat",
-      "flavor": "Grew up in/around a military family — raised on camp life, drill, and the smell of oiled steel. NOT a trained soldier (that's the Fighter CLASS) — this is the UPBRINGING: you absorbed discipline and weapon-familiarity before you ever chose a path.",
+      "flavor": "Weaned on reveille and gun oil. Other kids got bedtime stories; you got a field manual and a weapon that was always leaning in the corner. Loud noises are just Tuesday.",
       "grantedFeats": [
         {
           "feat": "Martial Weapon Proficiency",
@@ -67,7 +67,7 @@
     },
     {
       "name": "Medical",
-      "flavor": "Battlefield surgeon / field medic before the Gauntlet. The one who can patch you up.",
+      "flavor": "You know where the bits go and roughly how to keep them there. 'Hold still — this'll only hurt if I did it wrong.' Somebody on this crew has to, and congratulations, it's you.",
       "grantedFeats": [
         {
           "feat": "Self-Sufficient",
@@ -87,7 +87,7 @@
     },
     {
       "name": "Raised in a Cult",
-      "flavor": "Grew up in a fervent sect — picked up real liturgy and a little genuine divine power, plus some baggage. (The honest-named version of the sanitized 'acolyte'.)",
+      "flavor": "You left the compound; the compound didn't entirely leave you. You can still channel a little of... whatever that was. Try not to think too hard about the chanting.",
       "grantedFeats": [
         {
           "feat": "Divine Casting",

@@ -6,6 +6,28 @@ Gauntlet is the *design* north star, not the *fidelity* ceiling. We are NOT doin
 pixel art. High-res, animated, shader-driven objects — but every visual choice serves a
 1985 design *concept*: readable at a glance, information-bearing, no clutter.
 
+## The VOICE — "Pip-Boy flavorful, SRD-tinted"
+
+All player-facing FLAVOR text (background/feat/item descriptions, announcer lines, tooltips,
+unlock blurbs) hits one register: **Pip-Boy flavorful, SRD-tinted glasses.**
+
+- **Pip-Boy voice** = dry, deadpan, retro-wry, a little blackly funny; understated. It makes
+  *systems* feel *characterful* — the stat line is also a tiny joke, the drawback has a shrug in
+  it. (Cf. Fallout: "War. War never changes." / "You are now addicted to Mentats.")
+- **SRD-tinted** = the MECHANICS underneath stay honest d20 3.5. The flavor is a *skin* over a
+  real `+N` / feat / skill; **the joke never lies about the number**, it just wears it well.
+- **Two layers, never mixed:** the **mechanical field** (effect/note) is exact, honest, SRD-clean;
+  the **flavor field** is the Pip-Boy grin. Same `srd` vs `regauntless` split we use in the data,
+  applied to TONE. Examples (backgrounds.json):
+  - Greedy: *"Loot first, apologize never. Your pockets have pockets."* (mech: +10% looted gold)
+  - Unsavory: *"Charm was not among the spoils."* (mech: −5 social circumstance)
+  - Medical: *"Hold still — this'll only hurt if I did it wrong."* (mech: Heal native +1 rank)
+- **Rule for authors (incl. subagents writing flavor):** write the mechanic first and keep it
+  honest; then put the grin on it. Deadpan > zany. Dark-but-light. Never let the joke obscure
+  what the thing actually does. (Whimsy is signal — product.md — and legible whimsy doubly so.)
+
+
+
 ## Lit from below (the signature rendering trick)
 
 Levels are **lit from beneath the floor.** This is the distinctive look-and-feel pillar.
