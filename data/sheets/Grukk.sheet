@@ -23,10 +23,11 @@
         "rolled": "{str,dex,con,int,wis,cha} — the 3d6 results as kept/assigned, pre-racial-mods",
         "racialMods": "{...} from race",
         "final": "{...} cached = rolled + racialMods",
-        "fateLog": "(Fate only) optional: the in-order roll + which stats were kept-better'd each round (new vs original)"
+        "fateLog": "(Fate only) optional: the in-order roll + which stats were kept-better'd each round (new vs original)",
+        "mods": "{str,dex,con,int,wis,cha} cached ability MODIFIERS = floor((final-10)/2). Downstream (saves/skills/attack/AC) use these."
       },
       "feats": "[{feat: key -> feats.json, source: race|class|background|chosen, choice: (for choose-a-weapon/school/skill feats) or null}] — the source-agnostic feat pile (character-creation.md). 'class features' appear here with source:class.",
-      "skills": "[{skill: key -> skills.json, ranks: int, classSkill: bool (true if on-list OR made native by a background)}]",
+      "skills": "[{skill:key->skills.json, ranks, classSkill:bool, source:where the ranks came from (purchased/granted), keyAbility}]. Skill-point BUDGET = class skillPointsPerLevel formula with Int mod (Fighter: (2+Int)x4 at L1, min 1/lvl). Background grants (native-reclassify + starting ranks) are SEPARATE from the purchased budget. Class skill = 1pt/rank; cross-class = 2pt/rank, half max. Max ranks at L1 = level+3.",
       "loadout": {
         "weapon": "key -> equipment.json",
         "armor": "key -> equipment.json",
@@ -128,6 +129,14 @@
         "int": 8,
         "wis": 12,
         "cha": 6
+      },
+      "mods": {
+        "str": 3,
+        "dex": 1,
+        "con": 2,
+        "int": -1,
+        "wis": 1,
+        "cha": -2
       }
     },
     "feats": [
@@ -154,14 +163,25 @@
     ],
     "skills": [
       {
-        "skill": "Intimidate",
-        "ranks": 4,
-        "classSkill": true
-      },
-      {
         "skill": "Climb",
         "ranks": 2,
-        "classSkill": true
+        "classSkill": true,
+        "source": "1 granted by Pirate background + 1 purchased",
+        "keyAbility": "Str"
+      },
+      {
+        "skill": "Swim",
+        "ranks": 1,
+        "classSkill": true,
+        "source": "granted by Pirate background",
+        "keyAbility": "Str"
+      },
+      {
+        "skill": "Intimidate",
+        "ranks": 3,
+        "classSkill": true,
+        "source": "3 purchased (Fighter class skill, 1pt/rank)",
+        "keyAbility": "Cha"
       }
     ],
     "loadout": {
@@ -192,7 +212,8 @@
           "all except tower"
         ]
       }
-    }
+    },
+    "_skillBudgetNote": "L1 Fighter, Int -1: (2 + -1) x4 = 4 purchased skill points. Spent: Intimidate 3 + Climb 1 = 4. Climb's other rank + all of Swim = Pirate grants (not from budget). A LEGAL spend, not an 'optimal' one -- players spend how they play; the UI enforces rules (budget/cost/max-ranks), not choices."
   },
   "state": {
     "abilityDamage": {
