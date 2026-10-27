@@ -264,6 +264,25 @@
         "note": "PURELY visual: weathered, mossy, nature-worn kit -- looks grown-into rather than bought. Same gear, same stats. Optional."
       },
       "note": "The wilderness/feral origin (combined druid+ranger scraps; bard-adjacent stuff deliberately parked). WEAK-ECHO principle: a background is a diluted echo of a class capability, never the full kit -- Treehugger echoes Ranger/Druid woodcraft+tracking weakly (cf. Medical~Cleric, Nerd/Cult~casters, Army Brat~Fighter). Headline = Animal Kinship (first MOB-BEHAVIOR-modifying perk; type:Animal-only, which makes the creature-TYPE metadata gate a real mechanic + role). No primal caster-dabble (that stays with the Druid class; this is the beast/scout background). Adds house feats Animal Kinship + Woodcraft to the feats.json to-author list; drawback Feral below."
+    },
+    {
+      "name": "Average Normal Player Character",
+      "abbrev": "ANPC",
+      "flavor": "No bloodline, no mentor, no tragic fire. You're the control group. While everyone else brought a skill, you brought... slightly more stamina. Enough to keep standing a little longer than people who are actually contributing. It's not much. It's what you've got.",
+      "grantedFeats": [
+        {
+          "feat": "Slightly More Stamina",
+          "kind": "perk",
+          "houseAuthored": true,
+          "effect": "+20% max STAMINA. Flavor: 'gets slightly more stamina than anyone who's more useful.' DEPENDENCY (flagged): stamina is a PLANNED per-hero ACTION-ECONOMY resource (spend-to-act/sprint/special, regenerates) that is NOT YET IMPLEMENTED and is DISTINCT from the shared survival pool (survival.md). Until stamina exists, this perk is recorded-but-inert; it lights up when the stamina system is built."
+        }
+      ],
+      "skillsMadeNative": [],
+      "cosmetic": {
+        "gearTreatment": "plain",
+        "note": "PURELY visual: aggressively off-the-rack, no flair. The control-group look. Same gear, same stats."
+      },
+      "note": "The BASELINE / NULL background -- the deliberate anti-gimmick 'I don't want a background special, just a sliver of durability' pick. Every OTHER background trades specialization for a drawback; ANPC trades everything for one tiny, safe, universal perk and NO drawback, NO native skills. It's the floor-and-lift philosophy (design-notes/floor-and-lift.md) as a pickable option: the base hero is a deliberate floor, and this background IS that floor. The meta-joke name ('Average Normal Player Character') is intentional. FLAGS a future system: per-hero STAMINA / action-economy (planned, not built; != survival pool)."
     }
   ]
 }

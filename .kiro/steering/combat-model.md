@@ -555,3 +555,12 @@ CANNOT simulate **spatial player skill** — dodging a lob's splash zone, breaki
 sightline, holding a corner angle. Those resolve by positioning in the real 2D game; in the sim
 they must be **abstracted to probabilities/assumptions** (e.g. "assumed dodge rate"), and flagged
 as such. The sim measures the lift of systems; it does not measure twitch/positioning skill.
+
+## Stamina (PLANNED — not yet built)
+A future **per-hero action-economy resource**: spend-to-act (sprint / special moves / etc.),
+regenerates over time. **Distinct from the shared survival pool** (survival.md) — stamina is
+individual and about *doing things*, the pool is collective and about *staying alive*. Not
+implemented yet; referenced ahead of time by the "Average Normal Player Character" background
+(+20% max stamina, data/backgrounds.json). When stamina is built, that perk (and likely some
+feats/classes) light up. Likely interacts with the AP-loop above (AP spend ≈ stamina spend) —
+reconcile the two when stamina is designed.
