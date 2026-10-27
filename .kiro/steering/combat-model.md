@@ -556,11 +556,10 @@ sightline, holding a corner angle. Those resolve by positioning in the real 2D g
 they must be **abstracted to probabilities/assumptions** (e.g. "assumed dodge rate"), and flagged
 as such. The sim measures the lift of systems; it does not measure twitch/positioning skill.
 
-## Stamina (PLANNED — not yet built)
-A future **per-hero action-economy resource**: spend-to-act (sprint / special moves / etc.),
-regenerates over time. **Distinct from the shared survival pool** (survival.md) — stamina is
-individual and about *doing things*, the pool is collective and about *staying alive*. Not
-implemented yet; referenced ahead of time by the "Average Normal Player Character" background
-(+20% max stamina, data/backgrounds.json). When stamina is built, that perk (and likely some
-feats/classes) light up. Likely interacts with the AP-loop above (AP spend ≈ stamina spend) —
-reconcile the two when stamina is designed.
+## Stamina (PLANNED — and it's NOT a combat resource)
+CORRECTION/clarification: stamina is **NOT** a dungeon/combat/AP resource — do not reconcile it
+with the AP-loop above. It's a per-hero **INTERLUDE** resource (the between-runs/between-levels
+metagame): "how much can you DO during the interlude" — it gates mini-games/activities between
+floors, not actions in the fight. Lives with the Interlude design (see
+`.kiro/design-notes/interlude.md`). Referenced ahead of build by the "Average Normal Player
+Character" background (+20% max stamina). Not implemented; different layer from combat entirely.
