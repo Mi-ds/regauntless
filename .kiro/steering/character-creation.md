@@ -31,7 +31,7 @@ bundles, authorable by hand or by a scoped subagent.)
 
 | Axis | Grants |
 |---|---|
-| **Race** | ability stat mods (±N) · **the build/buy-point pool** (how many points you get to raise abilities) · some granted feats (racial traits) |
+| **Race** | ability stat **mods** (±N, applied on top of the 3d6-rolled scores — NO point-buy pool) · some granted feats (racial traits) |
 | **Class** | granted feats (= the "class features": divine casting, turn undead, sneak attack, rage, flurry…) · **Hit Die** size · weapon/armor **proficiencies** |
 | **Background** | another modifier bundle — grants feats (perks) **and may grant negative feats (drawbacks)** · flavor. A background can grant ANYTHING a class can (see Raised-in-a-Cult below). |
 
@@ -120,9 +120,29 @@ in the **±5 circumstance pile** (`combat.md`). So a drawback is just a feat tha
 −5 (or a flat penalty / restriction). No separate "disadvantage system."
 
 ## Stat generation
-Stats are **point-buy**: **Race sets the size of the build-point pool**, you spend it to raise
-abilities, then racial stat-mods apply. (Point-buy over rolled stats fits the deterministic/legible
-ethos — `combat.md`. CONFIRM if ever revisited; this is the working assumption.)
+Stats are **ROLLED (3d6), not point-buy.** Deliberate: variance lives at ROLL-TIME (character
+generation), determinism lives at FIGHT-TIME (combat.md's deterministic breakpoints). Those don't
+conflict — random *who you are*, deterministic *how fights resolve*. Fits the variance-forward
+temperament (cf. Gremlin Mode) and floor-and-lift (the base hero is a floor anyway; your build/play
+is the lift, not your raw roll). Then racial stat-mods apply on top of the rolled scores.
+
+**The player picks ONE of two methods at creation** (two temperaments, same ~2 units of mercy,
+opposite styles):
+- **Method A — DRAFT (control):** roll **8× 3d6**, **drop the 2 lowest**, **arrange** the kept 6
+  freely across the stats. Shape a solid, well-formed hero. Higher floor, less drama.
+- **Method B — FATE (gamble):** roll **6× 3d6 DOWN-THE-LINE** (Str→Dex→Con→Int→Wis→Cha, in order,
+  no arranging). Then **2 ROUNDS of 1 veto-and-reroll each**, SEQUENTIAL with full info between: see
+  your whole spread → veto one stat, reroll it, see the result → veto one stat (same or different),
+  reroll, done. A reroll can come up WORSE. You MAY re-veto the same stat both rounds to **double
+  down** (the "I want a ranger, burn both vetoes chasing a decent Dex" play). Press-your-luck toward
+  a build-concept; lower floor, more story.
+
+**Method A is slightly stronger on expected value than B** (more draws + free placement vs a fixed
+layout + 2 swings). **This is intended, not a balance bug** — control costs variance, the gamble is
+the point; a rogue-lite can absorb a dud roll (start another). Tunable if ever needed, but default:
+leave it.
+
+(Dead: the old point-buy / 28-vs-32-pool question — we roll instead.)
 
 ## House feats can be DIRTY — it's a videogame, not a sourcebook
 
@@ -143,13 +163,13 @@ the SRD is our mechanics *vocabulary and tone*, NOT a balance cage.
 
 ## SRD-honesty (what's transcribed vs house-added)
 - **SRD 3.5 (transcribe):** the feat system, class features, racial mods, Hit Dice, proficiencies,
-  skills + cross-class 2×-cost, UMD, partial-caster progressions, point-buy, *Self-Sufficient* feat.
+  skills + cross-class 2×-cost, UMD, partial-caster progressions, 3d6 ability rolls, *Self-Sufficient* feat.
 - **House-added (legit under feats/classes/skills-as-data — "add more as we go"; mark as ours, do
   NOT pretend-SRD):** the **Backgrounds layer** (incl. Pirate, Medical, Raised-in-a-Cult), the
   *Field Medic* feat, the *Doctor* prestige class, any new races/classes/backgrounds/feats we author.
 
 ## Open knobs (non-blocking, tuning)
-- Point-buy pool sizes per race; stat-mod values.
+- Stat-mod values per race (the 3d6 roll method itself is settled: Draft vs Fate).
 - Whether backgrounds MUST pair perk+drawback, or may be pure-upside (Medical looks pure-upside) —
   leaning **usually paired, not required**.
 - The exact "dabbler" caster progression numbers (how-gimped is a background-granted caster).

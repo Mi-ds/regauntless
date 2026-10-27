@@ -2,46 +2,87 @@
   "_comment": "Regauntless CHARACTER SHEET — the save artifact for one hero. Created/edited by the player through the in-game management UI (level up, spend points, slot feats, change loadout). JSON inside a '.sheet' file. The sheet stores REFERENCES (keys) into the SRD data files (races.json/classes.json/feats.json/skills.json/equipment.json/abilities.json) — never copies — so a rules change propagates. TWO layers: 'build' (the authored, stable character) and 'state' (live, mutable run condition). See .kiro/steering/character-creation.md + combat-model.md. This file is an EXAMPLE/template (a L1 Fighter w/ Pirate background) showing the shape.",
   "_schema": {
     "schemaVersion": "int — bump when the sheet format changes; loader migrates old sheets",
-    "identity": { "name": "string (the <name> in <name>.sheet)", "created": "ISO8601", "lastPlayed": "ISO8601", "heroArchetype": "which of the 6 roster heroes this maps to (Warrior/Valkyrie/Wizard/Elf/... ) — drives HeroStats + the pixel-hat skin (presentation.md)" },
+    "identity": {
+      "name": "string (the <name> in <name>.sheet)",
+      "created": "ISO8601",
+      "lastPlayed": "ISO8601",
+      "heroArchetype": "which of the 6 roster heroes this maps to (Warrior/Valkyrie/Wizard/Elf/... ) — drives HeroStats + the pixel-hat skin (presentation.md)"
+    },
     "build": {
       "_note": "STABLE authored character. Changes only during management/level-up, never mid-run. Source of truth = the authored inputs; derived values are cached (recomputable from build + data files).",
-      "grantSources": { "race": "key -> races.json", "classes": "[{class: key -> classes.json, levels: int}] (list supports multiclass)", "background": "key -> backgrounds (house layer; character-creation.md)" },
+      "grantSources": {
+        "race": "key -> races.json",
+        "classes": "[{class: key -> classes.json, levels: int}] (list supports multiclass)",
+        "background": "key -> backgrounds (house layer; character-creation.md)"
+      },
       "level": "int (total character level = Σ class levels)",
       "xp": "int",
       "abilities": {
-        "_note": "point-buy result. 'base' = points spent; 'racialMods' = from race; 'final' = cached sum. Str/Dex/Con are the combat-tracked triad (combat-model.md ability-damage).",
-        "pointBuyPool": "int (set by race)",
-        "base": { "str": "int", "dex": "int", "con": "int", "int": "int", "wis": "int", "cha": "int" },
-        "racialMods": { "str": "int", "dex": "int", "con": "int", "int": "int", "wis": "int", "cha": "int" },
-        "final": { "str": "int", "dex": "int", "con": "int", "int": "int", "wis": "int", "cha": "int (cached = base+racialMods)" }
+        "_note": "ROLLED 3d6 (not point-buy; character-creation.md). 'method' = Draft|Fate. 'rolled' = the kept/assigned 3d6 scores BEFORE racial mods. 'racialMods' = from race. 'final' = cached rolled+racialMods. Str/Dex/Con are the combat-tracked triad (combat-model.md ability-damage). For Fate: 'fateLog' records the down-the-line order + the 2 veto rounds.",
+        "method": "Draft (8 roll, drop 2 lowest, arrange) | Fate (6 in order, 2 rounds of 1 veto-reroll)",
+        "rolled": "{str,dex,con,int,wis,cha} — the 3d6 results as kept/assigned, pre-racial-mods",
+        "racialMods": "{...} from race",
+        "final": "{...} cached = rolled + racialMods",
+        "fateLog": "(Fate only) optional: the in-order roll + which stats were vetoed/rerolled each round"
       },
       "feats": "[{feat: key -> feats.json, source: race|class|background|chosen, choice: (for choose-a-weapon/school/skill feats) or null}] — the source-agnostic feat pile (character-creation.md). 'class features' appear here with source:class.",
       "skills": "[{skill: key -> skills.json, ranks: int, classSkill: bool (true if on-list OR made native by a background)}]",
-      "loadout": { "weapon": "key -> equipment.json", "armor": "key -> equipment.json", "shield": "key or null" },
+      "loadout": {
+        "weapon": "key -> equipment.json",
+        "armor": "key -> equipment.json",
+        "shield": "key or null"
+      },
       "derivedCache": {
         "_note": "RECOMPUTABLE from build+data; cached for load speed. If ever out of sync, recompute wins.",
         "hitDie": "string (from class)",
         "bab": "int",
-        "saves": { "fort": "int", "ref": "int", "will": "int" },
+        "saves": {
+          "fort": "int",
+          "ref": "int",
+          "will": "int"
+        },
         "poolContribution": "int (this hero's slice of the shared party-pool MAX — HD-derived + Toughness etc.; survival.md / combat-model.md Con-damage lowers this)",
-        "proficiencies": { "weapons": ["..."], "armor": ["..."], "shields": ["..."] }
+        "proficiencies": {
+          "weapons": [
+            "..."
+          ],
+          "armor": [
+            "..."
+          ],
+          "shields": [
+            "..."
+          ]
+        }
       }
     },
     "state": {
       "_note": "LIVE, MUTABLE run condition. Reset/created fresh at run start from build; mutated during play. This is where ability-DAMAGE, statuses, and incap live — combat-model.md.",
-      "abilityDamage": { "str": "int (points of Str damage currently applied; final.str - this drives the feel; 0-stat = incap)", "dex": "int", "con": "int" },
+      "abilityDamage": {
+        "str": "int (points of Str damage currently applied; final.str - this drives the feel; 0-stat = incap)",
+        "dex": "int",
+        "con": "int"
+      },
       "statuses": "[{name: poison|disease|web|attached|..., appliedAt, clock: {type: timer|persistent, remaining or resistLoop}, effect, stacks}] — per combat-model.md status framework",
-      "incap": { "down": "bool", "reason": "which stat hit 0", "carryState": "anchor|carried|null" },
-      "metagameDamage": { "_note": "unrecovered ability damage that rode out of a run (character-creation.md / disease metagame-ride); healed/cured between runs" }
+      "incap": {
+        "down": "bool",
+        "reason": "which stat hit 0",
+        "carryState": "anchor|carried|null"
+      },
+      "metagameDamage": {
+        "_note": "unrecovered ability damage that rode out of a run (character-creation.md / disease metagame-ride); healed/cured between runs"
+      }
     },
     "metagame": {
       "_note": "cross-run / cosmetic / unlock state",
-      "unlocks": ["..."],
-      "cosmetics": { "hat": "key (presentation.md pixel-hat), skins: {...}" },
+      "unlocks": [
+        "..."
+      ],
+      "cosmetics": {
+        "hat": "key (presentation.md pixel-hat), skins: {...}"
+      },
       "playlist": "owned-track playlist + event-cue bindings (vision.md)"
     }
   },
-
   "schemaVersion": 1,
   "identity": {
     "name": "Grukk",
@@ -52,45 +93,134 @@
   "build": {
     "grantSources": {
       "race": "Half-Orc",
-      "classes": [ { "class": "Fighter", "levels": 1 } ],
+      "classes": [
+        {
+          "class": "Fighter",
+          "levels": 1
+        }
+      ],
       "background": "Pirate"
     },
     "level": 1,
     "xp": 0,
     "abilities": {
-      "pointBuyPool": 25,
-      "base":       { "str": 15, "dex": 13, "con": 14, "int": 10, "wis": 12, "cha": 8 },
-      "racialMods": { "str": 2,  "dex": 0,  "con": 0,  "int": -2, "wis": 0,  "cha": -2 },
-      "final":      { "str": 17, "dex": 13, "con": 14, "int": 8,  "wis": 12, "cha": 6 }
+      "method": "Draft",
+      "rolled": {
+        "str": 15,
+        "dex": 13,
+        "con": 14,
+        "int": 10,
+        "wis": 12,
+        "cha": 8
+      },
+      "racialMods": {
+        "str": 2,
+        "dex": 0,
+        "con": 0,
+        "int": -2,
+        "wis": 0,
+        "cha": -2
+      },
+      "final": {
+        "str": 17,
+        "dex": 13,
+        "con": 14,
+        "int": 8,
+        "wis": 12,
+        "cha": 6
+      }
     },
     "feats": [
-      { "feat": "Power Attack", "source": "chosen", "choice": null },
-      { "feat": "Weapon Focus", "source": "class",  "choice": "Greataxe" },
-      { "feat": "Greedy",       "source": "background", "choice": null },
-      { "feat": "Unsavory",     "source": "background", "choice": null }
+      {
+        "feat": "Power Attack",
+        "source": "chosen",
+        "choice": null
+      },
+      {
+        "feat": "Weapon Focus",
+        "source": "class",
+        "choice": "Greataxe"
+      },
+      {
+        "feat": "Greedy",
+        "source": "background",
+        "choice": null
+      },
+      {
+        "feat": "Unsavory",
+        "source": "background",
+        "choice": null
+      }
     ],
     "skills": [
-      { "skill": "Intimidate", "ranks": 4, "classSkill": true },
-      { "skill": "Climb",      "ranks": 2, "classSkill": true }
+      {
+        "skill": "Intimidate",
+        "ranks": 4,
+        "classSkill": true
+      },
+      {
+        "skill": "Climb",
+        "ranks": 2,
+        "classSkill": true
+      }
     ],
-    "loadout": { "weapon": "Greataxe", "armor": "Scale Mail", "shield": null },
+    "loadout": {
+      "weapon": "Greataxe",
+      "armor": "Scale Mail",
+      "shield": null
+    },
     "derivedCache": {
       "hitDie": "d10",
       "bab": 1,
-      "saves": { "fort": 4, "ref": 0, "will": 0 },
+      "saves": {
+        "fort": 4,
+        "ref": 0,
+        "will": 0
+      },
       "poolContribution": 12,
-      "proficiencies": { "weapons": ["simple", "martial"], "armor": ["light","medium","heavy"], "shields": ["all except tower"] }
+      "proficiencies": {
+        "weapons": [
+          "simple",
+          "martial"
+        ],
+        "armor": [
+          "light",
+          "medium",
+          "heavy"
+        ],
+        "shields": [
+          "all except tower"
+        ]
+      }
     }
   },
   "state": {
-    "abilityDamage": { "str": 0, "dex": 0, "con": 0 },
+    "abilityDamage": {
+      "str": 0,
+      "dex": 0,
+      "con": 0
+    },
     "statuses": [],
-    "incap": { "down": false, "reason": null, "carryState": null },
-    "metagameDamage": { "str": 0, "dex": 0, "con": 0 }
+    "incap": {
+      "down": false,
+      "reason": null,
+      "carryState": null
+    },
+    "metagameDamage": {
+      "str": 0,
+      "dex": 0,
+      "con": 0
+    }
   },
   "metagame": {
     "unlocks": [],
-    "cosmetics": { "hat": "warrior_bucket_helm", "skins": {} },
-    "playlist": { "tracks": [], "cues": {} }
+    "cosmetics": {
+      "hat": "warrior_bucket_helm",
+      "skins": {}
+    },
+    "playlist": {
+      "tracks": [],
+      "cues": {}
+    }
   }
 }
