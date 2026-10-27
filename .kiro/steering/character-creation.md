@@ -126,23 +126,24 @@ conflict — random *who you are*, deterministic *how fights resolve*. Fits the 
 temperament (cf. Gremlin Mode) and floor-and-lift (the base hero is a floor anyway; your build/play
 is the lift, not your raw roll). Then racial stat-mods apply on top of the rolled scores.
 
-**The player picks ONE of two methods at creation** (two temperaments, same ~2 units of mercy,
-opposite styles):
-- **Method A — DRAFT (control):** roll **8× 3d6**, **drop the 2 lowest**, **arrange** the kept 6
-  freely across the stats. Shape a solid, well-formed hero. Higher floor, less drama.
-- **Method B — FATE (gamble):** roll **6× 3d6 DOWN-THE-LINE** (Str→Dex→Con→Int→Wis→Cha, in order,
-  no arranging). Then **2 ROUNDS of 1 veto-and-reroll each**, SEQUENTIAL with full info between: see
-  your whole spread → veto one stat, reroll it, see the result → veto one stat (same or different),
-  reroll, done. A reroll can come up WORSE. You MAY re-veto the same stat both rounds to **double
-  down** (the "I want a ranger, burn both vetoes chasing a decent Dex" play). Press-your-luck toward
-  a build-concept; lower floor, more story.
+**The player picks ONE of two methods at creation. They land in roughly the SAME power band** —
+think of them like **28-point-buy vs 32-point-buy: not better/worse, just two textures of "pick
+your build."** The method is a **style preference, not a balance decision** — don't grade them
+against each other.
+- **Method A — DRAFT:** roll **8× 3d6**, **drop the 2 lowest**, **arrange** the kept 6 freely across
+  the stats. You shape the whole spread. (Style: draft-and-place.)
+- **Method B — FATE:** roll **6× 3d6 DOWN-THE-LINE** (Str→Dex→Con→Int→Wis→Cha, in order, no
+  arranging). Then **2 rounds, each: pick a stat → roll a NEW 3d6 for it → KEEP THE BETTER** of
+  old-vs-new (your choice). May target the same stat both rounds (a best-of-3 on it — e.g. lock in
+  a ranger's Dex). The keep-the-better veto **can only help or tie, never hurt** — it's targeted
+  best-of-2 on your 2 most important stats, with the rest kept as-rolled in fixed positions. (Style:
+  fixed layout, shore up your two key stats.)
 
-**Method A is slightly stronger on expected value than B** (more draws + free placement vs a fixed
-layout + 2 swings). **This is intended, not a balance bug** — control costs variance, the gamble is
-the point; a rogue-lite can absorb a dud roll (start another). Tunable if ever needed, but default:
-leave it.
+**Do NOT re-litigate A-vs-B balance** — they're siblings in the same power band (A reshapes breadth;
+B locks a fixed layout but guarantees your 2 key stats). Pick the rolling *process* you enjoy.
 
-(Dead: the old point-buy / 28-vs-32-pool question — we roll instead.)
+(Dead: the old point-buy / 28-vs-32-pool question — we roll instead. The 28-vs-32 analogy is only
+to explain "two comparable textures," not a point-buy system.)
 
 ## House feats can be DIRTY — it's a videogame, not a sourcebook
 

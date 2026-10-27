@@ -19,11 +19,11 @@
       "xp": "int",
       "abilities": {
         "_note": "ROLLED 3d6 (not point-buy; character-creation.md). 'method' = Draft|Fate. 'rolled' = the kept/assigned 3d6 scores BEFORE racial mods. 'racialMods' = from race. 'final' = cached rolled+racialMods. Str/Dex/Con are the combat-tracked triad (combat-model.md ability-damage). For Fate: 'fateLog' records the down-the-line order + the 2 veto rounds.",
-        "method": "Draft (8 roll, drop 2 lowest, arrange) | Fate (6 in order, 2 rounds of 1 veto-reroll)",
+        "method": "Draft (8 roll, drop 2 lowest, arrange) | Fate (6 in order, then 2 rounds: pick a stat, roll new 3d6, KEEP THE BETTER)",
         "rolled": "{str,dex,con,int,wis,cha} — the 3d6 results as kept/assigned, pre-racial-mods",
         "racialMods": "{...} from race",
         "final": "{...} cached = rolled + racialMods",
-        "fateLog": "(Fate only) optional: the in-order roll + which stats were vetoed/rerolled each round"
+        "fateLog": "(Fate only) optional: the in-order roll + which stats were kept-better'd each round (new vs original)"
       },
       "feats": "[{feat: key -> feats.json, source: race|class|background|chosen, choice: (for choose-a-weapon/school/skill feats) or null}] — the source-agnostic feat pile (character-creation.md). 'class features' appear here with source:class.",
       "skills": "[{skill: key -> skills.json, ranks: int, classSkill: bool (true if on-list OR made native by a background)}]",
