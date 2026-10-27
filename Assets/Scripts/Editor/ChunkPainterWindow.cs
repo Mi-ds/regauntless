@@ -25,8 +25,9 @@ namespace Regauntless.EditorTools
 
         // --- workspace (the one open document) ---
         private readonly Dictionary<HexCoord, Cell> _floor = new Dictionary<HexCoord, Cell>();
-        private readonly HashSet<int> _wallsOn = new HashSet<int>();   // indices into the derived slot list
-        private int _wallFacing = 1;                                   // half-bloom facing for slot derivation
+        private readonly Dictionary<int, WallSlotState> _walls = new Dictionary<int, WallSlotState>(); // slot index -> state (absent = None)
+        private WallSlotState _wallBrush = WallSlotState.Full;        // which wall the Walls-layer brush paints
+        private int _wallFacing = 1;                                  // half-bloom facing for slot derivation
         private string _openPath = null;                               // asset path of the open chunk (null = unsaved)
         private string _chunkType = "generic";
         private bool _dirty = false;
@@ -87,7 +88,7 @@ namespace Regauntless.EditorTools
             string title = string.IsNullOrEmpty(_openPath) ? "(unsaved)" : System.IO.Path.GetFileNameWithoutExtension(_openPath);
             GUILayout.Label((_dirty ? "*" : "") + title, EditorStyles.boldLabel);
             GUILayout.FlexibleSpace();
-            GUILayout.Label($"floor:{_floor.Count}  walls:{_wallsOn.Count}", EditorStyles.miniLabel);
+            GUILayout.Label($"floor:{_floor.Count}  walls:{_walls.Count}", EditorStyles.miniLabel);
             EditorGUILayout.EndHorizontal();
         }
 
@@ -126,11 +127,20 @@ namespace Regauntless.EditorTools
         private void DrawWallBar()
         {
             EditorGUILayout.BeginHorizontal();
+            GUILayout.Label("Brush:", GUILayout.Width(44));
+            var prev = GUI.backgroundColor;
+            GUI.backgroundColor = new Color(0.9f, 0.5f, 0.15f);
+            if (GUILayout.Button(_wallBrush == WallSlotState.Full ? "[Wall]" : "Wall", GUILayout.Height(22), GUILayout.Width(90))) _wallBrush = WallSlotState.Full;
+            GUI.backgroundColor = new Color(0.9f, 0.7f, 0.35f);
+            if (GUILayout.Button(_wallBrush == WallSlotState.Half ? "[Half-wall]" : "Half-wall", GUILayout.Height(22), GUILayout.Width(110))) _wallBrush = WallSlotState.Half;
+            GUI.backgroundColor = prev;
+            GUILayout.Space(16);
             int newFacing = EditorGUILayout.IntSlider("Half-bloom facing", _wallFacing, 0, 5);
-            if (newFacing != _wallFacing) { _wallFacing = newFacing; _wallsOn.Clear(); _dirty = true; } // slot layout changed
+            if (newFacing != _wallFacing) { _wallFacing = newFacing; _walls.Clear(); _dirty = true; } // slot layout changed
             EditorGUILayout.EndHorizontal();
-            EditorGUILayout.HelpBox("WALLS: left-click a slot to toggle a wall on/off (bitstream). " +
-                                    "Slots are derived from the floor (floor + half-bloom).", MessageType.None);
+            EditorGUILayout.HelpBox("WALLS: left-click a slot = paint selected brush (Wall / Half-wall) · right-click = clear to None (door). " +
+                                    "None=door (passes move+LoS) · Half=window (blocks move, passes LoS) · Full=wall (blocks both). " +
+                                    "Slots derived from the floor (floor + half-bloom).", MessageType.None);
         }
 
         // ---------------------------------------------------------------- canvas
@@ -279,9 +289,9 @@ namespace Regauntless.EditorTools
                 else if (e.button == 1) _floor.Remove(h);
                 _dirty = true; e.Use(); Repaint();
             }
-            else // Walls: find the nearest slot to the click, toggle its bit (MouseDown only — no drag spam)
+            else // Walls: find the nearest slot to the click; left = paint brush, right = clear to None
             {
-                if (e.type != EventType.MouseDown || e.button != 0) return;
+                if (e.button != 0 && e.button != 1) return;
                 int best = -1; float bestD = float.MaxValue;
                 for (int i = 0; i < slots.Count; i++)
                 {
@@ -291,7 +301,8 @@ namespace Regauntless.EditorTools
                 }
                 if (best >= 0 && bestD < (_hexSize * _hexSize))
                 {
-                    if (!_wallsOn.Remove(best)) _wallsOn.Add(best);
+                    if (e.button == 0) _walls[best] = _wallBrush;   // paint selected wall state
+                    else _walls.Remove(best);                       // right-click = clear to None (door)
                     _dirty = true; e.Use(); Repaint();
                 }
             }
@@ -315,8 +326,9 @@ namespace Regauntless.EditorTools
 
         private void DrawWalls(HexLayout layout, List<HexCoord> slots)
         {
-            // slot geometry = the offset+rotated lattice (display only). Bit on → amber solid;
-            // bit off → faint outline (so you can see paintable slots on the walls layer).
+            // slot geometry = the offset+rotated lattice (display only). Full = solid amber;
+            // Half (window) = lighter amber; None (door) = faint outline, shown only while editing
+            // the walls layer so you can see paintable slots.
             float s = _hexSize * _spacing;
             float halfCellNS = (Mathf.Sqrt(3f) / 2f) * s;
             Vector2 offset = new Vector2(0f, halfCellNS);  // half a cell, pure vertical (see levels.md)
@@ -325,10 +337,16 @@ namespace Regauntless.EditorTools
             {
                 HexCoord disp = slots[i].Rotate60(_viewRotation);
                 Vector2 center = layout.HexToPixel(disp) + offset;
-                bool on = _wallsOn.Contains(i);
-                if (!on && _active != Layer.Walls) continue; // only show empty slots while editing walls
-                DrawHexAt(center, _hexSize, 30f,
-                    on ? new Color(0.9f, 0.5f, 0.15f, 0.95f) : new Color(0.9f, 0.5f, 0.15f, 0.25f));
+                WallSlotState st = _walls.TryGetValue(i, out var v) ? v : WallSlotState.None;
+                if (st == WallSlotState.None && _active != Layer.Walls) continue; // hide empty slots unless editing walls
+                Color col = st switch {
+                    WallSlotState.Full => new Color(0.90f, 0.50f, 0.15f, 0.95f),   // solid amber
+                    WallSlotState.Half => new Color(0.95f, 0.75f, 0.35f, 0.80f),   // lighter amber (window)
+                    _                  => new Color(0.90f, 0.50f, 0.15f, 0.22f),   // faint outline (door/empty slot)
+                };
+                DrawHexAt(center, _hexSize, 30f, col);
+                if (st == WallSlotState.Half)  // draw an inner dash to read "half"
+                    DrawHexAt(center, _hexSize * 0.5f, 30f, col);
             }
         }
 
@@ -349,7 +367,7 @@ namespace Regauntless.EditorTools
         private void NewChunk()
         {
             if (!ConfirmDiscard()) return;
-            _floor.Clear(); _wallsOn.Clear();
+            _floor.Clear(); _walls.Clear();
             _openPath = null; _dirty = false;
             Repaint();
         }
@@ -368,11 +386,13 @@ namespace Regauntless.EditorTools
         private void LoadFrom(ChunkData data, string path)
         {
             // REPLACE the workspace entirely (no loading overtop).
-            _floor.Clear(); _wallsOn.Clear();
+            _floor.Clear(); _walls.Clear();
             foreach (var entry in data.Cells) _floor[entry.Coord] = entry.Cell;
             _wallFacing = data.WallFacing;
             _chunkType = data.ChunkType;
-            for (int i = 0; i < data.WallBits.Count; i++) if (data.WallBits[i]) _wallsOn.Add(i);
+            data.MigrateWallsIfNeeded();  // back-compat: old bool WallBits -> tri-state WallStates
+            for (int i = 0; i < data.WallStates.Count; i++)
+                if (data.WallStates[i] != WallSlotState.None) _walls[i] = data.WallStates[i];
             _openPath = path; _dirty = false;
             Repaint();
         }
@@ -413,10 +433,12 @@ namespace Regauntless.EditorTools
             foreach (var kv in _floor)
                 data.Cells.Add(new ChunkData.Entry { Q = kv.Key.Q, R = kv.Key.R, Type = kv.Value.Type, Variant = kv.Value.Variant });
 
-            // write the wall bitstream in WallSlots order
+            // write the wall TRI-STATE stream in WallSlots order (None/Half/Full per slot)
             var slots = Bloom.WallSlots(FloorFootprint(), _wallFacing);
-            data.WallBits = new List<bool>(slots.Count);
-            for (int i = 0; i < slots.Count; i++) data.WallBits.Add(_wallsOn.Contains(i));
+            data.WallStates = new List<WallSlotState>(slots.Count);
+            for (int i = 0; i < slots.Count; i++)
+                data.WallStates.Add(_walls.TryGetValue(i, out var st) ? st : WallSlotState.None);
+            data.WallBits = new List<bool>(); // clear legacy bitstream; WallStates is authoritative now
 
             if (isNew) AssetDatabase.CreateAsset(data, rel);
             else EditorUtility.SetDirty(data);

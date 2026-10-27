@@ -39,17 +39,40 @@ namespace Regauntless.Levels
         [Tooltip("The painted cells. Floor cells define the footprint; unpainted hexes are outside.")]
         public List<Entry> Cells = new List<Entry>();
 
-        // --- WALL LAYER = a BITSTREAM, not coordinates. --------------------------------------
+        // --- WALL LAYER = a TRI-STATE stream, not coordinates. ------------------------------
         // The wall-slot POSITIONS are re-derived from the floor every load (Bloom.WallSlots:
-        // floor copy + half-bloom = "the floor footprint as a bitstream with slightly more
-        // positions"). We store ONLY the bits (1 = wall present at that slot, 0 = not), in
-        // Bloom.WallSlots order. No wall coordinates are stored — this is the whole point:
-        // replace computation-stored-as-geometry with a tiny datastream. (See levels.md.)
+        // floor copy + half-bloom). We store ONLY the per-slot STATE, in Bloom.WallSlots order.
+        // No wall coordinates are stored — replace computation-stored-as-geometry with a tiny
+        // datastream. (See levels.md.)
+        //
+        // Each slot is one of three states (doors/windows are just wall-slot states, NOT a
+        // separate openings layer):
+        //   None = a DOOR/opening/gap — passes MOVEMENT and LoS (floor continues through it).
+        //   Half = a WINDOW / half-wall — blocks MOVEMENT, PASSES LoS (see/shoot over it).
+        //   Full = a WALL — blocks MOVEMENT and LoS.
+        // The maze stitches chunks together by matching up the None (door) slots on their edges.
         [Tooltip("Facing used to derive the wall-slot layout (which 3 sides the half-bloom grows).")]
         public int WallFacing = 1;
 
-        [Tooltip("Wall bitstream: 1 bit per slot in Bloom.WallSlots(floor, WallFacing) order.")]
+        [Tooltip("Per-slot wall state (None=door, Half=window, Full=wall), in Bloom.WallSlots order.")]
+        public List<WallSlotState> WallStates = new List<WallSlotState>();
+
+        [Tooltip("DEPRECATED legacy bitstream (bool wall on/off). Read for back-compat on old assets; " +
+                 "new saves use WallStates. Migrated to WallStates on load if WallStates is empty.")]
         public List<bool> WallBits = new List<bool>();
+
+        /// <summary>
+        /// Back-compat: if this asset predates tri-state (WallStates empty but WallBits present),
+        /// migrate true->Full, false->None. Call on load. Idempotent.
+        /// </summary>
+        public void MigrateWallsIfNeeded()
+        {
+            if (WallStates.Count == 0 && WallBits.Count > 0)
+            {
+                WallStates = new List<WallSlotState>(WallBits.Count);
+                foreach (var b in WallBits) WallStates.Add(b ? WallSlotState.Full : WallSlotState.None);
+            }
+        }
 
         /// <summary>Build a fast lookup from the serialized list. Call once at load.</summary>
         public Dictionary<HexCoord, Cell> ToMap()
