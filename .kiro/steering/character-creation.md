@@ -75,6 +75,12 @@ capability is universal; the **magnitude is attached to the grant source.**
 
 ## Backgrounds: perks AND drawbacks (packages with teeth)
 
+**A background is a WEAK ECHO of class capabilities — never the strong/complete version.** The
+dial is consistent across the set: Medical ≈ weak Cleric-heal, Nerd/Cult ≈ weak caster (dabbler
+envelope), Army Brat ≈ weak Fighter-training, Treehugger ≈ weak Ranger/Druid woodcraft+tracking.
+The *class* is always the full, reliable version; the background is the "I picked up a little of
+this growing up" version. If a background ever feels as strong as the class, it's overtuned.
+
 **A background grants JAGGED, PARTIAL scraps — never a full class kit.** Class = mastery/
 completeness (trained-as); background = where-you-came-from, and you picked up *bits of this and
 that*. So a background grabs **divergent partial pieces**, deliberately mismatched, with gaps —

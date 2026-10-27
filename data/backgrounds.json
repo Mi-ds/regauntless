@@ -223,6 +223,47 @@
         "note": "PURELY visual: over-maintained, labeled, color-coordinated kit -- pristine but faintly impractical. Same gear, same stats. Optional/minor."
       },
       "note": "The arcane-dabbler EGGHEAD origin -- fills the ARCANE gap (Raised-in-a-Cult feeds divine; this feeds arcane). Egghead counterpart to Lesser Noble: Noble = manners/finesse (sharp two-sided feat), Nerd = knowledge/arcane (broad mild -2 cluster). Perks: Well-Read (+2 Know/Spellcraft) + Arcane Dabble. Drawback: Indoor Kid (-2 athletics/grapple/intimidate/persuade). Adds house feats Well-Read, Arcane Dabble, Indoor Kid to the feats.json to-author list. NOTE: grantedFeats holds the perks; grantedDrawbackFeat holds the drawback for clarity (same pile mechanically -- source-agnostic feats)."
+    },
+    {
+      "name": "Treehugger",
+      "flavor": "Raised somewhere with more trees than people, and it shows. The wolves don't bark at you, the bears nod, and you can find water in a desert. Ask you to count change or make small talk and you'll bolt for the treeline. (People are the confusing animals.) Also: skeletons do not, it turns out, care how good you are with dogs.",
+      "grantedFeats": [
+        {
+          "feat": "Animal Kinship",
+          "kind": "perk",
+          "houseAuthored": true,
+          "effect": "vs type:ANIMAL mobs only (badger/dog/wolf/dire-rat/weasel/cat/eagle/owl/etc. -- NOT Vermin, Undead, Construct, Magical Beast, or Humanoid): an animal gaining LoS on this hero does NOT acquire him as a target (kinship suppresses the LoS-aggro trigger -- it sees him and ignores him). BROKEN two ways: (1) he closes within 2 hexes, or (2) he attacks it -- then normal aggro resumes, and ONLY for the individual(s) he attacked (no pack-alert; per-instance, consistent with the no-hivemind rule). FIRST perk that modifies MOB behavior rather than the hero's own stats. Enables a SCOUT role: walk point through beast rooms, report back, route the party. HARD BOUNDARY = comedy/danger: find undead/vermin instead and they chase him normally ('I'll scout ahead -- oh, those aren't animals, RUN')."
+        },
+        {
+          "feat": "Woodcraft",
+          "kind": "perk",
+          "houseAuthored": true,
+          "effect": "Survival-flavored + a WEAK tracking/exploration capability -- a budget stand-in for the Ranger/Druid traversal kit (natural-terrain, low reliability; the CLASS is the real tracker). Supports the scout-ahead role. NOTE: references a future level-traversal/tracking/exploration-hint system (not specced) -> flagged dependency."
+        },
+        {
+          "feat": "Feral",
+          "kind": "drawback",
+          "houseAuthored": true,
+          "effect": "Broad-but-mild -2 in CIVILIZED/social contexts (manners, haggling, reading city-people) -- raised by wolves, not people. Distinct from the sharp social -5s; the 'can't people' tax."
+        }
+      ],
+      "skillsMadeNative": [
+        {
+          "skill": "Survival",
+          "startingRank": 1,
+          "note": "ranger woodcraft half -- Survival native + start at 1"
+        },
+        {
+          "skill": "Handle Animal",
+          "startingRank": 1,
+          "note": "druid/ranger rapport half -- Handle Animal native + start at 1 (jagged nature scraps; NOT either full class kit)"
+        }
+      ],
+      "cosmetic": {
+        "gearTreatment": "overgrown",
+        "note": "PURELY visual: weathered, mossy, nature-worn kit -- looks grown-into rather than bought. Same gear, same stats. Optional."
+      },
+      "note": "The wilderness/feral origin (combined druid+ranger scraps; bard-adjacent stuff deliberately parked). WEAK-ECHO principle: a background is a diluted echo of a class capability, never the full kit -- Treehugger echoes Ranger/Druid woodcraft+tracking weakly (cf. Medical~Cleric, Nerd/Cult~casters, Army Brat~Fighter). Headline = Animal Kinship (first MOB-BEHAVIOR-modifying perk; type:Animal-only, which makes the creature-TYPE metadata gate a real mechanic + role). No primal caster-dabble (that stays with the Druid class; this is the beast/scout background). Adds house feats Animal Kinship + Woodcraft to the feats.json to-author list; drawback Feral below."
     }
   ]
 }
