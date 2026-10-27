@@ -16,7 +16,8 @@
     "regauntless": {
       "status": "clean | reinterpret | no-op | house — does the SRD text port to our real-time model as-is?",
       "note": "how it maps (e.g. ties to a primitive in combat.md/combat-model.md), or why it's a no-op/reinterpret"
-    }
+    },
+    "_houseFeatNote": "HOUSE feats (from the backgrounds layer, character-creation.md) add: houseAuthored:true, kind:perk|drawback|mixed, flavor (Pip-Boy voice, presentation.md). Their 'srd' block uses source:'house' and benefit = the honest mechanic (the dirty-feat license allows double-sided/chunky; balance is game-level). Disadvantages are negative feats in the same pile (source-agnostic)."
   },
   "feats": [
     {
@@ -1997,6 +1998,363 @@
       "regauntless": {
         "status": "no-op",
         "note": "Metamagic: doubles spell area at a +3 slot cost. Caster-layer-dependent. Parked (area-doubling would reinterpret cleanly once AoE spells are real-time)."
+      }
+    },
+    {
+      "name": "Greedy",
+      "type": "General",
+      "fighterBonus": false,
+      "houseAuthored": true,
+      "kind": "perk",
+      "flavor": "Loot first, apologize never. You've never met a coin you didn't pocket — your purse has a purse.",
+      "srd": {
+        "prereq": null,
+        "benefit": "+10% to the value of looted gold/coin.",
+        "normal": null,
+        "special": null,
+        "choice": null,
+        "stackable": false,
+        "source": "house"
+      },
+      "regauntless": {
+        "status": "house",
+        "note": "Econ perk (Pirate). +10% gold pickups. References the loot/gold economy."
+      }
+    },
+    {
+      "name": "Unsavory",
+      "type": "General",
+      "fighterBonus": false,
+      "houseAuthored": true,
+      "kind": "drawback",
+      "flavor": "Charm was not among the spoils. You smell faintly of brine and bad decisions, and it shows.",
+      "srd": {
+        "prereq": null,
+        "benefit": "-5 circumstance penalty on social interactions (the 3.5 'disadvantage' = flat -5, combat.md). Only bites where a social-check context exists.",
+        "normal": null,
+        "special": null,
+        "choice": null,
+        "stackable": false,
+        "source": "house"
+      },
+      "regauntless": {
+        "status": "house",
+        "note": "Social -5 (Pirate). Lives in the circumstance pile; inert where no social context."
+      }
+    },
+    {
+      "name": "Steady",
+      "type": "General",
+      "fighterBonus": false,
+      "houseAuthored": true,
+      "kind": "perk",
+      "flavor": "Grew up where loud bangs meant breakfast was ready. Panic is for people who weren't raised by a war camp.",
+      "srd": {
+        "prereq": null,
+        "benefit": "+5 circumstance bonus to resist FEAR / morale-break effects.",
+        "normal": null,
+        "special": null,
+        "choice": null,
+        "stackable": false,
+        "source": "house"
+      },
+      "regauntless": {
+        "status": "house",
+        "note": "Fear-resist +5 (Army Brat). Feeds the circumstance pile vs fear/morale statuses."
+      }
+    },
+    {
+      "name": "Divine Casting",
+      "type": "General",
+      "fighterBonus": false,
+      "houseAuthored": true,
+      "kind": "perk",
+      "flavor": "You left the compound; the compound left a little something in you. It still answers, mostly.",
+      "srd": {
+        "prereq": null,
+        "benefit": "Grants DIVINE spellcasting at the DABBLER envelope: a reduced caster progression (~half slots, low caster level, capped spell tier) — NOT full cleric casting. Prepares like a cleric, just far fewer slots. Exact progression deferred to the caster layer.",
+        "normal": null,
+        "special": null,
+        "choice": null,
+        "stackable": false,
+        "source": "house"
+      },
+      "regauntless": {
+        "status": "house",
+        "note": "DABBLER divine caster (Raised-in-a-Cult). The 'capability from a non-class source' proof (character-creation.md). Caster-layer dependency; carries the reduced power envelope."
+      }
+    },
+    {
+      "name": "Zealous",
+      "type": "General",
+      "fighterBonus": false,
+      "houseAuthored": true,
+      "kind": "drawback",
+      "flavor": "Faith is a hell of a blind spot. Tell you what you want to hear in the right tone and you'll follow it off a cliff.",
+      "srd": {
+        "prereq": null,
+        "benefit": "-5 circumstance penalty on Will saves vs effects that play on faith/conviction (fear, charm-of-belief). True-believer blind spot. (Tunable placeholder.)",
+        "normal": null,
+        "special": null,
+        "choice": null,
+        "stackable": false,
+        "source": "house"
+      },
+      "regauntless": {
+        "status": "house",
+        "note": "Will -5 vs belief-flavored effects (Raised-in-a-Cult). Circumstance pile."
+      }
+    },
+    {
+      "name": "Well-Bred",
+      "type": "General",
+      "fighterBonus": false,
+      "houseAuthored": true,
+      "kind": "perk",
+      "flavor": "You have the name, the manners, and the bearing. Doors open a crack, and people apologize to you for things that were your fault.",
+      "srd": {
+        "prereq": null,
+        "benefit": "+5 circumstance bonus on social interactions (clean inverse of Unsavory).",
+        "normal": null,
+        "special": null,
+        "choice": null,
+        "stackable": false,
+        "source": "house"
+      },
+      "regauntless": {
+        "status": "house",
+        "note": "Social +5 (Lesser Noble). Inverse of Unsavory in the circumstance pile."
+      }
+    },
+    {
+      "name": "Soft Hands",
+      "type": "General",
+      "fighterBonus": false,
+      "houseAuthored": true,
+      "kind": "mixed",
+      "flavor": "Soft, uncalloused, and quietly deft. Useless with a shovel, lethal with a deck of cards.",
+      "srd": {
+        "prereq": null,
+        "benefit": "TWO-SIDED: -5 circumstance on Str/hardship/manual-labor checks (never worked a day), AND +5 circumstance on Dex-FINESSE checks (Sleight of Hand / Disable Device / Open Lock / delicate fine-motor) — NOT combat Dex-to-hit. Drawback and perk in one feat.",
+        "normal": null,
+        "special": null,
+        "choice": null,
+        "stackable": false,
+        "source": "house"
+      },
+      "regauntless": {
+        "status": "house",
+        "note": "The worked example of the dirty/double-sided house-feat license (character-creation.md). Lesser Noble."
+      }
+    },
+    {
+      "name": "Situational Awareness",
+      "type": "General",
+      "fighterBonus": false,
+      "houseAuthored": true,
+      "kind": "perk",
+      "flavor": "Grew up watching for marks, guards, and the thing in the alley. You notice the exits before you notice the decor.",
+      "srd": {
+        "prereq": null,
+        "benefit": "+2 to Search and Spot checks (a steady competence bump, NOT a +-5 circumstance). Always-on.",
+        "normal": null,
+        "special": null,
+        "choice": null,
+        "stackable": false,
+        "source": "house"
+      },
+      "regauntless": {
+        "status": "house",
+        "note": "+2 perception (Street Rat). Magnitude: +2 steady, not a +-5 circumstance."
+      }
+    },
+    {
+      "name": "Five-Finger Discount",
+      "type": "General",
+      "fighterBonus": false,
+      "houseAuthored": true,
+      "kind": "perk",
+      "flavor": "Stolen food always tastes better, and you've never paid full price for a potion in your life. Shopkeepers lock the cabinet when you walk in. They're right to.",
+      "srd": {
+        "prereq": null,
+        "benefit": "ECONOMY perk, two hooks: (1) gets MORE from party healing-consumables used on him (bigger restore of the shared pool / stamina at the clinic-rest step); (2) small consumables (potions/food/drink) cost less / sometimes free in shops.",
+        "normal": null,
+        "special": null,
+        "choice": null,
+        "stackable": false,
+        "source": "house"
+      },
+      "regauntless": {
+        "status": "house",
+        "note": "Consumable/shop econ (Street Rat). References consumables-restore-pool (survival.md, implied) + a shop/economy system (not specced) — flagged future-system deps; lives in the Interlude (interlude.md)."
+      }
+    },
+    {
+      "name": "Gutter-Born",
+      "type": "General",
+      "fighterBonus": false,
+      "houseAuthored": true,
+      "kind": "drawback",
+      "flavor": "You clean up badly. Every honest merchant's hand drifts to their coin-purse when you smile.",
+      "srd": {
+        "prereq": null,
+        "benefit": "-5 circumstance on social interactions in 'respectable' contexts (you read as a thief). Fine/+ among the rough crowd.",
+        "normal": null,
+        "special": null,
+        "choice": null,
+        "stackable": false,
+        "source": "house"
+      },
+      "regauntless": {
+        "status": "house",
+        "note": "Respectable-social -5 (Street Rat). Low-origin inverse of Well-Bred."
+      }
+    },
+    {
+      "name": "Well-Read",
+      "type": "General",
+      "fighterBonus": false,
+      "houseAuthored": true,
+      "kind": "perk",
+      "flavor": "Six dead languages and the complete annotated bestiary, cover to cover, twice. You know exactly what's about to kill you.",
+      "srd": {
+        "prereq": null,
+        "benefit": "+2 to Knowledge and Spellcraft checks (steady competence bump, not a +-5).",
+        "normal": null,
+        "special": null,
+        "choice": null,
+        "stackable": false,
+        "source": "house"
+      },
+      "regauntless": {
+        "status": "house",
+        "note": "+2 Know/Spellcraft (Nerd-Raised). Pairs with Arcane Dabble."
+      }
+    },
+    {
+      "name": "Arcane Dabble",
+      "type": "General",
+      "fighterBonus": false,
+      "houseAuthored": true,
+      "kind": "perk",
+      "flavor": "You can conjure a small, apologetic flame and read the scary runes aloud. It's not much magic, but it's yours.",
+      "srd": {
+        "prereq": null,
+        "benefit": "Grants ARCANE spellcasting at the DABBLER envelope (reduced progression, ~half slots, low caster level, capped tier — NOT full wizard casting). The arcane mirror of Divine Casting; fills the arcane-dabble gap. Progression deferred to the caster layer.",
+        "normal": null,
+        "special": null,
+        "choice": null,
+        "stackable": false,
+        "source": "house"
+      },
+      "regauntless": {
+        "status": "house",
+        "note": "DABBLER arcane caster (Nerd-Raised). Mirror of Divine Casting; caster-layer dependency + reduced envelope."
+      }
+    },
+    {
+      "name": "Indoor Kid",
+      "type": "General",
+      "fighterBonus": false,
+      "houseAuthored": true,
+      "kind": "drawback",
+      "flavor": "Never went outside, never won a fight, never won an argument that wasn't a citation. But the bookshelf was immaculate.",
+      "srd": {
+        "prereq": null,
+        "benefit": "Broad-but-MILD: flat -2 to athletics/physical (Climb/Jump/Swim-type), Grapple, and the rough-social skills (Intimidate, Persuade/Diplomacy). Mild everywhere rather than one sharp -5 — the indoor-childhood tax.",
+        "normal": null,
+        "special": null,
+        "choice": null,
+        "stackable": false,
+        "source": "house"
+      },
+      "regauntless": {
+        "status": "house",
+        "note": "Broad mild -2 cluster (Nerd-Raised). Distinct texture from Soft Hands' one sharp two-sided -5/+5."
+      }
+    },
+    {
+      "name": "Animal Kinship",
+      "type": "General",
+      "fighterBonus": false,
+      "houseAuthored": true,
+      "kind": "perk",
+      "flavor": "The wolves don't bark at you; the bears nod. Skeletons, you'll be dismayed to learn, are not animals.",
+      "srd": {
+        "prereq": null,
+        "benefit": "vs type:ANIMAL mobs only: an animal gaining line of sight on this hero does NOT acquire him as a target (kinship suppresses the LoS-aggro trigger — it sees him, ignores him). BROKEN by (1) closing within 2 hexes, or (2) attacking it — then normal aggro resumes, ONLY for the individual(s) attacked (no pack-alert). Does NOTHING vs Vermin/Undead/Construct/Magical-Beast/Humanoid.",
+        "normal": null,
+        "special": null,
+        "choice": null,
+        "stackable": false,
+        "source": "house"
+      },
+      "regauntless": {
+        "status": "house",
+        "note": "FIRST mob-behavior-modifying feat (Treehugger). Hooks the LoS/aggro model (combat-model.md) + the creature-TYPE metadata. Enables the scout role; hard type boundary is the gameplay moment."
+      }
+    },
+    {
+      "name": "Woodcraft",
+      "type": "General",
+      "fighterBonus": false,
+      "houseAuthored": true,
+      "kind": "perk",
+      "flavor": "You can find water in a desert and read a week-old trail. Indoors, with a map, you are somehow still lost.",
+      "srd": {
+        "prereq": null,
+        "benefit": "Survival-flavored + a WEAK tracking/exploration capability — a budget stand-in for the Ranger/Druid traversal kit (natural-terrain, low reliability). The CLASS is the real tracker.",
+        "normal": null,
+        "special": null,
+        "choice": null,
+        "stackable": false,
+        "source": "house"
+      },
+      "regauntless": {
+        "status": "house",
+        "note": "Weak-echo of ranger/druid traversal (Treehugger). Supports the scout role. References a future level-traversal/exploration system."
+      }
+    },
+    {
+      "name": "Feral",
+      "type": "General",
+      "fighterBonus": false,
+      "houseAuthored": true,
+      "kind": "drawback",
+      "flavor": "Raised by wolves, not people — and people are the confusing animals. You bolt for the treeline when someone offers a handshake.",
+      "srd": {
+        "prereq": null,
+        "benefit": "Broad-but-mild -2 in CIVILIZED/social contexts (manners, haggling, reading city-people). The 'can't people' tax.",
+        "normal": null,
+        "special": null,
+        "choice": null,
+        "stackable": false,
+        "source": "house"
+      },
+      "regauntless": {
+        "status": "house",
+        "note": "Broad mild -2 civilized/social (Treehugger)."
+      }
+    },
+    {
+      "name": "Slightly More Stamina",
+      "type": "General",
+      "fighterBonus": false,
+      "houseAuthored": true,
+      "kind": "perk",
+      "flavor": "While everyone else brought a skill, you brought slightly more stamina. Enough to keep standing a little longer than people who are actually contributing.",
+      "srd": {
+        "prereq": null,
+        "benefit": "+20% max STAMINA. (Stamina = a PLANNED per-hero INTERLUDE resource — gates between-runs mini-games/activities; NOT a combat/AP resource. See interlude.md. Recorded-but-inert until stamina is built.)",
+        "normal": null,
+        "special": null,
+        "choice": null,
+        "stackable": false,
+        "source": "house"
+      },
+      "regauntless": {
+        "status": "house",
+        "note": "The null-background's one gift (Average Normal Player Character). Interlude-resource dependency (interlude.md), not combat."
       }
     }
   ]
