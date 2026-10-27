@@ -7,7 +7,7 @@
     "skillsMadeNative": "[{skill: key -> skills.json, startingRank: int, note}] — reclassify to native (1pt/rank) for this char + seed rank (character-creation.md Backgrounds pattern)",
     "note": "mapping / design note",
     "cosmetic": "{gearTreatment: polished|dingy|..., note} — PURELY visual flavor lens on the SAME gear (a cosmetic material/shader treatment, like Cell.Variant). ZERO mechanical effect — same armor = same AC etc. (determinism rule, presentation.md). Noble's kit reads sparkly, urchin's reads grimy, identical stats.",
-    "startingCivvies": "string — PURELY COSMETIC (AC 0, zero mechanical effect). The 'yanked into the dungeon in THIS' outfit, the first joke the game tells. Primary skin keyed off background; race/class/gender flavor-modify. Moddable. (Players start un-geared; real kit is looted in the level-1 tutorial.)"
+    "startingCivvies": "string OR variant-object. PURELY COSMETIC (AC 0, zero mechanical effect). The 'yanked into the dungeon in THIS' outfit — the first joke the game tells. Background sets the THEME; race/class/GENDER flavor-modify the specific skin. Single string if no variants needed (Pirate=loincloth); a {default, byGender:{male,female}, ...} object when the gag wants variants (Lesser Noble). Keep descriptions deadpan-comedic, NOT leering (Pip-Boy voice). Moddable/community-extensible."
   },
   "backgrounds": [
     {
@@ -146,7 +146,15 @@
         "gearTreatment": "polished",
         "note": "PURELY visual. Keeps his kit gleaming out of reflex — even a rusted gauntlet gets buffed. Same gear, shinier material pass. No mechanical effect."
       },
-      "startingCivvies": "A silk dressing-robe and one slipper. You didn't even get to pack. Someone will hear about this."
+      "startingCivvies": {
+        "theme": "sleepwear/lingerie — dragged out of the manor in whatever you sleep in; 'you didn't even get to pack.'",
+        "default": "silk dressing-robe and one slipper",
+        "byGender": {
+          "male": "a teddy and thigh-high stockings. You own these. The party has questions. You will not be answering them.",
+          "female": "a silk nightgown, immaculate, as if you expected an audience."
+        },
+        "_note": "Deadpan-comedic, not leering (presentation.md voice). The joke is the SUBVERSION (pampered noble caught in the absurd), not fanservice."
+      }
     },
     {
       "name": "Street Rat",
